@@ -1,0 +1,28 @@
+{
+  "name": "actividad2.cafe.latte",
+  "version": "1.0.0",
+  "description": "PaginaWeb",
+  "main": "app.js",
+  "scripts": {
+    "start": "nodemon app.js",
+    "start-server": "node app.js",
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/SoySergiooo/Proyecto-Cafe-Latte-Matte.git"
+  },
+  "author": "CafeLatte",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/SoySergiooo/Proyecto-Cafe-Latte-Matte/issues"
+  },
+  "homepage": "https://github.com/SoySergiooo/Proyecto-Cafe-Latte-Matte#readme",
+  "devDependencies": {
+    "nodemon": "^3.1.7"
+  },
+  "dependencies": {
+    "body-parser": "^1.20.3",
+    "express": "^4.21.1"
+  }
+}
