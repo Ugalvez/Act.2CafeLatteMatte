@@ -26,6 +26,9 @@ router.get('/', productosController.getProductos);
 
  router.get('/carrito',productosController.getCarrito)
 
+router.get('/productos/:idProducto',productosController.getProducto);
+
+
   /*
 
 , (req, res, next) => {

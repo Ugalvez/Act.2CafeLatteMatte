@@ -18,19 +18,22 @@
                             <h1 class="product_title"><%= producto.nombre %></h1>
                         </header>
                         <div class="card_image">
-                            <img src="<%= producto.urlImagen%>"  alt="Libro HP">
+                            <img src="<%= producto.urlImagen%>"  alt="">
                         </div>
 
                         <div class="card_content">
-                                <h2 class="product_price"><%= producto.precio%></h2>
-                                <p class="product_description"><%= producto.descripcion%></p>
-                                <p class="product_disponibilidad"> <%= producto.disponibilidad%></p>
-                              <p class="product_categoria"> <%= producto.categoria%></p>
+                            <h2 class="product_price">S/.<%= producto.precio%></h2>
+                            <p class="product_description">Descripción: <%= producto.descripcion%></p>
+                            <p class="product_disponibilidad"> Stock <%= producto.disponibilidad%> unidades</p>
+                          <p class="product_categoria"> <%= producto.categoria%></p>
                         </div>
 
 
                         <div class = "card_actions">
-                            <button class="btn">Agregar al Carrito</button>
+                            
+                            <form action = "/agregar-carrito " method="POST">
+                            <button class="btn" >Agregar al Carrito</button>
+                        </form>
                         </div>
                     </article>
                         

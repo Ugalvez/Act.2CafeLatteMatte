@@ -22,8 +22,9 @@ const getProductosFormFile = (cb) =>{
 
 module.exports = class Producto{
     constructor(nom, urlImagen,descripcion,precio,precioPromo,disponibilidad,categoria){
+        this.id = Math.random().toString();
         this.nombre = nom;
-        this.urlImagen = urlImagen.split(':')[1];
+        this.urlImagen = urlImagen;
         this.descripcion = descripcion;
         this.precio = precio;
         this.precioPromo = precioPromo;
@@ -33,6 +34,7 @@ module.exports = class Producto{
     }
 
     save(){
+       
         getProductosFormFile(productos=>{
             console.log(productos);
             productos.push(this);

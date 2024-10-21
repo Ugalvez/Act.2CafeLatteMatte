@@ -26,6 +26,17 @@ exports.getProductos = (req, res, next) => {
   }
 
 
+  exports.getProducto = (req,res) =>{
+    const idProducto= req.params.idProducto;
+    console.log(idProducto);
+    res.redirect('/');
+
+
+
+
+  }
+
+
   exports.getDisplayProductos = (req, res, next) => {
     let productos = [];
 
