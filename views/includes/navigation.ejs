@@ -1,13 +1,3 @@
-<!--
-<header class="main-header">
-    <nav class="main-header_nav">
-        <ul class="main-header_item-list">
-            <li class="main-header_item"><a class="active" href="/">Tienda</a></li>
-            <li class="main-header_item"><a href="/admin/crear-producto">Crear Producto</a></li>
-        </ul>
-    </nav>
-</header>
--->
 
 
 <div class="backdrop"></div>
@@ -21,7 +11,7 @@
             <a href="#" class="btn btn-sesion">
                 <ion-icon name="person"></ion-icon> Iniciar sesión
             </a>
-            <a href="#" class="btn btn-carrito">
+            <a href="/carrito" class="btn btn-carrito">
                 <ion-icon size="large" name="basket-outline"></ion-icon>
             </a>
         </div>
@@ -34,18 +24,13 @@
             <li class="main-header__item">
                 <a class="<%= path === '/productos' ? 'active' : '' %>" href="/productos">Productos</a>
             </li>
-            <li class="main-header__item">
-                <a class="<%= path === '/carrito' ? 'active' : '' %>" href="/carrito">Carrito</a>
-            </li>
+
             <li class="main-header__item">
                 <a class="<%= path === '/pedidos' ? 'active' : '' %>" href="/pedidos">Pedidos</a>
             </li>
+
             <li class="main-header__item">
-                <a class="<%= path === '/admin/crear-producto' ? 'active' : '' %>" href="/admin/crear-producto">Crear Producto
-                </a>
-            </li>
-            <li class="main-header__item">
-                <a class="<%= path === '/admin/productos' ? 'active' : '' %>" href="/admin/productos">Admin Productos
+                <a class="<%= path === '/admin/adminHome' ? 'active' : '' %>" href="/admin/adminHome">Admin Productos
                 </a>
             </li>
         </ul>

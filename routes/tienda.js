@@ -27,10 +27,19 @@ router.get('/', (req, res, next) => {
 
  router.get('/productos', (req, res, next) => {
   const productos = adminData.productos;
+  console.log("hola",productos.nombre)
   res.render('productos',{
     prods: productos,
     titulo: "Productos",
     path: "/productos"
+  })
+ })
+
+ router.get('/carrito', (req, res, next) => {
+  //const productos = adminData.productos; Aqui serian productos en carrito
+  res.render('carrito',{
+    titulo: "Carrito de Compras",
+    path: "/carrito"
   })
  })
 

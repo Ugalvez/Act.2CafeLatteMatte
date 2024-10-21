@@ -1,5 +1,5 @@
 <%- include ('includes/head.ejs') %>
-<link rel="stylesheet" href="/public/css/main.css">
+<link rel="stylesheet" href="/css/main.css">
 <link rel="stylesheet" href="/css/producto.css">
 </head>
 <body>
@@ -12,26 +12,30 @@
 
 
     
-<%- include ('includes/navigation.ejs') %>
+<%- include ('includes/navigationAdmin.ejs') %>
 
 
     
 
 
-    <section class="container">
+
+
+
+
+    <form action="/admin/crear-producto" method="POST" class="container">
         <div class="container-productos">
             <h2 class="pb-4 mb-3">Agregar nuevos productos</h2>
             <div class="row">
                 <div class="col-lg-7 ">
                     <div class="form-group">
                         <label>Nombre del producto</label><br>
-                        <input type="name" name="nombre">
+                        <input type="nombreproducto" name="nombre">
                     </div>
 
 
                     <div class="form-group">
                         <label>Descripción</label><br>
-                        <textarea name="textarea" rows="10" cols="50">Write something here</textarea>
+                        <textarea name="descripcionProducto" rows="10" cols="50">Escribe aqui una descripcion del producto</textarea>
 
                     </div>
                     
@@ -73,20 +77,22 @@
            
 
             <div class="group pt-4">
-                <a href="#" class="btn btn-primary">Guardar</a>
-                <a href="#" class="btn btn-outline-primary">Limpiar</a>
+                <button type="submit" class="btn btn-primary">Guardar</a>
             </div>
         </div>
     </div>
-</section>
+</form>
 
 
 
 
 
-</body>
-</html>
 
+
+
+
+
+<%- include ('includes/end.ejs') %>
 
 
 

@@ -15,22 +15,28 @@ router.get('/crear-producto', (req,res,next)=>{
 });
 
 
+
+
+
 router.post('/crear-producto',(req, res, next) => {
    console.log("Cuerpo de la solicitud:",req.body)
     productos.push({nombre: req.body.nombreproducto})
-   // console.log(req.body);
+   console.log(req.body);
     res.redirect("/")
     });
 
-/*
-    module.exports = {
-      router: router,
-      productos: productos
-   };
-    
 
-    */
-   // module.exports = router;
+
+
+
+router.get('/adminHome',(req, res, next) => {
+ 
+   res.render('adminHome',{titulo: 'Admin Home', path: '/admin/adminHome'})
+       });
+
+
+
+
 
    exports.routes = router;
    exports.productos = productos;
