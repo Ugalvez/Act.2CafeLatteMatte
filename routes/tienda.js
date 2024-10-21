@@ -5,7 +5,7 @@ const express = require('express');
 
 //const raizDir = require('../utils/path');
 
-const productosController = require('../controllers/productos')
+const productosController = require('../controllers/tienda')
 
 //const adminData = require('./admin');
 

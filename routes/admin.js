@@ -1,10 +1,10 @@
 
-const path = require('path');
+//const path = require('path');
 const express = require('express');
 
-const raizDir = require('../utils/path');
+//const raizDir = require('../utils/path');
 
-const productosController = require('../controllers/productos')
+const productosController = require('../controllers/admin')
 
 
 const router = express.Router();
