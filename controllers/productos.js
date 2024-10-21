@@ -21,23 +21,40 @@ exports.getCrearProducto = (req,res,next)=>{
 
 
 exports.getProductos = (req, res, next) => {
-    const productos = Producto.fetchAll();
+    let productos = [];
+    Producto.fetchAll(productosObt =>{
+        console.log (productosObt);
+        productos = productosObt;
 
-    res.render('tienda',{
-     prods: productos,
-     titulo: "Latte&Matte",
-     path: "/"
-    })
+
+        res.render('tienda',{
+            prods: productos,
+            titulo: "Latte&Matte",
+            path: "/"
+           })
+
+
+    });
+
+    
  
   }
 
 
   exports.getDisplayProductos = (req, res, next) => {
-    const productos = Producto.fetchAll();
-    console.log("hola",productos)
+    let productos = [];
+
+    Producto.fetchAll(productosObt =>{
+        console.log (productosObt);
+        productos = productosObt;
+
     res.render('productos',{
       prods: productos,
       titulo: "Productos",
       path: "/productos"
     })
+
+})
+
+
    }
