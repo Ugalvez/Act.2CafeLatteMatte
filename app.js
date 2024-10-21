@@ -4,6 +4,8 @@ const bodyParser = require("body-parser");
 const express = require ("express");
 const app = express();
 
+const errorController = require('./controllers/error')
+
 
 app.set('view engine', 'ejs');
 app.set('views','views');
@@ -14,7 +16,7 @@ app.use(bodyParser.urlencoded({extended: false}));
 
 const adminRoutes = require('./routes/admin').routes;
 const tiendaRoutes = require('./routes/tienda')
-const ErrorRoutes = require('./routes/error')
+//const ErrorRoutes = require('./routes/error')
 
 
 
@@ -22,10 +24,15 @@ app.use(express.static(path.join(__dirname,'public')));
 
 
 app.use('/admin',adminRoutes);
+
 app.use(tiendaRoutes);
 
 
-app.use(ErrorRoutes);
+app.use(errorController.get404)
+  
+
+
+
 
 
 
