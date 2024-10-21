@@ -21,8 +21,15 @@ const getProductosFormFile = (cb) =>{
 }
 
 module.exports = class Producto{
-    constructor(nom){
+    constructor(nom, urlImagen,descripcion,precio,precioPromo,disponibilidad,categoria){
         this.nombre = nom;
+        this.urlImagen = urlImagen.split(':')[1];
+        this.descripcion = descripcion;
+        this.precio = precio;
+        this.precioPromo = precioPromo;
+        this.disponibilidad = disponibilidad;
+       // this.categoria = categoria;
+
     }
 
     save(){

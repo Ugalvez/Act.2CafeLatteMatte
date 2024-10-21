@@ -25,12 +25,14 @@
                             <h1 class="product_title"><%= producto.nombre %></h1>
                         </header>
                         <div class="card_image">
-                            <img src="https://images.cdn2.buscalibre.com/fit-in/360x360/e3/bc/e3bcd85377567759874a0664f894a67b.jpg" alt="Libro HP">
+                            <img src="<%= producto.urlImagen%>" alt="Libro HP">
                         </div>
 
                         <div class="card_content">
-                                <h2 class="product_price">S/ 69.90</h2>
-                                <p class="product_description">Un libro de Harry Potter</p>
+                                <h2 class="product_price"><%= producto.precio%></h2>
+                                <p class="product_description"><%= producto.descripcion%></p>
+                                <p class="product_disponibilidad"> <%= producto.disponibilidad%></p>
+                              <p class="product_categoria"> <%= producto.categoria%></p>
                         </div>
                         <div class = "card_actions">
                             <button class="btn">Agregar al Carrito</button>

@@ -24,12 +24,14 @@ router.post('/crear-producto',productosController.postCrearProducto);
 
 
 
-router.get('/adminHome',(req, res, next) => {
+router.get('/adminHome',productosController.getDisplayProductos);
  
+
+   /*
    res.render('adminHome',{titulo: 'Admin Home', path: '/admin/adminHome'})
        });
 
-
+*/
 
 
 

@@ -41,4 +41,17 @@ exports.getProductos = (req, res, next) => {
 
 })
 
+
+
  }
+
+ exports.getCarrito = (req, res, next) => {
+
+    res.render('carrito',{
+      titulo: "Carrito",
+      path: "/carrito"
+    })
+
+}
+
+ 

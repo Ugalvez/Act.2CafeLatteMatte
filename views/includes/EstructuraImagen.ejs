@@ -1,0 +1,15 @@
+<% for (let producto of prods) { %>
+    <article class ="card product-item">
+        <header class="card_header">
+            <h1 class="product_title"><%= producto.nombre %></h1>
+        </header>
+        <div class="card_image">
+            <img src=" <% producto.urlimagen%>  " alt="Libro HP">
+        </div>
+
+        <div class="card_content">
+                <h2 class="product_price"><%= producto.precio%></h2>
+                <p class="product_description"><%= producto.descripcion%></p>
+                <p class="product_disponibilidad"> <%= producto.disponibilidad%></p>
+              <p class="product_categoria"> <%= producto.categoria%></p>
+        </div>

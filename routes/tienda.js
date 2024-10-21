@@ -24,7 +24,11 @@ router.get('/', productosController.getProductos);
 
 
 
- router.get('/carrito', (req, res, next) => {
+ router.get('/carrito',productosController.getCarrito)
+
+  /*
+
+, (req, res, next) => {
   //const productos = adminData.productos; Aqui serian productos en carrito
   res.render('carrito',{
     titulo: "Carrito de Compras",
@@ -32,14 +36,10 @@ router.get('/', productosController.getProductos);
   })
  })
 
- /*
- router.get('/agregar-productos', (req, res, next) => {
-  res.render('agregar-productos',{
-    titulo: "Agregar Productos",
-    path: "/agregar-productos"
-  })
- })
-*/
+
+  */
+
+
 
 
 

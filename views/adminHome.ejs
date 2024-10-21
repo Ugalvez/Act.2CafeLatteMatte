@@ -6,9 +6,42 @@
 
 
     
-<%- include ('includes/navigationAdmin.ejs') %>
+    <%- include ('includes/navigationAdmin.ejs') %>
 
+    <main>
 
+        <% if(prods.length > 0) { %>
 
+            
+            <div class="grid">
+                <% for (let producto of prods) { %>
+                   
+                    <article class ="card product-item">
+                        <header class="card_header">
+                            <h1 class="product_title"><%= producto.nombre %></h1>
+                        </header>
+                        <div class="card_image">
+                            <img src=" <%= producto.urlImagen%> " alt="Libro HP">
+                        </div>
+
+                        <div class="card_content">
+                                <h2 class="product_price"><%= producto.precio%></h2>
+                                <p class="product_description"><%= producto.descripcion%></p>
+                                <p class="product_disponibilidad"> <%= producto.disponibilidad%></p>
+                              <p class="product_categoria"> <%= producto.categoria%></p>
+                        </div>
+                        <div class = "card_actions">
+                            <button class="btn">Modificar</button>
+                        </div>
+                    </article>
+                        
+                <% } %>
+            </div>
+        <% } else { %>
+            <h1>No hay productos</h1>
+       <% } %>
+ 
+    </main>
+    
 
 <%- include ('includes/end.ejs') %>
