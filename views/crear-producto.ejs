@@ -1,24 +1,92 @@
-
 <%- include ('includes/head.ejs') %>
-<link rel="stylesheet" href="/css/main.css">
+<link rel="stylesheet" href="/public/css/main.css">
 <link rel="stylesheet" href="/css/producto.css">
 </head>
 <body>
 
-    <%- include ('includes/navigation.ejs') %>
 
 
 
 
-        <main>
-            <form class= "product-form" action="/admin/crear-producto" method="POST">
-                <div class="form_control">
-                    <label for="nombreproducto">Nombre</label>
-                    <input type="text" name="nombreproducto" id="nombreproducto">             
-                </div>
-                <button type="submit">Crear Producto</button>
-            </form>
-        </main>
+
+
+
     
-        <%- include ('includes/end.ejs') %>
+<%- include ('includes/navigation.ejs') %>
+
+
+    
+
+
+    <section class="container">
+        <div class="container-productos">
+            <h2 class="pb-4 mb-3">Agregar nuevos productos</h2>
+            <div class="row">
+                <div class="col-lg-7 ">
+                    <div class="form-group">
+                        <label>Nombre del producto</label><br>
+                        <input type="name" name="nombre">
+                    </div>
+
+
+                    <div class="form-group">
+                        <label>Descripción</label><br>
+                        <textarea name="textarea" rows="10" cols="50">Write something here</textarea>
+
+                    </div>
+                    
+
+                    <div class="form-group">
+                        <label>Descripción</label><br>
+                        <select name="select">
+                          <option value="value1"selected>cafe</option>
+                          <option value="value2" >sandwich</option>
+                          <option value="value3">postre</option>
+                      </select>
+                  </div>
+
+                  <div class="form-3-group">
+                    <div>
+                        <label>Precio</label>
+                        <input type="text" /><br />
+                    </div>
+                    <div>
+                        <label>Precio promocional</label>
+                        <input type="text" /><br />
+                    </div>
+                    <div>
+                        <label>Disponibilidad</label>
+                        <input type="text" /><br />
+                    </div>
+
+                </div>
+
+              
+            </div>
+            
+            <div class="col-lg-5">
+                <div class="download-image">
+                    <p><label for="imageFile">Selecciona algunas imágenes:</label></p>
+                    <p><input type="file" id="imageFile" accept="image/*" multiple /></p>
+                </div>
+            </div>
+           
+
+            <div class="group pt-4">
+                <a href="#" class="btn btn-primary">Guardar</a>
+                <a href="#" class="btn btn-outline-primary">Limpiar</a>
+            </div>
+        </div>
+    </div>
+</section>
+
+
+
+
+
+</body>
+</html>
+
+
+
 

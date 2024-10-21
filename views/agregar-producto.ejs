@@ -1,0 +1,160 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset='utf-8'>
+    <meta http-equiv='X-UA-Compatible' content='IE=edge'>
+    <title>Page Title</title>
+    <meta name='viewport' content='width=device-width, initial-scale=1'>
+    <link rel="stylesheet" href="/public/css/main.css">
+    <link rel="stylesheet" href="/public/css/producto.css">
+    <script type="module" src="https://unpkg.com/ionicons@7.1.0/dist/ionicons/ionicons.esm.js"></script>
+    <script nomodule src="https://unpkg.com/ionicons@7.1.0/dist/ionicons/ionicons.js"></script>
+
+
+</head>
+<body>
+
+
+
+    <div class="backdrop"></div>
+    <header class="main-header">
+        <button id="side-menu-toggle">Menu</button>
+        <div class="main-login">
+            <div class="group-0">
+                <img src="/public/images/logo.png" alt="">
+            </div>
+            <div class="group-1">
+                <a href="#" class="btn btn-sesion">
+                    <ion-icon name="person"></ion-icon> Iniciar sesión
+                </a>
+                <a href="#" class="btn btn-carrito">
+                    <ion-icon size="large" name="basket-outline"></ion-icon>
+                </a>
+            </div>
+        </div>
+        <nav class="main-header__nav">
+
+            <div>
+                <ul class="main-header__item-list">
+                    <li class="main-header__item">
+                        <a class="<%= path === '/' ? 'active' : '' %>" href="/">Tienda</a>
+                    </li>
+                    <li class="main-header__item">
+                        <a class="<%= path === '/productos' ? 'active' : '' %>" href="/productos">Productos</a>
+                    </li>
+                    <li class="main-header__item">
+                        <a class="<%= path === '/carrito' ? 'active' : '' %>" href="/carrito">Carrito</a>
+                    </li>
+                    <li class="main-header__item">
+                        <a class="<%= path === '/pedidos' ? 'active' : '' %>" href="/pedidos">Pedidos</a>
+                    </li>
+                    <li class="main-header__item">
+                        <a class="<%= path === '/admin/crear-producto' ? 'active' : '' %>" href="/admin/crear-producto">Crear Producto
+                        </a>
+                    </li>
+                    <li class="main-header__item">
+                        <a class="<%= path === '/admin/productos' ? 'active' : '' %>" href="/admin/productos">Admin Productos
+                        </a>
+                    </li>
+                </ul>
+            </div>
+        </nav>
+    </header>
+    
+    <nav class="mobile-nav">
+        <ul class="mobile-nav__item-list">
+            <li class="mobile-nav__item">
+                <a class="<%= path === '/' ? 'active' : '' %>" href="/">Tienda</a>
+            </li>
+            <li class="mobile-nav__item">
+                <a class="<%= path === '/productos' ? 'active' : '' %>" href="/productos">Productos</a>
+            </li>
+            <li class="mobile-nav__item">
+                <a class="<%= path === '/carrito' ? 'active' : '' %>" href="/carrito">Carrito</a>
+            </li>
+            <li class="mobile-nav__item">
+                <a class="<%= path === '/pedidos' ? 'active' : '' %>" href="/pedidos">Pedidos</a>
+            </li>
+            <li class="mobile-nav__item">
+                <a class="<%= path === '/admin/crear-producto' ? 'active' : '' %>" href="/admin/crear-producto">Crear Producto
+                </a>
+            </li>
+            <li class="mobile-nav__item">
+                <a class="<%= path === '/admin/productos' ? 'active' : '' %>" href="/admin/productos">Admin Productos
+                </a>
+            </li>
+        </ul>
+    </nav>
+
+
+
+<!-- container-agregar productos-->
+    <section class="container">
+        <div class="container-productos">
+            <h2 class="pb-4 mb-3">Agregar nuevos productos</h2>
+            <div class="row">
+                <div class="col-lg-7 ">
+                    <div class="form-group">
+                        <label>Nombre del producto</label><br>
+                        <input type="name" name="nombre">
+                    </div>
+                    <!--..-->
+
+                    <div class="form-group">
+                        <label>Descripción</label><br>
+                        <textarea name="textarea" rows="10" cols="50">Write something here</textarea>
+
+                    </div>
+                    <!--..-->
+
+                    <div class="form-group">
+                        <label>Descripción</label><br>
+                        <select name="select">
+                          <option value="value1">Value 1</option>
+                          <option value="value2" selected>Value 2</option>
+                          <option value="value3">Value 3</option>
+                      </select>
+                  </div>
+
+                  <div class="form-3-group">
+                    <div>
+                        <label>Precio</label>
+                        <input type="text" /><br />
+                    </div>
+                    <div>
+                        <label>Precio promocional</label>
+                        <input type="text" /><br />
+                    </div>
+                    <div>
+                        <label>Disponibilidad</label>
+                        <input type="text" /><br />
+                    </div>
+
+                </div>
+
+                <!--..-->
+            </div>
+            <!--columna de la derecha-->
+            <div class="col-lg-5">
+                <div class="download-image">
+                    <p><label for="imageFile">Selecciona algunas imágenes:</label></p>
+                    <p><input type="file" id="imageFile" accept="image/*" multiple /></p>
+                </div>
+            </div>
+            <!--..-->
+
+            <div class="group pt-4">
+                <a href="#" class="btn btn-primary">Guardar</a>
+                <a href="#" class="btn btn-outline-primary">Limpiar</a>
+            </div>
+        </div>
+    </div>
+</section>
+<!--fin container agregar productos-->
+
+
+
+
+</body>
+</html>
+

@@ -1,0 +1,41 @@
+
+<%- include ('includes/head.ejs') %>
+<link rel="stylesheet" href="/css/producto.css">
+</head>
+<body>
+
+<%- include ('includes/navigation.ejs') %>
+
+    <main>
+
+        <% if(prods.length > 0) { %>
+
+            
+            <div class="grid">
+                <% for (let producto of prods) { %>
+                    <article class ="card product-item">
+                        <header class="card_header">
+                            <h1 class="product_title"><%= producto.nombre %></h1>
+                        </header>
+                        <div class="card_image">
+                            <img src="https://images.cdn2.buscalibre.com/fit-in/360x360/e3/bc/e3bcd85377567759874a0664f894a67b.jpg" alt="Libro HP">
+                        </div>
+
+                        <div class="card_content">
+                                <h2 class="product_price">S/ 69.90</h2>
+                                <p class="product_description">Un libro de Harry Potter</p>
+                        </div>
+                        <div class = "card_actions">
+                            <button class="btn">Agregar al Carrito</button>
+                        </div>
+                    </article>
+                        
+                <% } %>
+            </div>
+        <% } else { %>
+            <h1>No hay productos</h1>
+       <% } %>
+ 
+    </main>
+    
+    <%- include ('includes/end.ejs') %>
