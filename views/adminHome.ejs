@@ -30,8 +30,16 @@
                             <p class="product_disponibilidad"> Stock <%= producto.disponibilidad%> unidades</p>
                           <p class="product_categoria"> <%= producto.categoria%></p>
                         </div>
-                        <div class = "card_actions">
+                        <!--<div class = "card_actions">
                             <button class="btn">Modificar</button>
+                        </div>-->
+                        <div class="card__actions">
+                            <a href="/admin/editar-producto/<%= producto.id %>?editar=true" class="btn">Editar</a>
+                            <form action="/admin/eliminar-producto" method="POST">
+                                <input type="hidden" value="<%= producto.id %>" name="idProducto">
+                                <button class="btn" type="submit">Eliminar</button>
+                            </form>
+
                         </div>
                     </article>
                         

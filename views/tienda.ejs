@@ -34,9 +34,11 @@
                             <p class="product_disponibilidad"> Stock <%= producto.disponibilidad%> unidades</p>
                           <p class="product_categoria"> <%= producto.categoria%></p>
                         </div>
-                        <div class = "card_actions">
+                        <a href="/productos/<%= producto.id %>" class="btn btn-primary"> Detalles</a>
+                        <!--<div class = "card_actions">
                             <button class="btn">Agregar al Carrito</button>
-                        </div>
+                        </div>-->
+                        <%- include('includes/agregar-al-carrito.ejs', {producto: producto})%>
                     </article>
                         
                 <% } %>

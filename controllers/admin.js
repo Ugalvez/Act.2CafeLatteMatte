@@ -23,7 +23,7 @@ exports.getCrearProducto = (req,res,next)=>{
     const disponibilidad = req.body.disponibilidad;
    // const categoria = req.body.select;
 
-    const producto = new Producto(nombre,urlImagen,descripcion,precio,precioPromo,disponibilidad )
+    const producto = new Producto(null, nombre, urlImagen, descripcion, precio, precioPromo, disponibilidad )
     producto.save();
 
 
@@ -47,3 +47,45 @@ exports.getDisplayProductos = (req, res, next) => {
     })
     
      }
+
+     exports.getEditarProducto = (req, res) => {
+
+        const modoEdicion = req.query.editar;
+        const idProducto = req.params.idProducto;
+        Producto.findById(idProducto, producto => {
+            console.log(producto)
+            if (!producto) {
+                return res.redirect('/');
+            }
+            res.render('editar-producto', { 
+                titulo: 'Editar Producto', 
+                path: 'editar-producto',
+                producto: producto,
+                modoEdicion: true,
+            })
+        })
+    }
+    
+    
+    exports.postEditarProducto = (req, res, next) => {
+        const idProducto = req.body.idProducto;
+        const nombre = req.body.nombre;
+        const precio = req.body.precio;
+        const urlImagen = req.body.urlImagen;
+        const descripcion = req.body.descripcion;
+        const productoActualizado = new Producto(
+          idProducto,
+          nombre,
+          urlImagen,
+          descripcion,
+          precio
+        );
+        productoActualizado.save();
+        res.redirect('adminHome');
+      };
+    
+      exports.postEliminarProducto = (req, res, next) => {
+        const idProducto = req.body.idProducto;
+        Producto.deleteById(idProducto);
+        res.redirect('adminHome');
+      };

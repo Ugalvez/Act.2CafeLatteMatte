@@ -5,7 +5,7 @@ const express = require('express');
 
 //const raizDir = require('../utils/path');
 
-const productosController = require('../controllers/tienda')
+const tiendaController = require('../controllers/tienda')
 
 //const adminData = require('./admin');
 
@@ -13,21 +13,26 @@ const router = express.Router();
 
 
 
-router.get('/', productosController.getProductos);
+router.get('/', tiendaController.getProductos);
 
 
 
 
- router.get('/productos', productosController.getDisplayProductos)
+ router.get('/productos', tiendaController.getDisplayProductos);
 
 
 
 
 
- router.get('/carrito',productosController.getCarrito)
+ router.get('/carrito',tiendaController.getCarrito);
+ router.post('/carrito', tiendaController.postCarrito);
 
-router.get('/productos/:idProducto',productosController.getProducto);
 
+router.get('/productos/:idProducto',tiendaController.getProducto);
+
+router.post('/carrito/modificar-cantidad', tiendaController.postModificarCantidad);
+
+router.post('/carrito/eliminar-producto', tiendaController.postEliminarProducto);
 
   /*
 

@@ -1,0 +1,88 @@
+<!--<%- include('../includes/head.ejs') %>
+    </head>
+
+    <body>
+        <%- include('../includes/navigation.ejs') %>
+        <%- include('../includes/end.ejs') %>-->
+
+<!----------------------------------------------------------->
+
+    <!--    <%- include('../includes/head.ejs') %>
+    </head>
+    
+    <body>
+        <%- include('../includes/navigation.ejs') %>
+        
+        <main>
+            <h1>Tu Carrito</h1>
+            <% if (productos.length > 0) { %>
+                <ul>
+                    <% productos.forEach(producto => { %>
+                        <li>
+                            <strong>Producto ID: </strong> <%= producto.id %>
+                            <strong>Cantidad: </strong> <%= producto.cantidad %>
+                        </li>
+                    <% }) %>
+                </ul>
+                <h2>Total: S/ <%= precioTotal %></h2>
+            <% } else { %>
+                <h2>No hay productos en el carrito.</h2>
+            <% } %>
+        </main>
+    
+        <%- include('../includes/end.ejs') %>
+    </body>
+    -->
+
+
+    <%- include('../includes/head.ejs') %>
+</head>
+<body>
+    <%- include('../includes/navigation.ejs') %>
+
+    <main>
+        <h1>Tu Carrito</h1>
+        <% if (productos.length > 0) { %>
+            <table>
+                <thead>
+                    <tr>
+                        <th>Nombre del Producto</th>
+                        <th>Cantidad</th>
+                        <th>Precio</th>
+                        <th>Total</th>
+                        <th>Acciones</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <% productos.forEach(producto => { %>
+                        <tr>
+                            <td><%= producto.nombre %></td> 
+                            <td>
+                                <!-- Input para modificar la cantidad -->
+                                <form action="/carrito/modificar-cantidad" method="POST">
+                                    <input type="hidden" name="idProducto" value="<%= producto.id %>">
+                                    <input type="number" name="cantidad" value="<%= producto.cantidad %>" min="1">
+                                    <button type="submit">Actualizar</button>
+                                </form>
+                            </td>
+                            <td>S/ <%= producto.precio %></td>
+                            <td>S/ <%= producto.precio * producto.cantidad %></td>
+                            <td>
+                                <!-- Botón para eliminar producto -->
+                                <form action="/carrito/eliminar-producto" method="POST">
+                                    <input type="hidden" name="idProducto" value="<%= producto.id %>">
+                                    <button type="submit">Eliminar</button>
+                                </form>
+                            </td>
+                        </tr>
+                    <% }); %>
+                </tbody>
+            </table>
+           <!-- <h2>Total: S/ <%= precioTotal %></h2> -->
+           <h2>Total: S/ <%= precioTotal.toFixed(2) %></h2>
+        <% } else { %>
+            <h1>No hay productos en tu carrito</h1>
+        <% } %>
+    </main>
+
+<%- include('../includes/end.ejs') %>
