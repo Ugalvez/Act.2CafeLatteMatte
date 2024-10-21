@@ -1,9 +1,27 @@
+const bodyParser = require("body-parser");
 const express = require ("express");
 const app = express();
 
-app.use((req, res, next) => {
- console.log('Estamos en el Middleware');
- next();
- });
 
- app.listen(3000);
+const adminRoutes = require('./routes/admin')
+const tiendaRoutes = require('./routes/tienda')
+const ErrorRoutes = require('./routes/error')
+
+app.use(bodyParser.urlencoded({extended: false}));
+
+
+app.use('/admin',adminRoutes);
+app.use(tiendaRoutes);
+
+
+app.use(ErrorRoutes);
+
+
+
+
+
+
+
+ app.listen(3000,()=>{
+    console.log("Se ha iniciado el servidor express.js")
+ });
