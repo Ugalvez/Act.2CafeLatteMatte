@@ -178,3 +178,13 @@ exports.postEditarProducto = (req, res, next) => {
         })
         .catch(err => console.log(err));
 }; 
+
+exports.postEliminarProducto = (req, res, next) => {
+    const idProducto = req.body.idProducto;
+    Producto.findByIdAndDelete(idProducto)
+        .then(result => {
+            console.log('Producto eliminado satisfactoriamente');
+            res.redirect('adminHome');
+        })
+        .catch(err => console.log(err));
+}; 
