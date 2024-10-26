@@ -38,7 +38,7 @@ exports.getDisplayProductos = (req, res, next) => {
             console.log ("prueba",productosObt);
             productos = productosObt;
             
-            res.render('adminHome', { //Cambie render en vez de esto 'admin/adminHome'
+            res.render('adminHome', {
                 prods: productos, 
                 titulo:"Admin Home",
                 path: "/admin/adminHome"
