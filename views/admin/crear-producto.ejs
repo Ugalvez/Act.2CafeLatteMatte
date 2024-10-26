@@ -24,7 +24,13 @@
 
     <form action="/admin/<% if (modoEdicion) { %>editar-producto<% } else { %>crear-producto<% } %>" method="POST" class="container">
         <div class="container-productos">
-            <h2 class="pb-4 mb-3">Agregar nuevos productos</h2>
+            <h2 class="pb-4 mb-3">
+                <% if (modoEdicion) { %>
+                    <%= 'Modifique los datos del producto' %>
+                <% } else{ %>
+                    <%= 'Agregar nuevos productos' %>
+                <% } %> 
+            </h2>
             <div class="row">
                 <div class="col-lg-7 ">
                     <div class="form-group">
