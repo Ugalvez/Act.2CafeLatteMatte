@@ -29,12 +29,15 @@
                         </div>
 
 
-                        <div class = "card_actions">
+                        <!--<div class = "card_actions">
                             
                             <form action = "/agregar-carrito " method="POST">
                             <button class="btn" >Agregar al Carrito</button>
                         </form>
-                        </div>
+                        </div>-->
+
+                        <%- include('includes/agregar-al-carrito.ejs', {producto: producto})%>
+
                     </article>
                         
                 <% } %>

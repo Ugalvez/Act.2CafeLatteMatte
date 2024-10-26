@@ -34,6 +34,7 @@ router.post('/carrito/modificar-cantidad', tiendaController.postModificarCantida
 
 router.post('/carrito/eliminar-producto', tiendaController.postEliminarProducto);
 
+router.post('/carrito/agregar-carrito', tiendaController.postCarrito);
   /*
 
 , (req, res, next) => {

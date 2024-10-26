@@ -96,7 +96,11 @@ exports.postCarrito = (req, res) => {
   const idProducto = req.body.idProducto;
   Producto.findById(idProducto, producto => {
       Carrito.agregarProducto(idProducto, producto.precio, producto.nombre);
-      res.redirect('/carrito');
+      res.redirect('/carrito'), {
+      producto: producto,
+      titulo: "Productos",
+      path: "/agregar-carrito"
+    }
   })
 };
  
