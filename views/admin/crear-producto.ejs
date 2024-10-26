@@ -1,4 +1,4 @@
-<%- include ('includes/head.ejs') %>
+<%- include ('../includes/head.ejs') %>
 <link rel="stylesheet" href="/css/main.css">
 <link rel="stylesheet" href="/css/producto.css">
 </head>
@@ -12,7 +12,7 @@
 
 
     
-<%- include ('includes/navigationAdmin.ejs') %>
+<%- include ('../includes/navigationAdmin.ejs') %>
 
 
     
@@ -22,20 +22,21 @@
 
 
 
-    <form action="/admin/crear-producto" method="POST" class="container">
+    <form action="/admin/<% if (modoEdicion) { %>editar-producto<% } else { %>crear-producto<% } %>" method="POST" class="container">
         <div class="container-productos">
             <h2 class="pb-4 mb-3">Agregar nuevos productos</h2>
             <div class="row">
                 <div class="col-lg-7 ">
                     <div class="form-group">
                         <label>Nombre del producto</label><br>
-                        <input type="nombreproducto" name="nombre">
+                        <!--<input type="nombreproducto" name="nombre">-->
+                        <input type="text" name="nombre" id="nombre" value="<% if (modoEdicion) { %><%= producto.nombre %><% } %>">
                     </div>
 
 
                     <div class="form-group">
                         <label>Descripción</label><br>
-                        <textarea name="descripcionProducto" rows="10" cols="50">Escribe aqui una descripcion del producto</textarea>
+                        <textarea name="descripcion" id="descripcion" rows="10" cols="50"><% if (modoEdicion) { %><%= producto.descripcion %><% } else{'escriba una descripcion'}%></textarea>
 
                     </div>
                     
@@ -52,15 +53,15 @@
                   <div class="form-3-group">
                     <div>
                         <label>Precio</label>
-                        <input type="text" name = "precio" /><br />
+                        <input type="number" name = "precio" id="precio" value="<% if (modoEdicion) { %><%= producto.precio %><% } %>"><br />
                     </div>
                     <div>
                         <label>Precio promocional</label>
-                        <input type="text" name="precioPromo" /><br />
+                        <input type="number" name="precioPromo" /><br />
                     </div>
                     <div>
                         <label>Disponibilidad</label>
-                        <input type="text" name="disponibilidad" /><br />
+                        <input type="text" name="stock" /><br />
                     </div>
 
                 </div>
@@ -71,13 +72,17 @@
             <div class="col-lg-5">
                 <div class="download-image">
                     <p><label for="imageFile">Selecciona algunas imágenes(Ingresa URL):</label></p>
-                    <p><input type="text" id="imageFile"  name="urlImagen" /></p>
+                    <p><input type="text" id="imageFile"  name="urlImagen" value="<% if (modoEdicion) { %><%= producto.urlImagen %><% } %>">/></p>
                 </div>
             </div>
            
+            <% if (modoEdicion) { %>
+                <input type="hidden" value="<%= producto._id %>" name="idProducto">
+            <% } %>
+           
 
             <div class="group pt-4">
-                <button type="submit" class="btn btn-primary">Guardar</a>
+                <button type="submit" class="btn btn-primary"><% if (modoEdicion) { %>Actualizar Producto<% } else { %>Crear Producto<% } %></a>
             </div>
         </div>
     </div>
@@ -92,7 +97,7 @@
 
 
 
-<%- include ('includes/end.ejs') %>
+<%- include ('../includes/end.ejs') %>
 
 
 

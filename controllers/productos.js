@@ -23,8 +23,20 @@ exports.getCrearProducto = (req,res,next)=>{
 
 
 exports.getProductos = (req, res, next) => {
-    let productos = [];
-    Producto.fetchAll(productosObt =>{
+    Producto.find()
+    .then(productos => {
+        res.render('tienda/lista-productos', {
+            prods: productos,
+            titulo: "Productos de la tienda",
+            path: "/productos"
+        });
+
+    })
+    .catch(err => console.log(err));
+
+      
+      
+      productosObt =>{
         console.log (productosObt);
         productos = productosObt;
 
@@ -36,14 +48,14 @@ exports.getProductos = (req, res, next) => {
            })
 
 
-    });
+    };
 
     
  
   }
 
 
-  exports.getDisplayProductos = (req, res, next) => {
+ /* exports.getDisplayProductos = (req, res, next) => {
     let productos = [];
 
     Producto.fetchAll(productosObt =>{
@@ -56,7 +68,7 @@ exports.getProductos = (req, res, next) => {
       path: "/productos"
     })
 
-})
+    })
 
 
-   }
+   }*/

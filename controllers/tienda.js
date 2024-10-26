@@ -11,7 +11,34 @@ const Carrito = require('../models/carrito')
 
 
 
-exports.getProductos = (req, res, next) => {
+exports.getIndex = (req, res) => {
+  Producto.find()
+      .then(productos => {
+          res.render('index', {
+              prods: productos,
+              titulo: "Pagina principal de la Tienda",
+              path: "/"
+          });
+
+      })
+      .catch(err => console.log(err));
+}
+
+
+exports.getProductos = (req, res) => {
+  Producto.find()
+      .then(productos => {
+          res.render('productos', {
+              prods: productos,
+              titulo: "Productos de la tienda",
+              path: "/productos"
+          });
+
+      })
+      .catch(err => console.log(err));
+};
+
+/*exports.getProductos = (req, res, next) => {
     let productos = [];
     Producto.fetchAll(productosObt =>{
         console.log (productosObt);
@@ -29,7 +56,7 @@ exports.getProductos = (req, res, next) => {
 
     
  
-  }
+  }*/
 
 
   /*exports.getProducto = (req,res) =>{
@@ -42,7 +69,24 @@ exports.getProductos = (req, res, next) => {
 
   }*/
 
+
     exports.getProducto = (req, res) => {
+      const idProducto = req.params.idProducto;
+      Producto.findById(idProducto)
+          .then(producto => {
+              if (!producto) {
+                  res.redirect('/');
+              }
+              res.render('tienda/detalle-producto', {
+                  producto: producto,
+                  titulo: producto.nombre,
+                  path: '/productos'
+              });
+          })
+          .catch(err => console.log(err));
+  }
+
+   /* exports.getProducto = (req, res) => {
       const idProducto = req.params.idProducto;
       Producto.findById(idProducto, (producto) => {
           res.render('tienda/detalle-producto', {
@@ -52,7 +96,7 @@ exports.getProductos = (req, res, next) => {
           });
   
       })
-  }
+  }*/
 
 
   exports.getDisplayProductos = (req, res, next) => {
@@ -96,11 +140,7 @@ exports.postCarrito = (req, res) => {
   const idProducto = req.body.idProducto;
   Producto.findById(idProducto, producto => {
       Carrito.agregarProducto(idProducto, producto.precio, producto.nombre);
-      res.redirect('/carrito'), {
-      producto: producto,
-      titulo: "Productos",
-      path: "/agregar-carrito"
-    }
+      res.redirect('/carrito');
   })
 };
  

@@ -1,4 +1,4 @@
-const fs = require('fs');
+/*const fs = require('fs');
 const path = require('path');
 
 const raizDir = require ('..//utils/path')
@@ -29,22 +29,12 @@ module.exports = class Producto{
         this.precio = precio;
         this.precioPromo = precioPromo;
         this.disponibilidad = disponibilidad;
-       // this.categoria = categoria;
+       
 
     }
 
     save(){
        
-       /* getProductosFromFile(productos=>{
-            console.log(productos);
-            productos.push(this);
-            fs.writeFile(p, JSON.stringify(productos), err => {
-
-                console.log(err);
-
-            })
-
-         })*/
 
             getProductosFromFile(productos => {
                 if (this.id) {
@@ -93,4 +83,42 @@ module.exports = class Producto{
         });
     }
 
-}
+}*/
+
+const mongoose = require('mongoose');
+
+const Schema = mongoose.Schema;
+
+const productoSchema = new Schema({
+  nombre: {
+    type: String,
+    required: true
+  },
+  precio: {
+    type: Number,
+    required: true
+  },
+  precioPromo: {
+    type: Number,
+    required: true
+  },
+  stock: {
+    type: Number,
+    required: true
+  },
+  descripcion: {
+    type: String,
+    required: true
+  },
+  urlImagen: {
+    type: String,
+    required: true
+  },
+  idUsuario: {
+    type: Schema.Types.ObjectId,
+    ref: 'Usuario',
+    required: true
+  }
+});
+
+module.exports = mongoose.model('Producto', productoSchema);

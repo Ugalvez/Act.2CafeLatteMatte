@@ -25,9 +25,10 @@
                         </div>
 
                         <div class="card_content">
-                            <h2 class="product_price">S/.<%= producto.precio%></h2>
-                            <p class="product_description">Descripción: <%= producto.descripcion%></p>
-                            <p class="product_disponibilidad"> Stock <%= producto.disponibilidad%> unidades</p>
+                            <h2 class="product_price">Precio Normal: S/<%= producto.precio%></h2>
+                            <h1 class="promo_price"> Precio en Promoción S/<%= producto.precioPromo %> </h1>
+                            <p class="product_description">Descripción: <%= producto.descripcion %></p>
+                            <p class="product_disponibilidad"> Stock <%= producto.stock %> unidades</p>
                           <p class="product_categoria"> <%= producto.categoria%></p>
                         </div>
                         <!--<div class = "card_actions">

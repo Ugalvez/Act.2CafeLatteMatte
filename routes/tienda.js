@@ -13,12 +13,12 @@ const router = express.Router();
 
 
 
-router.get('/', tiendaController.getProductos);
+router.get('/', tiendaController.getIndex);
 
 
 
 
- router.get('/productos', tiendaController.getDisplayProductos);
+ router.get('/productos', tiendaController.getProductos);
 
 
 
@@ -34,7 +34,7 @@ router.post('/carrito/modificar-cantidad', tiendaController.postModificarCantida
 
 router.post('/carrito/eliminar-producto', tiendaController.postEliminarProducto);
 
-router.post('/carrito/agregar-carrito', tiendaController.postCarrito);
+
   /*
 
 , (req, res, next) => {

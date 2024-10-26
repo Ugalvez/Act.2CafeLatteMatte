@@ -1,4 +1,4 @@
-const fs = require('fs');
+/*const fs = require('fs');
 const path = require('path');
 
 
@@ -37,6 +37,30 @@ module.exports = class Usuarios {
             }
         });
     }
-}
+}*/
 
+const mongoose = require('mongoose');
+
+const Schema = mongoose.Schema;
+
+const usuarioSchema = new Schema({
+  nombre: {
+    type: String,
+    required: true
+  },
+  email: {
+    type: String,
+    required: true
+  },
+  carrito: {
+    items: [
+      {
+        idProducto: { type: Schema.Types.ObjectId, ref: 'Producto', required: true },
+        cantidad: { type: Number, required: true }
+      }
+    ]
+  }
+});
+
+module.exports = mongoose.model('Usuarios', usuarioSchema);
 

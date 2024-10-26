@@ -4,7 +4,7 @@
 
 const Producto = require('../models/producto');
 
-exports.getCrearProducto = (req,res,next)=>{
+/*exports.getCrearProducto = (req,res,next)=>{
 
     res.render('crear-producto',{titulo: 'Crear Producto', path: '/admin/crear-producto'})
  };
@@ -88,4 +88,93 @@ exports.getDisplayProductos = (req, res, next) => {
         const idProducto = req.body.idProducto;
         Producto.deleteById(idProducto);
         res.redirect('adminHome');
-      };
+      };*/
+
+
+//adaptacion a mongoose
+
+exports.getDisplayProductos = (req, res, next) => {
+
+    Producto.find()
+        .then(productos => {
+            res.render('adminHome', {
+                 prods: productos,
+                 titulo: "Admin Home",
+                 path: "/admin/adminHome"
+            });
+
+    })
+    .catch(err => console.log(err));
+
+    }
+
+exports.getCrearProducto = (req, res) => {
+    res.render('admin/crear-producto', {
+        titulo: 'Crear Producto',
+        path: '/admin/crear-producto',
+        modoEdicion: false
+    })
+};
+
+exports.postCrearProducto = (req, res) => {
+    const nombre = req.body.nombre;
+    const urlImagen = req.body.urlImagen;
+    const precio = req.body.precio;
+    const precioPromo = req.body.precioPromo;
+    const descripcion = req.body.descripcion;
+    const disponibilidad = req.body.disponibilidad;
+    const stock = req.body.stock
+    const producto = new Producto({nombre: nombre, precio: precio, descripcion: descripcion, urlImagen: urlImagen, idUsuario: req.usuario._id, disponibilidad: disponibilidad, stock: stock, precioPromo: precioPromo});
+    producto.save()
+        .then(result => {
+            console.log(result);
+            res.redirect('/admin/adminHome');
+        })
+        .catch(err => console.log(err));
+};
+
+exports.getEditarProducto = (req, res) => {
+    const modoEdicion = req.query.editar;
+    const idProducto = req.params.idProducto;
+    Producto.findById(idProducto)
+        .then(producto => {
+            if (!producto) {
+                return res.redirect('admin/adminHome');
+            }
+            res.render('admin/crear-producto', {
+                titulo: 'Editar Producto',
+                path: '/admin/editar-producto',
+                producto: producto,
+                modoEdicion: true,
+            })
+        })
+        .catch(err => console.log(err));
+} 
+
+
+exports.postEditarProducto = (req, res, next) => {
+    const idProducto = req.body.idProducto;
+    const nombre = req.body.nombre;
+    const precio = req.body.precio;
+    const precioPromo = req.body.precioPromo;
+    const urlImagen = req.body.urlImagen;
+    const descripcion = req.body.descripcion;
+    const disponibilidad = req.body.disponibilidad;
+    const stock = req.body.stock
+    Producto.findById(idProducto)
+        .then(producto => {
+            producto.nombre = nombre;
+            producto.precio = precio;
+            producto.precioPromo = precioPromo;
+            producto.descripcion = descripcion;
+            producto.urlImagen = urlImagen;
+            producto.disponibilidad = disponibilidad;
+            producto.stock = stock;
+            return producto.save();
+        })
+        .then(result => {
+            console.log('Producto actualizado satisfactoriamente');
+            res.redirect('adminHome');
+        })
+        .catch(err => console.log(err));
+}; 
