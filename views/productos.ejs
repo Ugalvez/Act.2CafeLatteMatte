@@ -8,35 +8,44 @@
 
     <main>
 
+        <div class="container">
+            <div class="my-5">
+
         <% if(prods.length > 0) { %>
 
             
             <div class="grid">
                 <% for (let producto of prods) { %>
                     <article class ="card product-item">
-                        <header class="card_header">
-                            <h1 class="product_title"><%= producto.nombre %></h1>
-                        </header>
+                        
                         <div class="card_image">
                             <img src="<%= producto.urlImagen%>"  alt="">
                         </div>
-
                         <div class="card_content">
-                            <h2 class="product_price">S/.<%= producto.precio%></h2>
+                        <header class="card_header">
+                            <h2 class="product_title"><%= producto.nombre %></h2>
+                        </header>
+
+                        <div class="">
+                           
                             <p class="product_description">Descripción: <%= producto.descripcion%></p>
                             <p class="product_disponibilidad"> Stock <%= producto.disponibilidad%> unidades</p>
                           <p class="product_categoria"> <%= producto.categoria%></p>
                         </div>
+                        <div class = "card_actions w-100 d-flex justify-content-between">
+                            <h2 class="product_price">S/.<%= producto.precio%></h2>
+                            <%- include('includes/agregar-al-carrito.ejs', {producto: producto})%>
+                        </div>
+                    </div>
 
 
-                        <!--<div class = "card_actions">
+                        <!--
                             
                             <form action = "/agregar-carrito " method="POST">
                             <button class="btn" >Agregar al Carrito</button>
                         </form>
                         </div>-->
-
-                        <%- include('includes/agregar-al-carrito.ejs', {producto: producto})%>
+                        
 
                     </article>
                         
@@ -45,7 +54,10 @@
         <% } else { %>
             <h1>No hay productos</h1>
        <% } %>
- 
+    
+    
+    </div>
+    </div>
     </main>
     
     <%- include ('includes/end.ejs') %>
