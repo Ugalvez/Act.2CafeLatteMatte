@@ -10,35 +10,39 @@
 
     <main>
 
+        <div class="container">
+            <div class="py-5">
         <% if(prods.length > 0) { %>
 
-            
-            <div class="grid">
+            <h1 class="mb-5">Administración de productos </h1>
+            <div class="row">
                 <% for (let producto of prods) { %>
                    
-                    <article class ="card product-item">
-                        <header class="card_header">
-                            <h1 class="product_title"><%= producto.nombre %></h1>
-                        </header>
-                        <div class="card_image">
+                    <article class ="d-flex flex-row justify-content-between mb-4 pb-4 border-bottom">
+                        
+                        <div class="list_group d-flex flex-row">
+                        <div class="list_image_small me-lg-3">
                             <img src=" <%= producto.urlImagen%> " alt="Libro HP">
                         </div>
 
-                        <div class="card_content">
-                            <h2 class="product_price">Precio Normal: S/<%= producto.precio%></h2>
-                            <h1 class="promo_price"> Precio en Promoción S/<%= producto.precioPromo %> </h1>
+                        <div class="list_content">
+                            <h3 class=""><%= producto.nombre %></h3>
+                            <p class="product_price">Precio Normal: S/<%= producto.precio%></p>
+                            <p class="promo_price"> Precio en Promoción S/<%= producto.precioPromo %> </p>
                             <p class="product_description">Descripción: <%= producto.descripcion %></p>
                             <p class="product_disponibilidad"> Stock <%= producto.stock %> unidades</p>
                           <p class="product_categoria"> <%= producto.categoria%></p>
                         </div>
+
+                    </div>
                         <!--<div class = "card_actions">
                             <button class="btn">Modificar</button>
                         </div>-->
                         <div class="card__actions">
-                            <a href="/admin/editar-producto/<%= producto.id %>?editar=true" class="btn">Editar</a>
+                            <a href="/admin/editar-producto/<%= producto.id %>?editar=true" class="btn"><ion-icon name="pencil-outline"></ion-icon> Editar</a>
                             <form action="/admin/eliminar-producto" method="POST">
                                 <input type="hidden" value="<%= producto.id %>" name="idProducto">
-                                <button class="btn" type="submit">Eliminar</button>
+                                <button class="btn" type="submit"><ion-icon name="trash-outline"></ion-icon> Eliminar</button>
                             </form>
 
                         </div>
@@ -50,6 +54,8 @@
             <h1>No hay productos</h1>
        <% } %>
  
+    </div>
+    </div>
     </main>
     
 

@@ -28,6 +28,10 @@ h2{
 }
 a{
   color: #A57849;
+  transition: all 0.3s;
+}
+a:hover{
+  color:#d0904b;
 }
 
 .centered {
@@ -222,6 +226,10 @@ a{
   display: flex;
   align-items: center;
   gap: 8px;
+  transition: all 0.3s;
+}
+.btn-sesion:hover{
+
 }
 
 
@@ -232,6 +240,7 @@ a{
   background-size: cover;
   background-position: center;
   background-image: url(https://images.squarespace-cdn.com/content/v1/52eaead0e4b0fd67cc51a9d3/1532112070949-V6ADYPAH7OEZ908I0CQV/iStock-900816038.jpg);
+  position: relative;
 }
 section.container{
   display: flex;
@@ -254,64 +263,45 @@ section.container{
   color: #fff;
   padding: 20px 0;
   font-family: Arial, sans-serif;
-  font-size: 14px;
+  font-size: 16px;
 }
-
-.footer-container {
-  display: flex;
-  flex-wrap: wrap;
-  max-width: 1200px;
-  margin: 0 auto;
-  padding: 0 20px;
-}
-
 .footer-logo img {
   max-width: 100px;
   background-color: #666;
   padding: 10px;
 }
-
 .footer-section {
   flex: 1;
   min-width: 180px;
   margin: 10px;
 }
-
 .footer-section h4 {
-  font-weight: bold;
+  font-weight: 600;
   margin-bottom: 10px;
+  font-size: 1.25rem;
 }
-
 .footer-section ul {
   list-style: none;
   padding: 0;
 }
-
 .footer-section ul li {
   margin-bottom: 5px;
 }
-
-.footer-section ul li a {
+.footer-section a {
   color: #ccc;
   text-decoration: none;
 }
-
-.footer-section ul li a:hover {
+.footer-section a:hover {
   color: #fff;
 }
-
-.footer-social {
+.footer-section .redes {
   display: flex;
-  align-items: center;
+  flex-direction: column;
   gap: 10px;
 }
-
-.footer-social img {
-  width: 24px;
-  height: 24px;
-  filter: invert(100%);
+.footer-section .redes ion-icon {
+  font-size: 32px;
 }
-
 .footer-bottom {
   text-align: center;
   padding-top: 20px;
@@ -331,8 +321,9 @@ section.container{
   align-items: center;
   gap: 10px;
   text-decoration: none;
-  border: 1px solid #000 !important;
+  border: none;
+  transition: all 0.3s;
 }
 .btn-primary:hover{
-  background:#444 !important;
+  background: #A57849 !important;
 }

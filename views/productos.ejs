@@ -11,13 +11,15 @@
         <div class="container">
             <div class="my-5">
 
+                <h1 class="mb-5 text-center">Nuestros productos</h1>
+
         <% if(prods.length > 0) { %>
 
             
             <div class="row">
                 <% for (let producto of prods) { %>
                     <div class="col-lg-4">
-                    <article class ="card product-item">
+                    <article class ="card product-item mb-4">
                         
                         <div class="card_image">
                             <img src="<%= producto.urlImagen%>"  alt="">
@@ -29,11 +31,6 @@
                             <p class="product_description">Descripción: <%= producto.descripcion%></p>
                             <p class="product_disponibilidad"> Stock <%= producto.stock%> unidades</p>
                           <p class="product_categoria"> <%= producto.categoria%></p>
-                          <h2 class="promo_price"> Promoción S/<%= producto.precioPromo %> </h2>
-                        </div>
-                        <div class = "card_actions w-100 d-flex justify-content-between">
-                            <h2 class="product_price">Antes: S/.<%= producto.precio%></h2>
-                            
 
                         <div class = "card_actions w-100 d-flex justify-content-between align-items-center pt-4">
                             <h2 class="product_price">S/ <%= producto.precio%></h2>

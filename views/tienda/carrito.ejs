@@ -3,38 +3,41 @@
 <body>
     <%- include('../includes/navigation.ejs') %>
 
+    
     <main>
+
+        <div class="container">
         <h1>Tu Carrito</h1>
         <% if (productos.length > 0) { %>
-            <table>
+            <table style="width: 100%;">
                 <thead>
                     <tr>
-                        <th>Nombre del Producto</th>
-                        <th>Cantidad</th>
-                        <th>Precio</th>
-                        <th>Total</th>
-                        <th>Acciones</th>
+                        <th bgcolor="EDE7E6" class="py-3 px-2">Nombre del Producto</th>
+                        <th bgcolor="EDE7E6" class="py-3 px-2">Cantidad</th>
+                        <th bgcolor="EDE7E6" class="py-3 px-2">Precio</th>
+                        <th bgcolor="EDE7E6" class="py-3 px-2">Total</th>
+                        <th bgcolor="EDE7E6" class="py-3 px-2">Acciones</th>
                     </tr>
                 </thead>
                 <tbody>
                     <% productos.forEach(producto => { %>
                         <tr>
-                            <td><%= producto.nombre %></td> 
-                            <td>
+                            <td class="py-3 px-2 border-bottom"><%= producto.nombre %></td> 
+                            <td class="py-3 px-2 border-bottom">
                                 <!-- Input para modificar la cantidad -->
-                                <form action="/carrito/modificar-cantidad" method="POST">
+                                <form action="/carrito/modificar-cantidad" method="POST" class="form-carrito">
                                     <input type="hidden" name="idProducto" value="<%= producto.id %>">
                                     <input type="number" name="cantidad" value="<%= producto.cantidad %>" min="1">
-                                    <button type="submit">Actualizar</button>
+                                    <button type="submit" class="btn btn-sesion"><ion-icon name="refresh-outline"></ion-icon> Actualizar</button>
                                 </form>
                             </td>
-                            <td>S/ <%= producto.precio %></td>
-                            <td>S/ <%= producto.precio * producto.cantidad %></td>
-                            <td>
+                            <td class="py-3 px-2 border-bottom">S/ <%= producto.precio %></td>
+                            <td class="py-3 px-2 border-bottom">S/ <%= producto.precio * producto.cantidad %></td>
+                            <td class="py-3 px-2 border-bottom">
                                 <!-- Botón para eliminar producto -->
                                 <form action="/carrito/eliminar-producto" method="POST">
                                     <input type="hidden" name="idProducto" value="<%= producto.id %>">
-                                    <button type="submit">Eliminar</button>
+                                    <button type="submit" class="btn btn-sesion"><ion-icon name="trash-outline"></ion-icon> Eliminar</button>
                                 </form>
                             </td>
                         </tr>
@@ -42,10 +45,15 @@
                 </tbody>
             </table>
            <!-- <h2>Total: S/ <%= precioTotal %></h2> -->
-           <h2>Total: S/ <%= precioTotal.toFixed(2) %></h2>
+            <div class="d-flex justify-content-end py-4 pe-5">
+           <div class="total">Total: S/ <%= precioTotal.toFixed(2) %></div>
+        </div>
         <% } else { %>
             <h1>No hay productos en tu carrito</h1>
         <% } %>
+  
+  
+    </div>
     </main>
 
 <%- include('../includes/end.ejs') %>
