@@ -25,12 +25,12 @@ article.card{
     font-style: normal;
     font-weight: 400;
     line-height: normal;
+    overflow: hidden;
 }
 
 @media (min-width:960px){
   article.card{
     display: flex;
-    width: 32%;
     flex-direction: column;
   }
 }
@@ -139,6 +139,9 @@ article.card .group{
     margin-top: 10px;
     width: 100%;
     padding:24px;
+}
+.card_content p{
+    margin-bottom: 0;
 }
 
 .product_title{
