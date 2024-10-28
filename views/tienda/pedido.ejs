@@ -3,51 +3,41 @@
 <body>
     <%- include('../includes/navigation.ejs') %>
 
-    
     <main>
-
         <div class="container">
-        <h1>Pedidos</h1>
-        <% if (productos.length > 0) { %>
-            <table style="width: 100%;">
-                <thead>
-                    <tr>
-                        <th bgcolor="EDE7E6" class="py-3 px-2">Nombre del Producto</th>
-                        <th bgcolor="EDE7E6" class="py-3 px-2 text-center">Cantidad</th>
-                        <th bgcolor="EDE7E6" class="py-3 px-2">Precio</th>
-                        <th bgcolor="EDE7E6" class="py-3 px-2">Total</th>
+            <h1>Pedidos</h1>
 
-                    </tr>
-                </thead>
-                <tbody>
-                    <% productos.forEach(producto => { %>
-                        <tr>
-                            <td class="py-3 px-2 border-bottom"><%= producto.nombre %></td> 
-                            <td class="py-3 px-2 border-bottom text-center"><%= producto.cantidad %></td>
-                            <td class="py-3 px-2 border-bottom">S/ <%= producto.precio %></td>
-                            <td class="py-3 px-2 border-bottom">S/ <%= (producto.precio * producto.cantidad).toFixed(2) %></td>
-                        </tr>
-                    <% }); %>
-                </tbody>
-            </table>
-           <!-- <h2>Total: S/ <%= precioTotal %></h2> -->
-            <div class="d-flex justify-content-end py-4 pe-5">
-           <div class="total">Total: S/ <%= precioTotal.toFixed(2) %></div>
+            <% if (pedidos.length > 0) { %>
+                <% pedidos.forEach((pedido, index) => { %>
+                    <h2>Pedido <%= index + 1 %> <small>(Fecha: <%= pedido.fecha.toLocaleDateString() %>)</small></h2>
+                    <table style="width: 100%; margin-bottom: 20px;">
+                        <thead>
+                            <tr>
+                                <th bgcolor="EDE7E6" class="py-3 px-2">Nombre del Producto</th>
+                                <th bgcolor="EDE7E6" class="py-3 px-2 text-center">Cantidad</th>
+                                <th bgcolor="EDE7E6" class="py-3 px-2">Precio</th>
+                                <th bgcolor="EDE7E6" class="py-3 px-2">Total</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <% pedido.productos.forEach(producto => { %>
+                                <tr>
+                                    <td class="py-3 px-2 border-bottom"><%= producto.nombre %></td>
+                                    <td class="py-3 px-2 border-bottom text-center"><%= producto.cantidad %></td>
+                                    <td class="py-3 px-2 border-bottom">S/ <%= producto.precio %></td>
+                                    <td class="py-3 px-2 border-bottom">S/ <%= (producto.precio * producto.cantidad).toFixed(2) %></td>
+                                </tr>
+                            <% }); %>
+                        </tbody>
+                    </table>
+                    <div class="d-flex justify-content-end py-4 pe-5">
+                        <div class="total">Total Pedido: S/ <%= pedido.totalPedido.toFixed(2) %></div>
+                    </div>
+                <% }); %>
+            <% } else { %>
+                <h1 style="font-size:28px">No hay Pedidos</h1>
+            <% } %>
         </div>
-        <div id="botonesCarrito">
-
-        <a href="/" class="btn btn-sesion">Volver</a>
-        
-
-
-
-         </div>
-        <% } else { %>
-            <h1 style="font-size:28px">No hay Pedidos</h1>
-        <% } %>
-  
-  
-    </div>
     </main>
 
 <%- include('../includes/end.ejs') %>

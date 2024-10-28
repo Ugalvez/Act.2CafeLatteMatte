@@ -297,64 +297,59 @@ usuario.limpiarCarrito()
 exports.getPedido = (req, res, next) => {
   const usuario = req.usuario; // Obtiene el usuario actual
 
-  // Asegúrate de que el usuario tenga un campo de pedidos
   if (!usuario.pedidos || usuario.pedidos.length === 0) {
       return res.render('tienda/pedido', {
           path: '/pedido',
           titulo: 'Mis Pedidos',
-          productos: [],
+          pedidos: [], // Cambiamos 'productos' por 'pedidos' para adaptarnos a la nueva estructura
           precioTotal: 0
       });
   }
 
-  // Usar populate para obtener los detalles de los productos en los pedidos
+  // Estructuramos cada pedido con productos individuales
   const pedidosConProductos = usuario.pedidos.map(pedido => {
       return {
           ...pedido.toObject(),
-          productos: pedido.productos.map(producto => {
-              return {
-                  idProducto: producto.idProducto,
-                  cantidad: producto.cantidad // Asegúrate de que cantidad esté aquí
-              };
-          })
+          productos: pedido.productos.map(producto => ({
+              idProducto: producto.idProducto,
+              cantidad: producto.cantidad
+          }))
       };
   });
 
-  // Extraer los IDs de los productos
+  // Obtenemos los IDs de los productos de todos los pedidos
   const productoIds = pedidosConProductos.flatMap(pedido => pedido.productos.map(p => p.idProducto));
 
-  // Obtener los detalles de los productos
+  // Encontramos los detalles de los productos
   Producto.find({ _id: { $in: productoIds } })
     .then(productos => {
       const productosPorId = {};
       productos.forEach(producto => {
-          productosPorId[producto._id] = producto; // Mapeamos los productos por su id
+          productosPorId[producto._id] = producto;
       });
 
-      // Crear una lista de productos para mostrar en la vista
-      const productosMostrar = [];
-      pedidosConProductos.forEach(pedido => {
-          pedido.productos.forEach(item => {
+      // Preparamos la lista final de pedidos con sus productos
+      const pedidosMostrar = pedidosConProductos.map(pedido => {
+          const productosMostrar = pedido.productos.map(item => {
               const producto = productosPorId[item.idProducto.toString()];
-              if (producto) {
-                  productosMostrar.push({
-                      nombre: producto.nombre,
-                      precio: producto.precio,
-                      cantidad: item.cantidad // Ahora debería mostrar la cantidad correctamente
-                  });
-              }
+              return {
+                  nombre: producto.nombre,
+                  precio: producto.precio,
+                  cantidad: item.cantidad
+              };
           });
+          const totalPedido = productosMostrar.reduce((total, producto) => total + (producto.precio * producto.cantidad), 0);
+          return {
+              productos: productosMostrar,
+              totalPedido: totalPedido,
+              fecha: pedido.fecha // Opcional: agrega más detalles si quieres, como la fecha del pedido
+          };
       });
-
-      const precioTotal = productosMostrar.reduce((total, producto) => {
-          return total + (producto.precio * producto.cantidad);
-      }, 0);
 
       res.render('tienda/pedido', {
           path: '/pedido',
           titulo: 'Mis Pedidos',
-          productos: productosMostrar,
-          precioTotal: precioTotal
+          pedidos: pedidosMostrar // Enviamos la lista de pedidos, cada uno con sus productos y total
       });
     })
     .catch(err => {
