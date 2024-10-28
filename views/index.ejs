@@ -36,14 +36,15 @@
                         <div class="card_content">
                             <h2 class="mb-3"><%= producto.nombre %></h2>
                            
-                            <p class="product_description">Descripción: <%= producto.descripcion%></p>
-                            <p class="product_disponibilidad"> Stock <%= producto.disponibilidad%> unidades</p>
+                            <p class="product_description"><%= producto.descripcion%></p>
+                            <p class="product_disponibilidad"> Stock: <%= producto.stock%> unidades</p>
                           <p class="product_categoria"> <%= producto.categoria%></p>
                         
                         <a href="/productos/<%= producto.id %>"> Ver Detalles</a>
           
                         <div class = "card_actions w-100 d-flex justify-content-between align-items-center pt-4">
                         <h2 class="product_price">S/ <%= producto.precio%></h2>
+                        <!--<h2 class="product_price">S/ <%= producto.precioPromo%></h2>-->
                         <%- include('includes/agregar-al-carrito.ejs', {producto: producto})%>
                         </div>
 

@@ -25,14 +25,14 @@ router.get('/', tiendaController.getIndex);
 
 
  router.get('/carrito',tiendaController.getCarrito);
- router.post('/carrito', tiendaController.postCarrito);
+ //router.post('/carrito', tiendaController.postCarrito);
 
 
-router.get('/productos/:idProducto',tiendaController.getProducto);
+//router.get('/productos/:idProducto',tiendaController.getProducto);
 
-router.post('/carrito/modificar-cantidad', tiendaController.postModificarCantidad);
+//router.post('/carrito/modificar-cantidad', tiendaController.postModificarCantidad);
 
-router.post('/carrito/eliminar-producto', tiendaController.postEliminarProducto);
+//router.post('/carrito/eliminar-producto', tiendaController.postEliminarProducto);
 
 
   /*

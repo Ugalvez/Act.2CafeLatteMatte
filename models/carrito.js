@@ -6,7 +6,11 @@ const raizDir = require('../utils/path');
 const p = path.join(raizDir, 'data', 'carrito.json');
 
 
-module.exports = class Carrito {
+
+
+
+
+//module.exports = class Carrito {
     /*static agregarProducto(id, precio, nombre) {
 
         fs.readFile(p, (err, fileContent) => {
@@ -41,7 +45,7 @@ module.exports = class Carrito {
 
     }*/
 
-        static agregarProducto(id, precio, nombre) {
+      /*  static agregarProducto(id, precio, nombre) {
             fs.readFile(p, (err, fileContent) => {
                 let carrito = { productos: [], precioTotal: 0 };
                 if (!err) {
@@ -117,7 +121,7 @@ module.exports = class Carrito {
             });
         });
     }*/
-        static modificarCantidad(id, nuevaCantidad, precio) {
+      /*  static modificarCantidad(id, nuevaCantidad, precio) {
             fs.readFile(p, (err, fileContent) => {
                 if (err) return;
         
@@ -160,4 +164,4 @@ module.exports = class Carrito {
     }
     
 }
-    
+    */
