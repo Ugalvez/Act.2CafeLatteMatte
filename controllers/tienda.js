@@ -9,7 +9,7 @@ const p = path.join(raizDir, 'data', 'carrito.json');
 const Producto = require('../models/producto');
 const Carrito = require('../models/carrito')
 const Usuario = require('../models/users');
-
+const mongoose = require('mongoose');
 
 
 exports.getIndex = (req, res) => {
@@ -133,13 +133,28 @@ exports.getCarrito = (req, res, next) => {
   req.usuario
     .populate('carrito.items.idProducto')
     .then(usuario => {
-      const productos = usuario.carrito.items;
+      console.log(usuario.carrito.items);
+      const productos = usuario.carrito.items.map(item =>{
+        if (!item.idProducto) {
+          return null; 
+        }
+
+        return {
+          ...item.idProducto.toObject(),
+          cantidad: item.cantidad
+        };
+      }).filter(Boolean); // Filtra los elementos nulos
+        
       res.render('tienda/carrito', {
         path: '/carrito',
         titulo: 'Mi Carrito',
-        productos: productos
-      });
-    })
+        productos: productos,
+        precioTotal: productos.reduce((total, producto) => {
+          return total + producto.precio * producto.cantidad;
+        }, 0)
+        })
+      })
+    
     .catch(err => console.log(err));
 };
 
@@ -167,6 +182,82 @@ exports.postEliminarProductoCarrito = (req, res, next) => {
 
 };
 
+
+/*exports.postModificarCantidad = (req, res) => {
+  const idProducto = req.body.idProducto;
+  const nuevaCantidad = parseInt(req.body.cantidad);
+  
+  Producto.findById(idProducto, producto => {
+      Carrito.modificarCantidad(idProducto, nuevaCantidad, producto.precio);
+      res.redirect('/carrito');
+  });
+};*/
+
+exports.postModificarCantidad = (req, res, next) => {
+  const { idProducto, nuevaCantidad } = req.body; // Asegúrate de que estos valores sean enviados en el cuerpo de la solicitud
+
+  // Comprueba que nuevaCantidad sea un número válido
+  const cantidad = parseInt(nuevaCantidad, 10);
+  if (isNaN(cantidad) || cantidad < 0) {
+    return res.status(400).send('Cantidad no válida'); // Manejo de errores para cantidades no válidas
+  }
+
+  req.usuario
+    .populate('carrito.items.idProducto')
+    .then(usuario => {
+      const itemIndex = usuario.carrito.items.findIndex(item => {
+        return item.idProducto._id.toString() === idProducto; // Compara el ID del producto
+      });
+
+      if (itemIndex >= 0) {
+        // Si el producto existe en el carrito
+        if (cantidad === 0) {
+          // Si la nueva cantidad es 0, eliminarlo del carrito
+          usuario.carrito.items.splice(itemIndex, 1); // Elimina el producto
+        } else {
+          // Actualiza la cantidad del producto
+          usuario.carrito.items[itemIndex].cantidad = cantidad; // Asegúrate de que cantidad se establece correctamente
+        }
+
+        return usuario.save(); // Guarda los cambios en el usuario
+      } else {
+        // Maneja el caso donde el producto no se encuentra en el carrito
+        console.log('Producto no encontrado en el carrito');
+        return Promise.reject(new Error('Producto no encontrado en el carrito'));
+      }
+    })
+    .then(() => {
+      res.redirect('/carrito'); // Redirige al carrito después de modificar la cantidad
+    })
+    .catch(err => {
+      console.log(err);
+      res.status(500).send('Error al modificar la cantidad'); // Manejo de errores
+    });
+};
+
+
+
+
+
+
+
+
+
+
+
+
+
+/*exports.postEliminarProducto = (req, res) => {
+  const idProducto = req.body.idProducto;
+  Producto.findById(idProducto, producto => {
+      if (producto) {
+          Carrito.eliminarProducto(idProducto, producto.precio);
+          res.redirect('/carrito');
+      } else {
+          res.redirect('/productos');
+      }
+  });
+};*/
 
 /*exports.getCarrito = (req, res, next) => {
   
@@ -203,39 +294,4 @@ exports.postEliminarProductoCarrito = (req, res, next) => {
           precioTotal: carrito.precioTotal // Asegúrate de pasar esto a la vista
       });
   });
-};
-
-
-/*exports.postModificarCantidad = (req, res) => {
-  const idProducto = req.body.idProducto;
-  const nuevaCantidad = req.body.cantidad;
-
-  Producto.findById(idProducto, producto => {
-      Carrito.modificarCantidad(idProducto, nuevaCantidad, producto.precio);
-      res.redirect('/carrito');
-  });
 };*/
-
-/*exports.postModificarCantidad = (req, res) => {
-  const idProducto = req.body.idProducto;
-  const nuevaCantidad = parseInt(req.body.cantidad);
-  
-  Producto.findById(idProducto, producto => {
-      Carrito.modificarCantidad(idProducto, nuevaCantidad, producto.precio);
-      res.redirect('/carrito');
-  });
-};
-
-
-exports.postEliminarProducto = (req, res) => {
-  const idProducto = req.body.idProducto;
-  Producto.findById(idProducto, producto => {
-      if (producto) {
-          Carrito.eliminarProducto(idProducto, producto.precio);
-          res.redirect('/carrito');
-      } else {
-          res.redirect('/productos');
-      }
-  });
-};
-*/

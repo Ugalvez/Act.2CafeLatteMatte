@@ -26,8 +26,8 @@
                             <td class="py-3 px-2 border-bottom">
                                 <!-- Input para modificar la cantidad -->
                                 <form action="/carrito/modificar-cantidad" method="POST" class="form-carrito">
-                                    <input type="hidden" name="idProducto" value="<%= producto.id %>">
-                                    <input type="number" name="cantidad" value="<%= producto.cantidad %>" min="1">
+                                    <input type="hidden" name="idProducto" value="<%= producto._id %>">
+                                    <input type="number" name="nuevaCantidad" value="<%= producto.cantidad %>" min="1">
                                     <button type="submit" class="btn btn-sesion"><ion-icon name="refresh-outline"></ion-icon> Actualizar</button>
                                 </form>
                             </td>
@@ -36,7 +36,7 @@
                             <td class="py-3 px-2 border-bottom">
                                 <!-- Botón para eliminar producto -->
                                 <form action="/carrito/eliminar-producto" method="POST">
-                                    <input type="hidden" name="idProducto" value="<%= producto.id %>">
+                                    <input type="hidden" name="idProducto" value="<%= producto._id %>">
                                     <button type="submit" class="btn btn-sesion"><ion-icon name="trash-outline"></ion-icon> Eliminar</button>
                                 </form>
                             </td>
