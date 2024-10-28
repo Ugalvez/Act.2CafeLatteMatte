@@ -124,7 +124,8 @@ exports.postCrearProducto = (req, res) => {
     const descripcion = req.body.descripcion;
     const disponibilidad = req.body.disponibilidad;
     const stock = req.body.stock
-    const producto = new Producto({nombre: nombre, precio: precio, descripcion: descripcion, urlImagen: urlImagen, idUsuario: req.usuario._id, disponibilidad: disponibilidad, stock: stock, precioPromo: precioPromo});
+    const categoria = req.body.categoria
+    const producto = new Producto({nombre: nombre, precio: precio, descripcion: descripcion, urlImagen: urlImagen, idUsuario: req.usuario._id, disponibilidad: disponibilidad, stock: stock, precioPromo: precioPromo, categoria: categoria});
     producto.save()
         .then(result => {
             console.log(result);
@@ -160,7 +161,8 @@ exports.postEditarProducto = (req, res, next) => {
     const urlImagen = req.body.urlImagen;
     const descripcion = req.body.descripcion;
     const disponibilidad = req.body.disponibilidad;
-    const stock = req.body.stock
+    const stock = req.body.stock;
+    const categoria = req.body.categoria;
     Producto.findById(idProducto)
         .then(producto => {
             producto.nombre = nombre;
@@ -170,6 +172,7 @@ exports.postEditarProducto = (req, res, next) => {
             producto.urlImagen = urlImagen;
             producto.disponibilidad = disponibilidad;
             producto.stock = stock;
+            producto.categoria = categoria;
             return producto.save();
         })
         .then(result => {

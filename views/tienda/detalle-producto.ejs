@@ -9,8 +9,12 @@
             <div>
                 <img src="<%= producto.urlImagen %>" alt="<%= producto.imagen %>">
             </div>
-            <h2>S/ <%= producto.precio %></h2>
+            <h2>Antes: S/ <%= producto.precio %></h2>
+            <h1 class="promo_price"> Precio en Promoción S/<%= producto.precioPromo %> </h1>
             <p><%= producto.descripcion %></p>
+            <p class="product_description">Descripción: <%= producto.descripcion%></p>
+            <p class="product_disponibilidad"> Stock <%= producto.stock%> unidades</p>
+            <p class="product_categoria"> categoria: <%= producto.categoria%></p>
             <%- include('../includes/agregar-al-carrito.ejs') %>
 
         </main>
