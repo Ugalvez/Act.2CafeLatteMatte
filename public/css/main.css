@@ -21,9 +21,13 @@ h1, h2, h3, h4{
 }
 h1{
   font-size: 2.5rem;
+  font-weight: 700;
 }
 h2{
   font-size: 2rem;
+}
+a{
+  color: #A57849;
 }
 
 .centered {
@@ -319,7 +323,7 @@ section.container{
 .btn-primary{
   border-radius: 50px;
   font-weight: 500;
-  background: #000 !important;
+  background: #333 !important;
   color: #FFF;
   display: flex;
   padding: 12px 24px;
@@ -330,5 +334,5 @@ section.container{
   border: 1px solid #000 !important;
 }
 .btn-primary:hover{
-  background:#333 !important;
+  background:#444 !important;
 }

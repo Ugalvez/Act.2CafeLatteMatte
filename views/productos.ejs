@@ -14,26 +14,24 @@
         <% if(prods.length > 0) { %>
 
             
-            <div class="grid">
+            <div class="row">
                 <% for (let producto of prods) { %>
+                    <div class="col-lg-4">
                     <article class ="card product-item">
                         
                         <div class="card_image">
                             <img src="<%= producto.urlImagen%>"  alt="">
                         </div>
                         <div class="card_content">
-                        <header class="card_header">
-                            <h2 class="product_title"><%= producto.nombre %></h2>
-                        </header>
-
-                        <div class="">
-                           
+                        
+                            <h2 class="mb-3"><%= producto.nombre %></h2>
+                       
                             <p class="product_description">Descripción: <%= producto.descripcion%></p>
                             <p class="product_disponibilidad"> Stock <%= producto.disponibilidad%> unidades</p>
                           <p class="product_categoria"> <%= producto.categoria%></p>
-                        </div>
-                        <div class = "card_actions w-100 d-flex justify-content-between">
-                            <h2 class="product_price">S/.<%= producto.precio%></h2>
+
+                        <div class = "card_actions w-100 d-flex justify-content-between align-items-center pt-4">
+                            <h2 class="product_price">S/ <%= producto.precio%></h2>
                             <%- include('includes/agregar-al-carrito.ejs', {producto: producto})%>
                         </div>
                     </div>
@@ -48,6 +46,7 @@
                         
 
                     </article>
+                    </div>
                         
                 <% } %>
             </div>
