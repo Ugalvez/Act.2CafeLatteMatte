@@ -327,3 +327,19 @@ section.container{
 .btn-primary:hover{
   background: #A57849 !important;
 }
+
+#botonesCarrito{
+  display: flex;
+  justify-content: space-between;
+}
+
+#postConfPedido{
+  margin-right: 20px;
+
+
+}
+
+
+.text-center {
+  text-align: center;
+}

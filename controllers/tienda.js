@@ -183,6 +183,233 @@ exports.postEliminarProductoCarrito = (req, res, next) => {
 };
 
 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+exports.postPedido =(req,res, next)=>{
+// Obtenemos el usuario que está realizando el pedido
+const usuario = req.usuario;
+
+// Verificamos si hay productos en el carrito
+if (!usuario.carrito.items.length) {
+    return res.redirect('/carrito'); // Redirigir si el carrito está vacío
+}
+
+// Accedemos a los productos del carrito
+const productosDelCarrito = usuario.carrito.items;
+
+// Creamos un objeto para almacenar el nuevo pedido
+const nuevoPedido = {
+    productos: [],
+    fecha: new Date() // Puedes agregar más campos como fecha, estado, etc.
+};
+
+// Iteramos sobre los productos del carrito
+productosDelCarrito.forEach(itemCarrito => {
+    const producto = itemCarrito.idProducto; // Referencia al producto
+
+    // Verificamos si ya existe en el pedido
+    const productoExistente = nuevoPedido.productos.find(
+        pedidoItem => pedidoItem.idProducto.toString() === producto.toString()
+    );
+
+    if (productoExistente) {
+        // Si ya existe, sumamos las cantidades
+        productoExistente.cantidad += itemCarrito.cantidad;
+    } else {
+        // Si no existe, lo agregamos al nuevo pedido
+        nuevoPedido.productos.push({
+            idProducto: producto,
+            cantidad: itemCarrito.cantidad
+        });
+    }
+});
+
+// Ahora que tenemos el nuevo pedido, lo guardamos en el usuario
+if (!usuario.pedidos) {
+    usuario.pedidos = []; // Aseguramos que el usuario tenga un array de pedidos
+}
+
+usuario.pedidos.push(nuevoPedido); // Agregamos el nuevo pedido a los pedidos del usuario
+
+// Limpiamos el carrito
+usuario.limpiarCarrito()
+    .then(() => {
+        return usuario.save(); // Guardamos el usuario con el nuevo pedido
+    })
+    .then(() => {
+        res.redirect('/pedido'); // Redirigimos a la página de pedidos
+    })
+    .catch(err => {
+        console.error(err);
+        res.status(500).send('Error al confirmar el pedido');
+    });
+};
+
+
+
+
+
+  /*
+  req.usuario
+  .populate('carrito.items.idProducto')
+  .then(usuario => {
+    console.log(usuario.carrito.items);
+    const productos = usuario.carrito.items.map(item =>{
+      if (!item.idProducto) {
+        return null; 
+      }
+
+      return {
+        ...item.idProducto.toObject(),
+        cantidad: item.cantidad
+      };
+    }).filter(Boolean); // Filtra los elementos nulos
+      
+    res.render('tienda/pedido', {
+      path: '/pedido',
+      titulo: 'Pedido',
+      productos: productos,
+      precioTotal: productos.reduce((total, producto) => {
+        return total + producto.precio * producto.cantidad;
+      }, 0)
+      })
+    })
+  
+  .catch(err => console.log(err));
+
+}
+*/
+
+exports.getPedido = (req, res, next) => {
+  const usuario = req.usuario; // Obtiene el usuario actual
+
+  // Asegúrate de que el usuario tenga un campo de pedidos
+  if (!usuario.pedidos || usuario.pedidos.length === 0) {
+      return res.render('tienda/pedido', {
+          path: '/pedido',
+          titulo: 'Mis Pedidos',
+          productos: [],
+          precioTotal: 0
+      });
+  }
+
+  // Usar populate para obtener los detalles de los productos en los pedidos
+  const pedidosConProductos = usuario.pedidos.map(pedido => {
+      return {
+          ...pedido.toObject(),
+          productos: pedido.productos.map(producto => {
+              return {
+                  idProducto: producto.idProducto,
+                  cantidad: producto.cantidad // Asegúrate de que cantidad esté aquí
+              };
+          })
+      };
+  });
+
+  // Extraer los IDs de los productos
+  const productoIds = pedidosConProductos.flatMap(pedido => pedido.productos.map(p => p.idProducto));
+
+  // Obtener los detalles de los productos
+  Producto.find({ _id: { $in: productoIds } })
+    .then(productos => {
+      const productosPorId = {};
+      productos.forEach(producto => {
+          productosPorId[producto._id] = producto; // Mapeamos los productos por su id
+      });
+
+      // Crear una lista de productos para mostrar en la vista
+      const productosMostrar = [];
+      pedidosConProductos.forEach(pedido => {
+          pedido.productos.forEach(item => {
+              const producto = productosPorId[item.idProducto.toString()];
+              if (producto) {
+                  productosMostrar.push({
+                      nombre: producto.nombre,
+                      precio: producto.precio,
+                      cantidad: item.cantidad // Ahora debería mostrar la cantidad correctamente
+                  });
+              }
+          });
+      });
+
+      const precioTotal = productosMostrar.reduce((total, producto) => {
+          return total + (producto.precio * producto.cantidad);
+      }, 0);
+
+      res.render('tienda/pedido', {
+          path: '/pedido',
+          titulo: 'Mis Pedidos',
+          productos: productosMostrar,
+          precioTotal: precioTotal
+      });
+    })
+    .catch(err => {
+      console.error(err);
+      res.status(500).send('Error al obtener productos del pedido');
+    });
+
+  
+
+  /*
+  req.usuario
+  .populate('carrito.items.idProducto')
+  .then(usuario => {
+    console.log(usuario.carrito.items);
+    const productos = usuario.carrito.items.map(item =>{
+      if (!item.idProducto) {
+        return null; 
+      }
+
+      return {
+        ...item.idProducto.toObject(),
+        cantidad: item.cantidad
+      };
+    }).filter(Boolean); // Filtra los elementos nulos
+      
+    res.render('tienda/pedido', {
+      path: '/pedido',
+      titulo: 'Pedido',
+      productos: productos,
+      precioTotal: productos.reduce((total, producto) => {
+        return total + producto.precio * producto.cantidad;
+      }, 0)
+      })
+    })
+  
+  .catch(err => console.log(err));
+*/
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 /*exports.postModificarCantidad = (req, res) => {
   const idProducto = req.body.idProducto;
   const nuevaCantidad = parseInt(req.body.cantidad);

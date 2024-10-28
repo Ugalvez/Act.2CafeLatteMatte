@@ -59,7 +59,26 @@ const usuarioSchema = new Schema({
         cantidad: { type: Number, required: true }
       }
     ]
-  }
+  },
+
+  pedidos: [
+    {
+        productos: [
+            {
+                idProducto: { type: Schema.Types.ObjectId, ref: 'Producto', required: true },
+                cantidad: { type: Number, required: true }
+            }
+        ],
+        fecha: {
+            type: Date,
+            default: Date.now
+        }
+    }
+]
+  
+
+
+
 
 });
 
@@ -87,6 +106,8 @@ usuarioSchema.methods.agregarAlCarrito = function(producto) {
   this.carrito = carritoActualizado;
   return this.save();
 };
+
+
 usuarioSchema.methods.deleteItemDelCarrito = function(idProducto) {
   const itemsActualizados = this.carrito.items.filter(item => {
     return item.idProducto.toString() !== idProducto.toString();
@@ -94,8 +115,17 @@ usuarioSchema.methods.deleteItemDelCarrito = function(idProducto) {
   this.carrito.items = itemsActualizados;
   return this.save();
 };
+
+
 usuarioSchema.methods.limpiarCarrito = function() {
   this.carrito = { items: [] };
+  return this.save();
+};
+
+
+
+usuarioSchema.methods.agregarPedido = function (productos) {
+  this.pedidos.push({ productos });
   return this.save();
 };
 

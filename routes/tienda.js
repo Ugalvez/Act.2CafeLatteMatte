@@ -21,8 +21,8 @@ router.get('/', tiendaController.getIndex);
  router.get('/productos', tiendaController.getProductos);
 
 
-
-
+router.post('/pedido',tiendaController.postPedido);
+router.get('/pedido',tiendaController.getPedido);
 
  router.get('/carrito',tiendaController.getCarrito);
  router.post('/carrito', tiendaController.postCarrito);
