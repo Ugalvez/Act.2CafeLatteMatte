@@ -1,5 +1,5 @@
 
-const Usuarios = require('../models/users');
+/*const Usuarios = require('../models/users');
 const Producto = require('../models/producto');
 const fs = require('fs');
 const path = require('path');
@@ -32,14 +32,14 @@ exports.postLogin = (req, res, next) => {
                 titulo: 'bienvenido usuario',
                 path: "/login",
             });*/
-        }
+        /*}
         else {
             res.send('usuario o contrasena incorrecta',);
         
         }
         }
     )
-}
+}*/
 
 
 
