@@ -128,7 +128,7 @@ exports.postCrearProducto = (req, res) => {
     const producto = new Producto({nombre: nombre, precio: precio, descripcion: descripcion, urlImagen: urlImagen, idUsuario: req.usuario._id, disponibilidad: disponibilidad, stock: stock, precioPromo: precioPromo, categoria: categoria});
     producto.save()
         .then(result => {
-            console.log(result);
+            //console.log(result);
             res.redirect('/admin/adminHome');
         })
         .catch(err => console.log(err));

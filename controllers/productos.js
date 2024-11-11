@@ -37,7 +37,7 @@ exports.getProductos = (req, res, next) => {
       
       
       productosObt =>{
-        console.log (productosObt);
+        //console.log (productosObt);
         productos = productosObt;
 
 
