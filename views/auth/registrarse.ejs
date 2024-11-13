@@ -1,0 +1,68 @@
+<%- include('../includes/head.ejs') %>
+<link rel="stylesheet" href="/css/form.css">
+<link rel="stylesheet" href="/css/main.css">
+<link rel="stylesheet" href="/css/producto.css">
+</head>
+
+
+<body>
+<%- include('../includes/navigation.ejs') %>
+
+<div class="container-sm">
+    <div class="row justify-content-center py-5">
+        <div class="col-lg-5">
+            <div class="logueo">
+
+                <form action="/registrarse" method="POST" novalidate>
+                    <h1 class="text-center mb-4">Registrarse</h1>
+                        <div class="form-group">
+                            <label for="nombre">Nombre:</label>
+                            <input type="text" id="nombre" name="nombre" required>
+                        </div>
+                        <div class="form-group">
+                            <label for="apellidoPaterno">Apellido Paterno:</label>
+                            <input type="text" id="apellidoPaterno" name="apellidoPaterno" required>
+                        </div>
+                        <div class="form-group">
+                            <label for="ApellidoMaterno">Apellido Materno:</label>
+                            <input type="text" id="ApellidoMaterno" name="apellidoMaterno" required>
+                        </div>
+                        <div class="form-group">
+                            <label for="dob">Fecha de nacimiento:</label>
+                            <input type="date" id="dob" name="fechaNacimiento" required>
+                        </div>
+                        <div class="form-group">
+                            <label for="email">Correo:</label>
+                            <input type="email" id="email" name="email" required>
+                        </div>
+                        <div class="form-group">
+                            <label for="password">contraseña</label>
+                            <input type="password" id="password" name="password" required>
+                        </div>
+                        <div class="form-group">
+                            <label for="passwordConfirm">Contraseña:</label>
+                            <input type="password" id="passwordConfirm" name="passwordConfirmado" required>
+                        </div>
+                        <div class="d-flex justify-content-center">
+                            <input type="hidden" name="_csrf" value="<%= csrfToken %>">
+                            <button class="btn btn-primary" type="submit">Iniciar sesión</button>
+                        </div>
+                        <% if (esAdmin) { %>
+                            <div class="form-group">
+                                <label for="rol">Rol</label>
+                                <select name="rol" id="rol">
+                                    <option value="lector" selected>Lector</option> <!-- Valor por defecto -->
+                                    <option value="administrador">Administrador</option>
+                                </select>  
+                            </div>
+                        <% } %>
+                       
+                </form>
+
+
+            </div>
+        </div>
+    </div>
+</div>
+
+<%- include('../includes/end.ejs') %>

@@ -32,6 +32,8 @@ const store = new MongoDBStore({
 const csrfProtection = csrf();
 
 
+
+
 app.set('view engine', 'ejs');
 app.set('views','views');
 
@@ -58,11 +60,11 @@ app.use((req, res, next) => {
   }
 
   Usuario.findById(req.session.usuario._id)
-      .then(usuario => {
-          req.usuario = usuario;
-          next();
-      })
-      .catch(err => console.log(err));
+    .then(usuario => {
+        req.usuario = usuario;
+        next();
+    })
+    .catch(err => console.log(err));
 
 })
 
@@ -72,17 +74,26 @@ app.use((req, res, next) => {
   next();
 });
 
+app.use((req, res, next) => {
+  res.locals.esAdmin = req.session.usuario && req.session.usuario.rol === 'administrador';
+  next();
+});
+
 app.use('/admin',adminRoutes);
-
 app.use(tiendaRoutes);
-
-//Sistema de login--------
 app.use(authRoutes);
-//--------------------------
 
-
+app.get('/500', errorController.get500);
 app.use(errorController.get404)
-  
+
+app.use((err, req, res, next) => {
+  console.log(err);
+  res.status(500).render('500', {
+    titulo: 'Error!',
+    path: '/500',
+    autenticado: req.session.autenticado
+  });
+})
 
 
 
@@ -99,6 +110,7 @@ mongoose
           const usuario = new Usuario({
             nombre: 'ugalvez',
             email: 'ugalvez987@gmail.com',
+            password: '12345',
             carrito: {
               items: []
             }

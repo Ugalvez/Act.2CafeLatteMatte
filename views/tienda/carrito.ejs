@@ -28,6 +28,7 @@
                                 <form action="/carrito/modificar-cantidad" method="POST" class="form-carrito">
                                     <input type="hidden" name="idProducto" value="<%= producto._id %>">
                                     <input type="number" name="nuevaCantidad" value="<%= producto.cantidad %>" min="1" style="text-align: right;">
+                                    <input type="hidden" name="_csrf" value="<%= csrfToken %>">
                                     <button type="submit" class="btn btn-sesion"><ion-icon name="refresh-outline"></ion-icon> Actualizar</button>
                                 </form>
                             </td>
@@ -68,5 +69,5 @@
   
     </div>
     </main>
-
+    
 <%- include('../includes/end.ejs') %>

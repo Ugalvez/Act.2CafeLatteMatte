@@ -63,9 +63,9 @@ exports.getProductos = (req, res) => {
 
 exports.getCarrito = (req, res, next) => {
   
-  if (!req.usuario) {
+  /*if (!req.usuario) {
     return res.redirect('/login'); // Redirige a login si no está autenticado
-  }
+  }*/
 
   req.usuario
     .populate('carrito.items.idProducto')
@@ -185,74 +185,6 @@ usuario.limpiarCarrito()
 };
 
 
-
-
-
-/*exports.getPedido = (req, res, next) => {
-  const usuario = req.usuario; // Obtiene el usuario actual
-
-  if (!usuario.pedidos || usuario.pedidos.length === 0) {
-      return res.render('tienda/pedido', {
-          path: '/pedido',
-          titulo: 'Mis Pedidos',
-          pedidos: [], // Cambiamos 'productos' por 'pedidos' para adaptarnos a la nueva estructura
-          precioTotal: 0
-      });
-  }
-
-  // Estructuramos cada pedido con productos individuales
-  const pedidosConProductos = usuario.pedidos.map(pedido => {
-      return {
-          ...pedido.toObject(),
-          productos: pedido.productos.map(producto => ({
-              idProducto: producto.idProducto,
-              cantidad: producto.cantidad
-          }))
-      };
-  });
-
-  // Obtenemos los IDs de los productos de todos los pedidos
-  const productoIds = pedidosConProductos.flatMap(pedido => pedido.productos.map(p => p.idProducto));
-
-  // Encontramos los detalles de los productos
-  Producto.find({ _id: { $in: productoIds } })
-    .then(productos => {
-      const productosPorId = {};
-      productos.forEach(producto => {
-          productosPorId[producto._id] = producto;
-      });
-
-      // Preparamos la lista final de pedidos con sus productos
-      const pedidosMostrar = pedidosConProductos.map(pedido => {
-          const productosMostrar = pedido.productos.map(item => {
-              const producto = productosPorId[item.idProducto.toString()];
-              return {
-                  nombre: producto.nombre,
-                  precio: producto.precio,
-                  cantidad: item.cantidad
-              };
-          });
-          const totalPedido = productosMostrar.reduce((total, producto) => total + (producto.precio * producto.cantidad), 0);
-          return {
-              productos: productosMostrar,
-              totalPedido: totalPedido,
-              fecha: pedido.fecha
-          };
-      });
-
-      res.render('tienda/pedido', {
-          path: '/pedido',
-          titulo: 'Mis Pedidos',
-          pedidos: pedidosMostrar 
-      });
-    })
-    .catch(err => {
-      console.error(err);
-      res.status(500).send('Error al obtener productos del pedido');
-    });
-
-}*/
-
 //corrigiendo el controlador getPedidos
 exports.getPedido = (req, res, next) => {
   const usuario = req.usuario; // Obtiene el usuario actual
@@ -363,6 +295,8 @@ exports.postModificarCantidad = (req, res, next) => {
       res.status(500).send('Error al modificar la cantidad');
     });
 };
+
+
 
 
 

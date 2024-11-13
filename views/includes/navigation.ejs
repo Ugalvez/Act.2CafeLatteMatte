@@ -10,10 +10,26 @@
             </a>
         </div>
             <div class="group-1">
-            <a href="/login" class="btn btn-sesion">
-                <ion-icon name="person"></ion-icon> Iniciar sesión
-            </a>
-            <a href="/carrito" class="btn btn-carrito">
+                
+            </div>
+            <div class="group-1">
+                <% if (!autenticado) { %>
+                <a href="/registrarse" class="">
+                    </ion-icon>Registrarse
+                    </a>
+                <a href="/login" class="btn btn-sesion">
+                    <ion-icon name="person"></ion-icon> Iniciar sesión
+                </a>
+                <% } else { %>
+                <a class="group-1">
+                    <form action="/salir" method="post">
+                        <input type="hidden" name="_csrf" value="<%= csrfToken %>">
+                        <button type="submit" class="btn btn-sesion">Salir</button>
+                        
+                    </form>
+                </a>
+                <% } %>
+                <a href="/carrito" class="btn btn-carrito">
                 <ion-icon size="large" name="basket-outline"></ion-icon>
             </a>
         </div>
@@ -31,11 +47,12 @@
                 <a class="<%= path === '/pedido' ? 'active' : '' %>" href="/pedido">Pedidos</a>
             </li>
  
-
+            <% if (esAdmin) { %>
             <li class="main-header__item">
                 <a class="<%= path === '/admin/adminHome' ? 'active' : '' %>" href="/admin/adminHome">Admin Productos
                 </a>
             </li>
+            <% } %>
         </ul>
     </nav>
 </header>
