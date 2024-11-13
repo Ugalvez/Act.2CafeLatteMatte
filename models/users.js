@@ -48,6 +48,14 @@ const usuarioSchema = new Schema({
     type: String,
     required: true
   },
+  apellidoPaterno: {
+    type: String,
+    required: true
+  },
+  apellidoMaterno: {
+    type: String,
+    required: true
+  },
   email: {
     type: String,
     required: true
@@ -55,6 +63,15 @@ const usuarioSchema = new Schema({
   password: {
     type: String,
     required: true
+  },
+  rol: {
+    type: String,
+    enum: ['administrador', 'lector'], // Define los roles posibles
+    default: 'lector' // Valor por defecto
+  },
+  fechaCreacion: {
+    type: Date,
+    default: Date.now // Fecha de creación automática
   },
   tokenReinicio: String,
   expiracionTokenReinicio: Date,
@@ -136,5 +153,5 @@ usuarioSchema.methods.agregarPedido = function (productos) {
 };
 
 
-module.exports = mongoose.model('Usuarios', usuarioSchema);
+module.exports = mongoose.model('Usuario', usuarioSchema);
 
