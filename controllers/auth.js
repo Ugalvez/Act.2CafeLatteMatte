@@ -1,19 +1,3 @@
-/*exports.getLogin = (req, res, next) => {
-    //console.log(req.session.autenticado);
-    res.render('../views/login', {
-      path: '/login',
-      titulo: 'Ingresar'
-    });
-  };
-
-exports.postLogin = (req, res, next) => {
-    //res.setHeader('Set-Cookie', 'autenticado=true');
-    //res.setHeader('Set-Cookie', 'autenticado=true; HttpOnly');
-    //res.setHeader('Set-Cookie', 'autenticado=true; HttpOnly; Secure');
-    req.session.autenticado = true;
-    res.redirect('/');
-};*/
-
 const Usuario = require('../models/users');
 const bcrypt = require('bcryptjs');
 const crypto = require('crypto');
@@ -21,13 +5,12 @@ const { check, body } = require('express-validator');
 const { validationResult } = require('express-validator');
 
 
-
 const nodemailer = require('nodemailer');
 const sendgridTransport = require('nodemailer-sendgrid-transport');
 
 
 // AQUI_SE_PONE_EL_API_KEY
-const APIKEY = '';
+const APIKEY = ''
 
 const transporter = nodemailer.createTransport(
   sendgridTransport({
@@ -185,6 +168,12 @@ exports.postRegistrarse = (req, res, next) => {
     })
     .then(result => {
       res.redirect('/login');
+      return transporter.sendMail({
+        to: email,
+        from: 'ugalvez9879@gmail.com',
+        subject: '¡Registro exitoso! ',
+        html: '<h2>¡Bienvenido a Café Latte Mate!</h2>'
+      })
     })
     .catch(err => {
       console.log(err)
@@ -201,3 +190,118 @@ exports.postSalir = (req, res, next) => {
     res.redirect('/');
   });
 }
+
+exports.getResetPassword = (req, res, next) => {
+  let mensaje = req.flash('error');
+  if (mensaje.length > 0) {
+    mensaje = mensaje[0];
+  } else {
+    mensaje = null;
+  }
+  res.render('auth/reset', {
+    titulo: "Restablecer Password",
+    path: "/resetPassword",
+    autenticado: false,
+    mensajeError: mensaje,
+    datosAnteriores: {
+      email: '',
+    },
+    erroresValidacion: []
+  })
+}
+
+exports.postResetPassword = (req, res, next) => {
+  crypto.randomBytes(32, (err, buffer) => {
+    if (err) {
+      console.log(err);
+      return res.redirect('auth/reset');
+    }
+    const token = buffer.toString('hex');
+    Usuario.findOne({ email: req.body.email })
+      .then(usuario => {
+        if (!usuario) {
+          req.flash('error', 'No se encontro usuario con dicho email');
+          return res.redirect('auth/reset');
+        }
+        usuario.tokenReinicio = token;
+        usuario.expiracionTokenReinicio = Date.now() + 3600000;
+        return usuario.save();
+      })
+      .then(result => {
+        const email = req.body.email;
+        res.render('auth/reset-msg', {
+          titulo: "Restablecer Password",
+          path: "/reset-msg",
+          email: email,
+        });
+        transporter.sendMail({
+          to: req.body.email,
+          from: 'ugalvez9879@gmail.com',
+          subject: 'Reinicio de Password',
+          html: `
+            <p>Tu has solicitado un reinicio de password</p>
+            <p>Has click en el sigueinte link <br>
+            <a href="http://localhost:3000/resetPassword/${token}">link</a> <br>
+            para restablecer tu password.</p>
+          `
+        });
+      })
+      .catch(err => {
+        console.log(err);
+      });
+  });
+};
+
+exports.getNuevoPassword = (req, res, next) => {
+  const token = req.params.token;
+  Usuario.findOne({ tokenReinicio: token, expiracionTokenReinicio: { $gt: Date.now() } })
+    .then(usuario => {
+      let mensaje = req.flash('error');
+      if (mensaje.length > 0) {
+        mensaje = mensaje[0];
+      } else {
+        mensaje = null;
+      }
+      res.render('auth/newPassword', {
+        path: '/newPassword',
+        titulo: 'Nuevo Password',
+        mensajeError: mensaje,
+        idUsuario: usuario._id.toString(),
+        tokenPassword: token
+      });
+    })
+    .catch(err => {
+      console.log(err);
+    });
+};
+
+exports.postNuevoPassword = (req, res, next) => {
+  const nuevoPassword = req.body.password;
+  const passwordConfirmado = req.body.passwordConfirmado;
+  const idUsuario = req.body.idUsuario;
+  const tokenPassword = req.body.tokenPassword;
+  let usuarioParaActualizar;
+
+
+  Usuario.findOne({
+    tokenReinicio: tokenPassword,
+    expiracionTokenReinicio: { $gt: Date.now() },
+    _id: idUsuario
+  })
+    .then(usuario => {
+      usuarioParaActualizar = usuario;
+      return bcrypt.hash(nuevoPassword, 12);
+    })
+    .then(hashedPassword => {
+      usuarioParaActualizar.password = hashedPassword;
+      usuarioParaActualizar.tokenReinicio = undefined;
+      usuarioParaActualizar.expiracionTokenReinicio = undefined;
+      return usuarioParaActualizar.save();
+    })
+    .then(result => {
+      res.redirect('/login');
+    })
+    .catch(err => {
+      console.log(err);
+    });
+};
