@@ -1,0 +1,36 @@
+<%- include('../includes/head.ejs') %>
+<link rel="stylesheet" href="/css/form.css">
+<link rel="stylesheet" href="/css/main.css">
+<link rel="stylesheet" href="/css/producto.css">
+</head>
+
+
+<body>
+<%- include('../includes/navigation.ejs') %>
+
+<div class="container-sm">
+    <div class="row justify-content-center py-5">
+        <div class="col-lg-5">
+            <div class="logueo">
+
+                <form action="/resetPassword" method="POST" novalidate>
+                    <h1 class="text-center mb-4">Ingrese su correo para recuperar su contraseña</h1>
+                        
+                        <div class="form-group">
+                            <label for="email">Correo:</label>
+                            <input type="email" id="email" name="email" required>
+                        </div>
+                        <div class="d-flex justify-content-center">
+                            <input type="hidden" name="_csrf" value="<%= csrfToken %>">
+                            <button class="btn btn-primary" type="submit">Recuperar contraseña</button>
+                        </div>
+                       
+                </form>
+
+
+            </div>
+        </div>
+    </div>
+</div>
+
+<%- include('../includes/end.ejs') %>

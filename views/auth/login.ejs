@@ -6,34 +6,43 @@
 
 
 <body>
-<%- include('../includes/navigation.ejs') %>
+    <%- include('../includes/navigation.ejs') %>
+    
+    <div class="container-sm">
+        <div class="row justify-content-center py-5">
+            <div class="col-lg-5">
+                <div class="logueo">
 
-<div class="container-sm">
-    <div class="row justify-content-center py-5">
-    <div class="col-lg-5">
-<div class="logueo">
+                    <form action="/login" method="POST" novalidate>
+                        <h1 class="text-center mb-4">Iniciar sesión</h1>
+                        <div class="form-control">
+                            <% if (mensajeError) { %>
+                                <div class="user-message user-message--error"><%= mensajeError %></div>
+                            <% } %>
+                            <div class="form-group">
+                                <label for="email">Correo:</label>
+                                <input class="<%= erroresValidacion.find(e => e.path === 'email') ? 'invalid' : '' %>"
+                                type="email" id="email" name="email" value="<%= datosAnteriores.email %>" required>
+                            </div>
+                            <div class="form-group"
+                                <label for="password"> Contraseña:</label>
+                                <input class="<%= erroresValidacion.find(e => e.path === 'password') ? 'invalid' : '' %>"
+                                 type="password" id="password" name="password" value="<%= datosAnteriores.password %>" required>
+                            </div>
+                            <div class="d-flex justify-content-center">
+                                <input type="hidden" name="_csrf" value="<%= csrfToken %>">
+                                <button class="btn btn-primary" type="submit">Iniciar sesión</button>
+                            </div>
+                            <div class="d-flex justify-content-center">
+                                <a href="/resetPassword" class="" type="submit">Olvidé mi contraseña</a>
+                            </div>
+                        </div>
+                    </form>
 
-<form action="/login" method="POST">
-    <h1 class="text-center mb-4">Iniciar sesión</h1>
-<div class="form-group">
-    <label for="email">Correo:</label>
-    <input type="email" id="email" name="email" required>
-</div>
-<div class="form-group"
-    <label for="password"> Contraseña:</label>
-    <input type="password" id="password" name="password" required>
-</div>
-<div class="d-flex justify-content-center">
-    <input type="hidden" name="_csrf" value="<%= csrfToken %>">
-    <button class="btn btn-primary" type="submit">Iniciar sesión</button>
-</div>
 
-</form>
-
-
-</div>
-</div>
-</div>
-</div>
+                </div>
+            </div>
+        </div>
+    </div>
 
 <%- include('../includes/end.ejs') %>

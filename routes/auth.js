@@ -30,7 +30,7 @@ router.get('/registrarse', authController.getRegistrarse);
 router.post('/registrarse', [
     check('email')
         .isEmail()
-        .withMessage('Por favor ingrese un email valido')
+        .withMessage('Por favor ingrese un email válido')
         .normalizeEmail()
         .custom((value, { req }) => {
             /*
@@ -63,6 +63,11 @@ router.post('/registrarse', [
 
 
 router.post('/salir', authController.postSalir);
+
+router.get('/resetPassword', authController.getResetPassword)
+router.post('/resetPassword', authController.postResetPassword)
+router.get('/resetPassword/:token', authController.getNuevoPassword)
+router.post('/newPassword', authController.postNuevoPassword)
 
 
 module.exports = router;

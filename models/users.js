@@ -66,8 +66,8 @@ const usuarioSchema = new Schema({
   },
   rol: {
     type: String,
-    enum: ['administrador', 'lector'], // Define los roles posibles
-    default: 'lector' // Valor por defecto
+    enum: ['administrador', 'cliente'], // Define los roles posibles
+    default: 'cliente' // Valor por defecto
   },
   fechaCreacion: {
     type: Date,
