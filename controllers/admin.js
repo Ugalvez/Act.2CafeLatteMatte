@@ -191,3 +191,25 @@ exports.postEliminarProducto = (req, res, next) => {
         })
         .catch(err => console.log(err));
 }; 
+
+exports.getCrearUsuario = (req, res, next) => {
+    let mensaje = req.flash('error');
+    if (mensaje.length > 0) {
+      mensaje = mensaje[0];
+    } else {
+      mensaje = null;
+    }
+      res.render('auth/registrarse',{
+        titulo: "Crear Usuario",
+        path: "/crear-usuario",
+        autenticado: req.session.usuario,
+        mensajeError: mensaje,
+        datosAnteriores: {
+          nombre: '',
+          fechaNacimiento: '',
+          email: '',
+          password: ''
+        },
+        erroresValidacion: []
+      })
+  }

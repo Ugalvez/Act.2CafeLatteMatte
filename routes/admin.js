@@ -6,6 +6,7 @@ const { body } = require('express-validator');
 //const raizDir = require('../utils/path');
 
 const adminController = require('../controllers/admin');
+const authController = require('../controllers/auth');
 const isAdmin = require('../middleware/is-admin');
 
 
@@ -62,6 +63,8 @@ router.post('/editar-producto',
   adminController.postEditarProducto);
 
 router.post('/eliminar-producto', isAdmin, adminController.postEliminarProducto);
+
+router.get('/crear-usuario', isAdmin, adminController.getCrearUsuario);
  
 
    /*

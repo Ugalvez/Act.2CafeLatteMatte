@@ -54,6 +54,7 @@ app.use(csrfProtection);
 app.use(flash());
 
 
+
 app.use((req, res, next) => {
   if(!req.session.usuario) {
     return next();
@@ -78,6 +79,7 @@ app.use((req, res, next) => {
   res.locals.esAdmin = req.session.usuario && req.session.usuario.rol === 'administrador';
   next();
 });
+
 
 app.use('/admin',adminRoutes);
 app.use(tiendaRoutes);
