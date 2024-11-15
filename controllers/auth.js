@@ -8,6 +8,8 @@ const { validationResult } = require('express-validator');
 const nodemailer = require('nodemailer');
 const sendgridTransport = require('nodemailer-sendgrid-transport');
 
+const isAdmin = require('../middleware/is-admin');
+
 
 // AQUI_SE_PONE_EL_API_KEY
 const APIKEY = ''
@@ -104,19 +106,19 @@ exports.getRegistrarse = (req, res, next) => {
   } else {
     mensaje = null;
   }
-  res.render('auth/registrarse',{
-    titulo: "Registrarse",
-    path: "/registrarse",
-    autenticado: false,
-    mensajeError: mensaje,
-    datosAnteriores: {
-      nombre: '',
-      fechaNacimiento: '',
-      email: '',
-      password: ''
-    },
-    erroresValidacion: []
-  })
+    res.render('auth/registrarse',{
+      titulo: "Registrarse",
+      path: "/registrarse",
+      autenticado: req.session.usuario,
+      mensajeError: mensaje,
+      datosAnteriores: {
+        nombre: '',
+        fechaNacimiento: '',
+        email: '',
+        password: ''
+      },
+      erroresValidacion: []
+    })
 }
 
 exports.postRegistrarse = (req, res, next) => {
