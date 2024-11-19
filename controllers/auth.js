@@ -127,7 +127,7 @@ exports.postRegistrarse = (req, res, next) => {
   const apellidoMaterno = req.body.apellidoMaterno;
   const fechaNacimiento = req.body.fechaNacimiento;
   const email = req.body.email;
-  const rol = req.session.usuario && req.session.usuario.rol === 'administrador' ? req.body.rol : 'lector';
+  const rol = req.session.usuario && req.session.usuario.rol === 'administrador' ? req.body.rol : 'cliente';
   const password = req.body.password;
   const passwordConfirmado = req.body.passwordConfirmado;
 
