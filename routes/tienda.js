@@ -36,18 +36,18 @@ router.post('/carrito/modificar-cantidad', isAuth, tiendaController.postModifica
 router.post('/carrito/eliminar-producto', isAuth, tiendaController.postEliminarProductoCarrito);
 
 
-  /*
 
-, (req, res, next) => {
-  //const productos = adminData.productos; Aqui serian productos en carrito
-  res.render('carrito',{
-    titulo: "Carrito de Compras",
-    path: "/carrito"
-  })
- })
+// Routes del Footer
+router.get('/sobre-nosotros', tiendaController.getSobreNosotros);
+router.get('/contacto', tiendaController.getContacto);
+router.get('/libro-de-reclamaciones', tiendaController.getLibroReclamaciones);
+router.get('/nuestros-locales', tiendaController.getNuestrosLocales);
+router.get('/politicas-de-delivery', tiendaController.getPoliticasDelivery);
+router.get('/politicas-de-privacidad', tiendaController.getPoliticasPrivacidad);
+router.get('/preguntas-frecuentes', tiendaController.getPreguntasFrecuentes);
+router.get('/terminos-y-condiciones', tiendaController.getTerminosyCondiciones);
 
 
-  */
 
 
 
