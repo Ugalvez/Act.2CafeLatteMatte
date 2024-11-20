@@ -300,6 +300,68 @@ exports.postModificarCantidad = (req, res, next) => {
 
 
 
+// Elementos del footer
+
+exports.getSobreNosotros = (req, res) => {
+  res.render('Footer/SobreNosotros', {
+    titulo: 'Sobre Nosotros',
+    path: '/sobre-nosotros'
+  });
+};
+
+exports.getContacto = (req, res) => {
+  res.render('Footer/Contacto', {
+    titulo: 'Contacto',
+    path: '/contacto'
+  });
+};
+
+exports.getLibroReclamaciones = (req, res) => {
+  res.render('Footer/LibroDeReclamaciones', {
+    titulo: 'Libro de Reclamaciones',
+    path: '/libro-de-reclamaciones'
+  });
+};
+
+exports.getNuestrosLocales = (req, res) => {
+  res.render('Footer/NuestrosLocales', {
+    titulo: 'Nuestros Locales',
+    path: '/nuestros-locales'
+  });
+};
+
+exports.getPoliticasDelivery = (req, res) => {
+  res.render('Footer/PolíticasDeDelivery', {
+    titulo: 'Politicas de Delivery',
+    path: '/politicas-de-delivery'
+  });
+};
+
+exports.getPoliticasPrivacidad = (req, res) => {
+  res.render('Footer/PoliticasDePrivacidad', {
+    titulo: 'Politicas de Privacidad',
+    path: '/politicas-de-privacidad'
+  });
+};
+
+exports.getPreguntasFrecuentes = (req, res) => {
+  res.render('Footer/PreguntasFrecuentes', {
+    titulo: 'Preguntas Frecuentes',
+    path: '/preguntas-frecuentes'
+  });
+};
+
+exports.getTerminosyCondiciones = (req, res) => {
+  res.render('Footer/TerminosyCondiciones', {
+    titulo: 'Terminos y Condiciones',
+    path: '/terminos-y-condiciones'
+  });
+};
+
+
+
+
+
 
 
 
