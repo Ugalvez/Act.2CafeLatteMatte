@@ -12,6 +12,11 @@ const Usuario = require('../models/users');
 const mongoose = require('mongoose');
 
 
+
+
+
+
+/*
 exports.getIndex = (req, res) => {
   Producto.find()
       .then(productos => {
@@ -24,6 +29,37 @@ exports.getIndex = (req, res) => {
       })
       .catch(err => console.log(err));
 }
+*/
+
+exports.getIndex = (req, res) => {
+  Producto.find()
+      .then(productos => {
+          // Agrupar los productos por categorías
+          const categorias = {
+              cafe: productos.filter(p => p.categoria === 'Café'),
+              sandwich: productos.filter(p => p.categoria === 'Sandwich'),
+              postre: productos.filter(p => p.categoria === 'Postre')
+          };
+
+          // Enviar los productos organizados por categorías a la vista
+          res.render('index', {
+              categorias: categorias,
+              titulo: "Pagina principal de la Tienda",
+              path: "/"
+          });
+      })
+      .catch(err => console.log(err));
+};
+
+
+
+
+
+
+
+
+
+
 
 
 exports.getProductos = (req, res) => {
@@ -158,6 +194,11 @@ exports.getCarrito = (req, res, next) => {
 
 
 
+
+
+
+
+
 exports.postCarrito = (req, res) => {
   const idProducto = req.body.idProducto;
 
@@ -181,6 +222,8 @@ exports.postEliminarProductoCarrito = (req, res, next) => {
       .catch(err => console.log(err));
 
 };
+
+
 
 
 
@@ -246,6 +289,10 @@ usuario.limpiarCarrito()
         res.status(500).send('Error al confirmar el pedido');
     });
 };
+
+
+
+
 
 
 

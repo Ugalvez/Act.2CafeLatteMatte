@@ -1,64 +1,112 @@
-
-<%- include ('includes/head.ejs') %>
+<%- include('includes/head.ejs') %>
 <link rel="stylesheet" href="/css/producto.css">
 </head>
 <body>
 
-
-
-<%- include ('includes/navigation.ejs') %>
-
+<%- include('includes/navigation.ejs') %>
 
 <section class="imagen-destacada">
-   
+   <!-- Aquí puedes agregar una imagen destacada si lo deseas -->
 </section>
 
-    <main>
-        <div class="container">
-            <div class="my-5">
+<main>
+    <div class="container">
+        <div class="my-5">
+            <h1 class="mb-4 pb-3 text-center">Los favoritos de la casa</h1>
 
-                <h1 class="mb-4 pb-3 text-center">Los favoritos de la casa</h1>
-
-        <% if(prods.length > 0) { %>
-
-
-            <div class="row">
-                <% for (let producto of prods) { %>
-                    <div class="col-lg-4">
-                    <article class ="card product-item mb-4">
-                       
-                           
-                      
-                        <div class="card_image">
-                            <img src="<%= producto.urlImagen%>" alt="Libro HP">
-                        </div>
-
-                        <div class="card_content">
-                            <h2 class="mb-3"><%= producto.nombre %></h2>
-                           
-                            <p class="product_description"><%= producto.descripcion%></p>
-                            <p class="product_disponibilidad"> Stock: <%= producto.stock%> unidades</p>
-                          <p class="product_categoria"> <%= producto.categoria%></p>
-                        
-                        <a href="/productos/<%= producto.id %>"> Ver Detalles</a>
-          
-                        <div class = "card_actions w-100 d-flex justify-content-between align-items-center pt-4">
-                        <h2 class="product_price">S/ <%= producto.precio%></h2>
-                        <!--<h2 class="product_price">S/ <%= producto.precioPromo%></h2>-->
-                        <%- include('includes/agregar-al-carrito.ejs', {producto: producto})%>
-                        </div>
-
+            <!-- Mostrar productos por categoría -->
+            <div class="categoria">
+                <h2 class="titulo-categoria">Café</h2>
+                <% if (categorias.cafe.length > 0) { %>
+                    <div class="row">
+                        <% for (let producto of categorias.cafe) { %>
+                            <div class="col-lg-4">
+                                <article class="card product-item mb-4">
+                                    <div class="card_image">
+                                        <img src="<%= producto.urlImagen %>" alt="<%= producto.nombre %>">
+                                    </div>
+                                    <div class="card_content">
+                                        <h2 class="mb-3"><%= producto.nombre %></h2>
+                                        <p class="product_description"><%= producto.descripcion %></p>
+                                        <p class="product_disponibilidad">Stock: <%= producto.stock %> unidades</p>
+                                        <p class="product_categoria"><%= producto.categoria %></p>
+                                        <a href="/productos/<%= producto.id %>">Ver Detalles</a>
+                                        <div class="card_actions w-100 d-flex justify-content-between align-items-center pt-4">
+                                            <h2 class="product_price">S/ <%= producto.precio %></h2>
+                                            <%- include('includes/agregar-al-carrito.ejs', {producto: producto}) %>
+                                        </div>
+                                    </div>
+                                </article>
+                            </div>
+                        <% } %>
                     </div>
-                    </article>
-                </div>
-                        
+                <% } else { %>
+                    <p>No hay productos en la categoría Café.</p>
                 <% } %>
             </div>
-        <% } else { %>
-            <h1>No hay productos</h1>
-       <% } %>
+
+            <div class="categoria">
+                <h2 class="titulo-categoria">Sandwich</h2>
+                <% if (categorias.sandwich.length > 0) { %>
+                    <div class="row">
+                        <% for (let producto of categorias.sandwich) { %>
+                            <div class="col-lg-4">
+                                <article class="card product-item mb-4">
+                                    <div class="card_image">
+                                        <img src="<%= producto.urlImagen %>" alt="<%= producto.nombre %>">
+                                    </div>
+                                    <div class="card_content">
+                                        <h2 class="mb-3"><%= producto.nombre %></h2>
+                                        <p class="product_description"><%= producto.descripcion %></p>
+                                        <p class="product_disponibilidad">Stock: <%= producto.stock %> unidades</p>
+                                        <p class="product_categoria"><%= producto.categoria %></p>
+                                        <a href="/productos/<%= producto.id %>">Ver Detalles</a>
+                                        <div class="card_actions w-100 d-flex justify-content-between align-items-center pt-4">
+                                            <h2 class="product_price">S/ <%= producto.precio %></h2>
+                                            <%- include('includes/agregar-al-carrito.ejs', {producto: producto}) %>
+                                        </div>
+                                    </div>
+                                </article>
+                            </div>
+                        <% } %>
+                    </div>
+                <% } else { %>
+                    <p>No hay productos en la categoría Sandwich.</p>
+                <% } %>
+            </div>
+
+            <div class="categoria">
+                <h2 class="titulo-categoria">Postre</h2>
+                <% if (categorias.postre.length > 0) { %>
+                    <div class="row">
+                        <% for (let producto of categorias.postre) { %>
+                            <div class="col-lg-4">
+                                <article class="card product-item mb-4">
+                                    <div class="card_image">
+                                        <img src="<%= producto.urlImagen %>" alt="<%= producto.nombre %>">
+                                    </div>
+                                    <div class="card_content">
+                                        <h2 class="mb-3"><%= producto.nombre %></h2>
+                                        <p class="product_description"><%= producto.descripcion %></p>
+                                        <p class="product_disponibilidad">Stock: <%= producto.stock %> unidades</p>
+                                        <p class="product_categoria"><%= producto.categoria %></p>
+                                        <a href="/productos/<%= producto.id %>">Ver Detalles</a>
+                                        <div class="card_actions w-100 d-flex justify-content-between align-items-center pt-4">
+                                            <h2 class="product_price">S/ <%= producto.precio %></h2>
+                                            <%- include('includes/agregar-al-carrito.ejs', {producto: producto}) %>
+                                        </div>
+                                    </div>
+                                </article>
+                            </div>
+                        <% } %>
+                    </div>
+                <% } else { %>
+                    <p>No hay productos en la categoría Postre.</p>
+                <% } %>
+            </div>
+
         </div>
-        </div>
-    </main>
-    
-    <%- include ('includes/end.ejs') %>
+    </div>
+</main>
+
+<%- include('includes/end.ejs') %>
