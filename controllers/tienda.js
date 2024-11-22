@@ -27,17 +27,50 @@ exports.getIndex = (req, res) => {
 
 
 exports.getProductos = (req, res) => {
-  Producto.find()
-      .then(productos => {
-          res.render('productos', {
-              prods: productos,
-              titulo: "Productos de la tienda",
-              path: "/productos"
-          });
+  const page = parseInt(req.query.page) || 1; // Página actual (por defecto 1)
+  const itemsPerPage = 6; // Número de productos por página
+  let totalProductos;
 
-      })
-      .catch(err => console.log(err));
+  Producto.find()
+    .countDocuments() // Cuenta el número total de productos
+    .then(numProductos => {
+      totalProductos = numProductos;
+      return Producto.find()
+        .skip((page - 1) * itemsPerPage) // Salta productos de páginas previas
+        .limit(itemsPerPage); // Limita el número de productos a mostrar
+    })
+    .then(productos => {
+      res.render('productos', {
+        prods: productos,
+        titulo: "Productos de la tienda",
+        path: "/productos",
+        currentPage: page,
+        hasNextPage: itemsPerPage * page < totalProductos,
+        hasPreviousPage: page > 1,
+        nextPage: page + 1,
+        previousPage: page - 1,
+        lastPage: Math.ceil(totalProductos / itemsPerPage),
+        totalProductos: totalProductos
+      });
+    })
+    .catch(err => console.log(err));
 };
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 
@@ -59,7 +92,34 @@ exports.getProductos = (req, res) => {
   }
 
 
- 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+
+
 
 exports.getCarrito = (req, res, next) => {
   
@@ -94,6 +154,9 @@ exports.getCarrito = (req, res, next) => {
     
     .catch(err => console.log(err));
 };
+
+
+
 
 exports.postCarrito = (req, res) => {
   const idProducto = req.body.idProducto;
@@ -183,6 +246,8 @@ usuario.limpiarCarrito()
         res.status(500).send('Error al confirmar el pedido');
     });
 };
+
+
 
 
 //corrigiendo el controlador getPedidos

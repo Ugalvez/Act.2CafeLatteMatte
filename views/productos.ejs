@@ -39,13 +39,6 @@
                     </div>
 
 
-                        <!--
-                            
-                            <form action = "/agregar-carrito " method="POST">
-                            <button class="btn" >Agregar al Carrito</button>
-                        </form>
-                        </div>-->
-                        
 
                     </article>
                     </div>
@@ -58,6 +51,24 @@
     
     
     </div>
+
+
+            <!-- Paginación -->
+            <div class="pagination">
+                <% if (hasPreviousPage) { %>
+                    <a href="/productos?page=<%= previousPage %>">Anterior</a>
+                <% } %>
+                <% for (let i = 1; i <= lastPage; i++) { %>
+                    <a href="/productos?page=<%= i %>" <%= currentPage === i ? 'aria-current="page"' : '' %>>
+                        <%= i %>
+                    </a>
+                <% } %>
+                <% if (hasNextPage) { %>
+                    <a href="/productos?page=<%= nextPage %>">Siguiente</a>
+                <% } %>
+            </div>
+        </div>
+    </main>
     </div>
     </main>
     
