@@ -259,57 +259,6 @@ section.container{
 
 /*------>footer<---------*/
 
-.footer {
-  background-color: #333;
-  color: #fff;
-  padding: 20px 0;
-  font-family: Arial, sans-serif;
-  font-size: 16px;
-}
-.footer-logo img {
-  max-width: 100px;
-  background-color: #666;
-  padding: 10px;
-}
-.footer-section {
-  flex: 1;
-  min-width: 180px;
-  margin: 10px;
-}
-.footer-section h4 {
-  font-weight: 600;
-  margin-bottom: 10px;
-  font-size: 1.25rem;
-}
-.footer-section ul {
-  list-style: none;
-  padding: 0;
-}
-.footer-section ul li {
-  margin-bottom: 5px;
-}
-.footer-section a {
-  color: #ccc;
-  text-decoration: none;
-}
-.footer-section a:hover {
-  color: #fff;
-}
-.footer-section .redes {
-  display: flex;
-  flex-direction: column;
-  gap: 10px;
-}
-.footer-section .redes ion-icon {
-  font-size: 32px;
-}
-.footer-bottom {
-  text-align: center;
-  padding-top: 20px;
-  font-size: 12px;
-  color: #bbb;
-}
-
 
 
 
@@ -369,472 +318,6 @@ section.container{
 
 
 
-
-
-
-.locales-container {
-  display: flex; /* Utilizamos Flexbox para alinear las imágenes en fila */
-  justify-content: center; /* Centrar las imágenes en el eje horizontal */
-  align-items: center; /* Centrar en el eje vertical */
-  gap: 10px; /* Reducir el espacio entre las imágenes */
-  margin: 20px 0;
-  text-align: center; /* Centra el texto dentro de los locales */
-}
-
-.local {
-  position: relative; /* Necesario para colocar el texto dentro de la imagen */
-  width: 45%; /* Aseguramos que cada imagen ocupe la mitad del contenedor */
-}
-
-.local-img {
-  width: 100%; /* Las imágenes ocupan todo el ancho de su contenedor */
-  height: auto; /* Mantiene la proporción */
-  display: block; /* Elimina cualquier espacio debajo de la imagen */
-  transition: opacity 0.3s ease; /* Añade un efecto de opacidad para el hover */
-}
-
-.local-img:hover {
-  opacity: 0.7; /* Opacidad para oscurecer la imagen al pasar el mouse */
-}
-
-
-.local-info {
-  display: none; /* Ocultar la información inicialmente */
-  position: absolute;
-  bottom: 10px;
-  left: 10px;
-  background-color: rgba(0, 0, 0, 0.6); /* Fondo semitransparente */
-  color: white;
-  padding: 10px;
-  border-radius: 5px;
-  font-size: 14px;
-}
-
-/* Mostrar la información al pasar el mouse sobre la imagen */
-.local:hover .local-info {
-  display: block;
-}
-
-/* Estilo para el título de la sección */
-.titulo-locales {
-  text-align: center; /* Centrar el texto */
-  margin: 20px 0; /* Espaciado arriba y abajo */
-}
-
-.titulo-locales h1 {
-  font-size: 36px;
-  color: #333; /* Color del texto */
-  font-weight: bold;
-}
-
-.local.dark .local-img {
-  opacity: 0.6; /* Oscurecer la imagen */
-}
-
-.local.dark .info {
-  display: block; /* Mostrar la información */
-}
-
-iframe {
-  display: block;
-  margin: 30px auto; /* Centrar el iframe */
-  max-width: 100%; /* Limitar el tamaño máximo */
-  width: 800px; /* Establecer un tamaño fijo para el mapa */
-  height: 450px; /* Altura fija para el mapa */
-  border: 0; /* Eliminar el borde */
-}
-
-.sobre-nosotros-container {
-  margin-top: 50px; /* Espacio adicional desde la parte superior (barra de navegación) */
-  margin-bottom: 50px; /* Espacio adicional hacia abajo (pie de página) */
-  padding: 20px; /* Opcional: agregar un poco de relleno para mejorar el espaciado interior */
-}
-
-.titulo-sobre {
-  margin-bottom: 20px; /* Espacio entre el título y el texto */
-}
-
-.texto-sobre {
-  line-height: 1.6; /* Aumentar la altura de línea para que el texto esté más separado y sea más legible */
-}
-
-
-
-
-
-
-/* Contenedor de la página de contacto */
-.contacto-container {
-  width: 80%;
-  max-width: 900px;
-  margin: 50px auto;
-  padding: 30px;
-  background-color: #fff;
-  border-radius: 8px;
-  box-shadow: 0 0 15px rgba(0, 0, 0, 0.1);
-}
-
-/* Título de la página de contacto */
-.titulo-contacto {
-  font-size: 2.5rem;
-  color: #333;
-  text-align: center;
-  margin-bottom: 20px;
-}
-
-/* Descripción */
-.descripcion-contacto {
-  font-size: 1.2rem;
-  color: #666;
-  text-align: center;
-  margin-bottom: 30px;
-  line-height: 1.6;
-}
-
-/* Formulario de contacto */
-.form-contacto {
-  display: flex;
-  flex-direction: column;
-}
-
-/* Campos del formulario */
-.form-contacto .form-label {
-  font-size: 1rem;
-  color: #333;
-  margin-bottom: 8px;
-}
-
-/* Estilo de los campos de entrada */
-.form-contacto .form-control {
-  font-size: 1rem;
-  padding: 12px;
-  margin-bottom: 20px;
-  border-radius: 5px;
-  border: 1px solid #ddd;
-  width: 100%;
-}
-
-/* Estilo para el campo de texto de mensaje */
-.form-contacto textarea.form-control {
-  resize: vertical;
-}
-
-/* Botón de envío */
-.form-contacto .btn {
-  background-color: #007bff;
-  border: none;
-  padding: 12px 20px;
-  font-size: 1rem;
-  color: white;
-  cursor: pointer;
-  border-radius: 5px;
-  transition: background-color 0.3s ease;
-}
-
-.form-contacto .btn:hover {
-  background-color: #0056b3;
-}
-
-/* Estilos para el footer */
-footer {
-  margin-top: 40px;
-  text-align: center;
-  color: #666;
-  font-size: 0.9rem;
-}
-
-/* Separación de los elementos del formulario */
-.form-contacto .mb-3 {
-  margin-bottom: 20px;
-}
-
-/* Espaciado entre el formulario y el footer */
-.contacto-container {
-  padding-bottom: 60px;
-}
-
-
-
-
-.faq-container {
-  padding: 40px 20px; /* Aumentamos el padding para dar más espacio */
-  background-color: #f8f8f8;
-  margin-top: 20px; /* Separación de la barra de navegación */
-  margin-bottom: 30px; /* Separación del footer */
-}
-
-.titulo-faq {
-  font-size: 2.5rem;
-  color: #333;
-  text-align: center;
-}
-
-.descripcion-faq {
-  font-size: 1.2rem;
-  color: #555;
-  text-align: center;
-  margin-bottom: 30px;
-}
-
-.faq-item {
-  margin-bottom: 20px;
-}
-
-.pregunta {
-  font-size: 1.5rem;
-  color: #222;
-  font-weight: bold;
-}
-
-.respuesta {
-  font-size: 1.1rem;
-  color: #444;
-  margin-top: 10px;
-}
-
-
-
-
-
-/* Contenedor principal */
-.terminos-container {
-  margin: 30px auto;
-  padding: 20px;
-  max-width: 800px;
-  background-color: #fff;
-  box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
-  border-radius: 8px;
-}
-
-/* Título principal */
-.titulo-terminos {
-  font-size: 2.5rem;
-  color: #333;
-  margin-bottom: 20px;
-}
-
-/* Descripción corta debajo del título */
-.descripcion-terminos {
-  font-size: 1.1rem;
-  color: #666;
-  margin-bottom: 30px;
-}
-
-/* Contenido de los términos */
-.terminos-content {
-  text-align: left;
-}
-
-/* Títulos de secciones */
-.terminos-content h2 {
-  font-size: 1.6rem;
-  color: #333;
-  margin-top: 20px;
-  margin-bottom: 10px;
-  border-bottom: 2px solid #f2a900;
-  padding-bottom: 5px;
-}
-
-/* Párrafos dentro de las secciones */
-.terminos-content p {
-  font-size: 1rem;
-  color: #555;
-  line-height: 1.6;
-  margin-bottom: 20px;
-}
-
-/* Asegurarse de que no se sobrepase el contenido */
-.terminos-container {
-  padding-bottom: 50px;
-}
-
-
-
-
-
-.delivery-container {
-  margin: 30px auto;
-  padding: 20px;
-  max-width: 800px;
-  background-color: #fff;
-  box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
-  border-radius: 8px;
-}
-
-/* Título principal */
-.titulo-delivery {
-  font-size: 2.5rem;
-  color: #333;
-  margin-bottom: 20px;
-}
-
-/* Descripción corta debajo del título */
-.descripcion-delivery {
-  font-size: 1.1rem;
-  color: #666;
-  margin-bottom: 30px;
-}
-
-/* Contenido de las políticas */
-.delivery-content {
-  text-align: left;
-}
-
-/* Títulos de secciones */
-.delivery-content h2 {
-  font-size: 1.6rem;
-  color: #333;
-  margin-top: 20px;
-  margin-bottom: 10px;
-  border-bottom: 2px solid #f2a900;
-  padding-bottom: 5px;
-}
-
-/* Párrafos dentro de las secciones */
-.delivery-content p {
-  font-size: 1rem;
-  color: #555;
-  line-height: 1.6;
-  margin-bottom: 20px;
-}
-
-/* Asegurarse de que no se sobrepase el contenido */
-.delivery-container {
-  padding-bottom: 50px;
-}
-
-
-
-
-
-
-.privacy-container {
-  margin: 30px auto;
-  padding: 20px;
-  max-width: 800px;
-  background-color: #fff;
-  box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
-  border-radius: 8px;
-}
-
-/* Título principal */
-.titulo-privacy {
-  font-size: 2.5rem;
-  color: #333;
-  margin-bottom: 20px;
-}
-
-/* Descripción corta debajo del título */
-.descripcion-privacy {
-  font-size: 1.1rem;
-  color: #666;
-  margin-bottom: 30px;
-}
-
-/* Contenido de las políticas */
-.privacy-content {
-  text-align: left;
-}
-
-/* Títulos de secciones */
-.privacy-content h2 {
-  font-size: 1.6rem;
-  color: #333;
-  margin-top: 20px;
-  margin-bottom: 10px;
-  border-bottom: 2px solid #f2a900;
-  padding-bottom: 5px;
-}
-
-/* Párrafos dentro de las secciones */
-.privacy-content p {
-  font-size: 1rem;
-  color: #555;
-  line-height: 1.6;
-  margin-bottom: 20px;
-}
-
-/* Asegurarse de que no se sobrepase el contenido */
-.privacy-container {
-  padding-bottom: 50px;
-}
-
-
-
-
-
-.reclamaciones-container {
-  margin: 30px auto;
-  padding: 20px;
-  max-width: 800px;
-  background-color: #fff;
-  box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
-  border-radius: 8px;
-}
-
-/* Título principal */
-.titulo-reclamaciones {
-  font-size: 2.5rem;
-  color: #333;
-  margin-bottom: 20px;
-}
-
-/* Descripción corta debajo del título */
-.descripcion-reclamaciones {
-  font-size: 1.1rem;
-  color: #666;
-  margin-bottom: 30px;
-}
-
-/* Formulario de reclamación */
-.form-reclamaciones {
-  text-align: left;
-}
-
-/* Campos del formulario */
-.form-reclamaciones .form-label {
-  font-size: 1.1rem;
-  color: #333;
-}
-
-/* Input y textarea */
-.form-reclamaciones .form-control,
-.form-reclamaciones .form-select {
-  font-size: 1rem;
-  padding: 10px;
-  margin-bottom: 15px;
-  border-radius: 5px;
-  border: 1px solid #ddd;
-  width: 100%;
-}
-
-/* Botón de envío */
-.form-reclamaciones .btn {
-  background-color: #f2a900;
-  border: none;
-  padding: 10px 20px;
-  font-size: 1rem;
-  color: white;
-  cursor: pointer;
-  border-radius: 5px;
-  transition: background-color 0.3s ease;
-}
-
-.form-reclamaciones .btn:hover {
-  background-color: #e69a00;
-}
-
-/* Mensaje de agradecimiento */
-.agradecimiento-reclamaciones {
-  font-size: 1.1rem;
-  color: #666;
-  margin-top: 30px;
-  text-align: center;
-}
-
-.reclamaciones-container {
-  padding-bottom: 50px;
-}
 
 
 
@@ -898,4 +381,88 @@ footer {
   color: white;
 }
 
+.titulo-categoria {
+  font-size: 2rem;               /* Tamaño de fuente */
+  font-weight: bold;             /* Peso de la fuente */
+  text-transform: uppercase;     /* Transformar a mayúsculas */
+  color: #000000;                /* Color de texto */
+  text-align: center;            /* Centrado del texto */
+  margin: 20px 0;                /* Espaciado arriba y abajo */
+  letter-spacing: 2px;           /* Espaciado entre letras */
+  border-bottom: 3px solid #000000; /* Línea decorativa debajo */
+  padding-bottom: 10px;          /* Espaciado debajo del texto */
+}
 
+
+
+
+
+
+
+
+
+
+
+
+
+/* Ocultamos el checkbox original */
+#favorito {
+  display: none;
+}
+
+/* Estilo para el contorno del corazón */
+#favorito + label {
+  position: relative;
+  font-size: 1.5rem; /* Tamaño del texto */
+  margin-left: 15px; /* Espacio a la izquierda */
+  cursor: pointer;
+  padding-left: 45px; /* Espacio para el contorno del corazón */
+  line-height: 25px; /* Ajustar la altura de la línea */
+  user-select: none;
+  transition: all 0.3s ease;
+}
+
+/* Corazón como contorno en el estado no marcado */
+#favorito + label::before {
+  content: "";
+  position: absolute;
+  left: 0;
+  top: 0;
+  width: 30px; /* Tamaño del corazón */
+  height: 30px; /* Tamaño del corazón */
+  background-color: transparent;
+  border: 3px solid #A57849; /* Borde color marrón */
+  border-radius: 50%;
+  transition: all 0.3s ease;
+}
+
+/* Cuando el checkbox está marcado, cambia el fondo del corazón */
+#favorito:checked + label::before {
+  background-color: #A57849; /* Fondo marrón cuando marcado */
+  border-color: #A57849; /* Borde marrón */
+}
+
+/* Agregar el ícono de corazón dentro del checkbox */
+#favorito + label::after {
+  content: "\2764"; /* Símbolo de corazón */
+  position: absolute;
+  top: 4px; /* Ajusta la posición vertical */
+  left: 6px; /* Ajusta la posición horizontal */
+  font-size: 22px; /* Tamaño del ícono */
+  color: white; /* Color del ícono */
+  transition: all 0.3s ease;
+}
+
+/* Cuando el checkbox está marcado, el ícono de corazón cambia de color */
+#favorito:checked + label::after {
+  color: white; /* Mantener blanco cuando marcado */
+}
+
+/* Efecto hover: al pasar el ratón sobre el checkbox */
+#favorito + label:hover::before {
+  border-color: #B68F62; /* Cambiar el borde cuando el mouse pasa */
+}
+
+#favorito + label:hover::after {
+  color: #B68F62; /* Cambiar el color del ícono cuando el mouse pasa */
+}

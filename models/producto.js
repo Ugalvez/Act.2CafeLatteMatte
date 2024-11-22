@@ -39,6 +39,10 @@ const productoSchema = new Schema({
   categoria: {
     type: String,
     required: true
+  },
+  favorito: { 
+    type: Boolean,
+    default: false
   }
 });
 

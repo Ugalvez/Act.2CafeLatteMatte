@@ -21,6 +21,7 @@ exports.getCrearProducto = (req,res,next)=>{
      };
 
 
+     
 
 exports.getProductos = (req, res, next) => {
     Producto.find()
