@@ -1,36 +1,12 @@
 const fs = require('fs');
 const path = require('path');
 const raizDir = require('../utils/path');
-
 const p = path.join(raizDir, 'data', 'carrito.json');
-
-
-
 const Producto = require('../models/producto');
-//const Carrito = require('../models/carrito')
 const Usuario = require('../models/users');
 const mongoose = require('mongoose');
 
-
-
-
-
-
-/*
-exports.getIndex = (req, res) => {
-  Producto.find()
-      .then(productos => {
-          res.render('index', {
-              prods: productos,
-              titulo: "Pagina principal de la Tienda",
-              path: "/"
-          });
-
-      })
-      .catch(err => console.log(err));
-}
-*/
-
+// Función para obtener la página de inicio con los productos agrupados por categoría
 exports.getIndex = (req, res) => {
   Producto.find()
       .then(productos => {
@@ -48,20 +24,10 @@ exports.getIndex = (req, res) => {
               path: "/"
           });
       })
-      .catch(err => console.log(err));
+      .catch(err => console.log(err)); // Manejo de errores si la consulta falla
 };
 
-
-
-
-
-
-
-
-
-
-
-
+// Función para obtener los productos con paginación
 exports.getProductos = (req, res) => {
   const page = parseInt(req.query.page) || 1; // Página actual (por defecto 1)
   const itemsPerPage = 6; // Número de productos por página
@@ -81,97 +47,42 @@ exports.getProductos = (req, res) => {
         titulo: "Productos de la tienda",
         path: "/productos",
         currentPage: page,
-        hasNextPage: itemsPerPage * page < totalProductos,
-        hasPreviousPage: page > 1,
+        hasNextPage: itemsPerPage * page < totalProductos, // Verifica si hay una página siguiente
+        hasPreviousPage: page > 1, // Verifica si hay una página anterior
         nextPage: page + 1,
         previousPage: page - 1,
-        lastPage: Math.ceil(totalProductos / itemsPerPage),
+        lastPage: Math.ceil(totalProductos / itemsPerPage), // Calcula la última página
         totalProductos: totalProductos
       });
     })
-    .catch(err => console.log(err));
+    .catch(err => console.log(err)); // Manejo de errores si la consulta falla
 };
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-    exports.getProducto = (req, res) => {
-      const idProducto = req.params.idProducto;
-      Producto.findById(idProducto)
-          .then(producto => {
-              if (!producto) {
-                  res.redirect('/');
-              }
-              res.render('tienda/detalle-producto', {
-                  producto: producto,
-                  titulo: producto.nombre,
-                  path: '/productos'
-              });
-          })
-          .catch(err => console.log(err));
-  }
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-  
-
-
-
+// Función para obtener los detalles de un producto específico
+exports.getProducto = (req, res) => {
+  const idProducto = req.params.idProducto; // ID del producto desde la URL
+  Producto.findById(idProducto)
+      .then(producto => {
+          if (!producto) {
+              res.redirect('/'); // Redirige si el producto no existe
+          }
+          res.render('tienda/detalle-producto', {
+              producto: producto,
+              titulo: producto.nombre,
+              path: '/productos'
+          });
+      })
+      .catch(err => console.log(err)); // Manejo de errores si la consulta falla
+};
 
 exports.getCarrito = (req, res, next) => {
-  
-  /*if (!req.usuario) {
-    return res.redirect('/login'); // Redirige a login si no está autenticado
-  }*/
-
   req.usuario
     .populate('carrito.items.idProducto')
     .then(usuario => {
-      //console.log(usuario.carrito.items);
-      const productos = usuario.carrito.items.map(item =>{
+      const productos = usuario.carrito.items.map(item => {
         if (!item.idProducto) {
           return null; 
         }
-
         return {
           ...item.idProducto.toObject(),
           cantidad: item.cantidad
@@ -185,19 +96,10 @@ exports.getCarrito = (req, res, next) => {
         precioTotal: productos.reduce((total, producto) => {
           return total + producto.precio * producto.cantidad;
         }, 0)
-        })
-      })
-    
+      });
+    })
     .catch(err => console.log(err));
 };
-
-
-
-
-
-
-
-
 
 exports.postCarrito = (req, res) => {
   const idProducto = req.body.idProducto;
@@ -207,7 +109,6 @@ exports.postCarrito = (req, res) => {
           return req.usuario.agregarAlCarrito(producto);
       })
       .then(result => {
-          //console.log(result);
           res.redirect('/carrito');
       })
       .catch(err => console.log(err));
@@ -220,164 +121,55 @@ exports.postEliminarProductoCarrito = (req, res, next) => {
           res.redirect('/carrito');
       })
       .catch(err => console.log(err));
-
 };
 
+exports.postPedido = (req, res, next) => {
+  const usuario = req.usuario;
 
+  if (!usuario.carrito.items.length) {
+    return res.redirect('/carrito'); // Redirige si el carrito está vacío
+  }
 
-
-
-
-
-
-exports.postPedido =(req,res, next)=>{
-// Obtenemos el usuario que está realizando el pedido
-const usuario = req.usuario;
-
-// Verificamos si hay productos en el carrito
-if (!usuario.carrito.items.length) {
-    return res.redirect('/carrito'); // Redirigir si el carrito está vacío
-}
-
-// Accedemos a los productos del carrito
-const productosDelCarrito = usuario.carrito.items;
-
-// Creamos un objeto para almacenar el nuevo pedido
-const nuevoPedido = {
+  const productosDelCarrito = usuario.carrito.items;
+  const nuevoPedido = {
     productos: [],
     fecha: new Date() // Puedes agregar más campos como fecha, estado, etc.
-};
+  };
 
-// Iteramos sobre los productos del carrito
-productosDelCarrito.forEach(itemCarrito => {
-    const producto = itemCarrito.idProducto; // Referencia al producto
+  productosDelCarrito.forEach(itemCarrito => {
+    const producto = itemCarrito.idProducto;
 
     // Verificamos si ya existe en el pedido
     const productoExistente = nuevoPedido.productos.find(
-        pedidoItem => pedidoItem.idProducto.toString() === producto.toString()
+      pedidoItem => pedidoItem.idProducto.toString() === producto.toString()
     );
 
     if (productoExistente) {
-        // Si ya existe, sumamos las cantidades
-        productoExistente.cantidad += itemCarrito.cantidad;
+      productoExistente.cantidad += itemCarrito.cantidad; // Si ya existe, sumamos las cantidades
     } else {
-        // Si no existe, lo agregamos al nuevo pedido
-        nuevoPedido.productos.push({
-            idProducto: producto,
-            cantidad: itemCarrito.cantidad
-        });
+      nuevoPedido.productos.push({
+        idProducto: producto,
+        cantidad: itemCarrito.cantidad
+      });
     }
-});
-
-// Ahora que tenemos el nuevo pedido, lo guardamos en el usuario
-if (!usuario.pedidos) {
-    usuario.pedidos = []; // Aseguramos que el usuario tenga un array de pedidos
-}
-
-usuario.pedidos.push(nuevoPedido); // Agregamos el nuevo pedido a los pedidos del usuario
-
-// Limpiamos el carrito
-usuario.limpiarCarrito()
-    .then(() => {
-        return usuario.save(); // Guardamos el usuario con el nuevo pedido
-    })
-    .then(() => {
-        res.redirect('/pedido'); // Redirigimos a la página de pedidos
-    })
-    .catch(err => {
-        console.error(err);
-        res.status(500).send('Error al confirmar el pedido');
-    });
-};
-
-
-
-
-
-/*
-
-
-
-
-
-exports.getPedido = (req, res, next) => {
-  const usuario = req.usuario; // Obtiene el usuario actual
-
-  if (!usuario.pedidos || usuario.pedidos.length === 0) {
-    return res.render('tienda/pedido', {
-      path: '/pedido',
-      titulo: 'Mis Pedidos',
-      pedidos: [], // Si no tiene pedidos, mostramos la lista vacía
-      precioTotal: 0
-    });
-  }
-
-  // Estructuramos cada pedido con productos individuales
-  const pedidosConProductos = usuario.pedidos.map(pedido => {
-    return {
-      ...pedido.toObject(),
-      productos: pedido.productos.map(producto => ({
-        idProducto: producto.idProducto,
-        cantidad: producto.cantidad
-      }))
-    };
   });
 
-  // Obtenemos los IDs de los productos de todos los pedidos
-  const productoIds = pedidosConProductos.flatMap(pedido => pedido.productos.map(p => p.idProducto));
+  if (!usuario.pedidos) {
+    usuario.pedidos = []; // Asegura que el usuario tenga un array de pedidos
+  }
 
-  // Encontramos los detalles de los productos
-  Producto.find({ _id: { $in: productoIds } })
-    .then(productos => {
-      const productosPorId = {};
-      productos.forEach(producto => {
-        productosPorId[producto._id] = producto;
-      });
+  usuario.pedidos.push(nuevoPedido); // Agregamos el nuevo pedido
 
-      // Preparamos la lista final de pedidos con sus productos
-      const pedidosMostrar = pedidosConProductos.map(pedido => {
-        const productosMostrar = pedido.productos.map(item => {
-          const producto = productosPorId[item.idProducto.toString()];
-          
-          if (producto) {
-            return {
-              nombre: producto.nombre,
-              precio: producto.precio,
-              cantidad: item.cantidad
-            };
-          } else {
-            // Si el producto no existe, mostramos "Producto no encontrado"
-            return {
-              nombre: "Producto no encontrado",
-              precio: 0,
-              cantidad: item.cantidad
-            };
-          }
-        });
-
-        // Calculamos el total del pedido, excluyendo los productos "no encontrados"
-        const totalPedido = productosMostrar.reduce((total, producto) => total + (producto.precio * producto.cantidad), 0);
-
-        return {
-          productos: productosMostrar,
-          totalPedido: totalPedido,
-          fecha: pedido.fecha
-        };
-      });
-
-      res.render('tienda/pedido', {
-        path: '/pedido',
-        titulo: 'Mis Pedidos',
-        pedidos: pedidosMostrar 
-      });
-    })
+  usuario.limpiarCarrito()
+    .then(() => usuario.save()) // Guardamos el usuario con el nuevo pedido
+    .then(() => res.redirect('/pedido')) // Redirigimos a la página de pedidos
     .catch(err => {
       console.error(err);
-      res.status(500).send('Error al obtener productos del pedido');
+      res.status(500).send('Error al confirmar el pedido');
     });
 };
 
-*/
+
 
 
 exports.getPedido = (req, res, next) => {
@@ -387,21 +179,22 @@ exports.getPedido = (req, res, next) => {
   let totalPedidos;
 
   if (!usuario.pedidos || usuario.pedidos.length === 0) {
+    // Si el usuario no tiene pedidos, renderiza la vista con la lista vacía
     return res.render('tienda/pedido', {
       path: '/pedido',
       titulo: 'Mis Pedidos',
-      pedidos: [], // Si no tiene pedidos, mostramos la lista vacía
+      pedidos: [], // Lista vacía si no tiene pedidos
       precioTotal: 0,
       currentPage: page,
       hasNextPage: false,
       hasPreviousPage: false,
       nextPage: page + 1,
       previousPage: page - 1,
-      lastPage: 1
+      lastPage: 1 // Si no hay pedidos, solo existe una página
     });
   }
 
-  totalPedidos = usuario.pedidos.length;
+  totalPedidos = usuario.pedidos.length; // Total de pedidos del usuario
 
   // Obtenemos solo los pedidos que corresponden a la página actual
   const pedidosPaginados = usuario.pedidos.slice((page - 1) * itemsPerPage, page * itemsPerPage);
@@ -417,15 +210,16 @@ exports.getPedido = (req, res, next) => {
     };
   });
 
+
   // Obtenemos los IDs de los productos de todos los pedidos
   const productoIds = pedidosConProductos.flatMap(pedido => pedido.productos.map(p => p.idProducto));
 
-  // Encontramos los detalles de los productos
+
   Producto.find({ _id: { $in: productoIds } })
     .then(productos => {
       const productosPorId = {};
       productos.forEach(producto => {
-        productosPorId[producto._id] = producto;
+        productosPorId[producto._id] = producto; // Asocia el ID del producto con su detalle
       });
 
       // Preparamos la lista final de pedidos con sus productos
@@ -443,7 +237,7 @@ exports.getPedido = (req, res, next) => {
             // Si el producto no existe, mostramos "Producto no encontrado"
             return {
               nombre: "Producto no encontrado",
-              precio: 0,
+              precio: 0, // Precio 0 si el producto no se encuentra
               cantidad: item.cantidad
             };
           }
@@ -459,6 +253,7 @@ exports.getPedido = (req, res, next) => {
         };
       });
 
+      // Renderizamos la vista con los pedidos paginados y su información
       res.render('tienda/pedido', {
         path: '/pedido',
         titulo: 'Mis Pedidos',
@@ -468,139 +263,98 @@ exports.getPedido = (req, res, next) => {
         hasPreviousPage: page > 1,
         nextPage: page + 1,
         previousPage: page - 1,
-        lastPage: Math.ceil(totalPedidos / itemsPerPage)
+        lastPage: Math.ceil(totalPedidos / itemsPerPage) // Calcula la última página
       });
     })
     .catch(err => {
-      console.error(err);
-      res.status(500).send('Error al obtener productos del pedido');
+      console.error(err); // Error al obtener productos del pedido
+      res.status(500).send('Error al obtener productos del pedido'); // Manejo de errores
     });
 };
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 
 
 
 
 exports.postModificarCantidad = (req, res, next) => {
-  const { idProducto, nuevaCantidad } = req.body; 
- 
-  const cantidad = parseInt(nuevaCantidad, 10);
+  const { idProducto, nuevaCantidad } = req.body; // Extrae los datos del cuerpo de la solicitud
+
+  const cantidad = parseInt(nuevaCantidad, 10); // Convierte la nueva cantidad a un número entero
   if (isNaN(cantidad) || cantidad < 0) {
-    return res.status(400).send('Cantidad no válida'); 
+    return res.status(400).send('Cantidad no válida'); // Valida la cantidad
   }
 
   req.usuario
-    .populate('carrito.items.idProducto')
+    .populate('carrito.items.idProducto') // Poblamos el carrito con los detalles del producto
     .then(usuario => {
-      const itemIndex = usuario.carrito.items.findIndex(item => {
-        return item.idProducto._id.toString() === idProducto; // Compara el ID del producto
-      });
+      // Buscamos el índice del producto en el carrito
+      const itemIndex = usuario.carrito.items.findIndex(item => item.idProducto._id.toString() === idProducto);
 
       if (itemIndex >= 0) {
-        // Si el producto existe en el carrito
+        // Si el producto existe, actualizamos la cantidad o lo eliminamos si la cantidad es 0
         if (cantidad === 0) {
-          // Si la nueva cantidad es 0, eliminarlo del carrito
           usuario.carrito.items.splice(itemIndex, 1); 
         } else {
-          // Actualiza la cantidad del producto
-          usuario.carrito.items[itemIndex].cantidad = cantidad; // Asegúrate de que cantidad se establece correctamente
+          usuario.carrito.items[itemIndex].cantidad = cantidad;
         }
 
         return usuario.save(); // Guarda los cambios en el usuario
       } else {
-        
-        console.log('Producto no encontrado en el carrito');
-        return Promise.reject(new Error('Producto no encontrado en el carrito'));
+        return Promise.reject(new Error('Producto no encontrado en el carrito')); // Si el producto no está, indica error
       }
     })
-    .then(() => {
-      res.redirect('/carrito'); // Redirige al carrito después de modificar la cantidad
-    })
-    .catch(err => {
-      console.log(err);
-      res.status(500).send('Error al modificar la cantidad');
-    });
+    .then(() => res.redirect('/carrito')) // Redirige al carrito después de modificar la cantidad
+    .catch(err => res.status(500).send('Error al modificar la cantidad')); // Maneja errores
 };
-
-
-
-
 
 // Elementos del footer
 
 exports.getSobreNosotros = (req, res) => {
-  res.render('Footer/SobreNosotros', {
-    titulo: 'Sobre Nosotros',
-    path: '/sobre-nosotros'
-  });
+  res.render('Footer/SobreNosotros', { 
+    titulo: 'Sobre Nosotros', 
+    path: '/sobre-nosotros' });
 };
 
 exports.getContacto = (req, res) => {
-  res.render('Footer/Contacto', {
-    titulo: 'Contacto',
-    path: '/contacto'
-  });
+  res.render('Footer/Contacto', { 
+    titulo: 'Contacto', 
+    path: '/contacto' });
 };
 
 exports.getLibroReclamaciones = (req, res) => {
-  res.render('Footer/LibroDeReclamaciones', {
-    titulo: 'Libro de Reclamaciones',
-    path: '/libro-de-reclamaciones'
-  });
+  res.render('Footer/LibroDeReclamaciones', { 
+    titulo: 'Libro de Reclamaciones', 
+    path: '/libro-de-reclamaciones' });
 };
 
 exports.getNuestrosLocales = (req, res) => {
-  res.render('Footer/NuestrosLocales', {
-    titulo: 'Nuestros Locales',
-    path: '/nuestros-locales'
-  });
+  res.render('Footer/NuestrosLocales', { 
+    titulo: 'Nuestros Locales', 
+    path: '/nuestros-locales' });
 };
 
 exports.getPoliticasDelivery = (req, res) => {
-  res.render('Footer/PolíticasDeDelivery', {
-    titulo: 'Politicas de Delivery',
-    path: '/politicas-de-delivery'
-  });
+  res.render('Footer/PolíticasDeDelivery', { 
+    titulo: 'Politicas de Delivery', 
+    path: '/politicas-de-delivery' });
 };
 
 exports.getPoliticasPrivacidad = (req, res) => {
-  res.render('Footer/PoliticasDePrivacidad', {
-    titulo: 'Politicas de Privacidad',
-    path: '/politicas-de-privacidad'
-  });
+  res.render('Footer/PoliticasDePrivacidad', { 
+    titulo: 'Politicas de Privacidad', 
+    path: '/politicas-de-privacidad' });
 };
 
 exports.getPreguntasFrecuentes = (req, res) => {
-  res.render('Footer/PreguntasFrecuentes', {
+  res.render('Footer/PreguntasFrecuentes', { 
     titulo: 'Preguntas Frecuentes',
-    path: '/preguntas-frecuentes'
-  });
+    path: '/preguntas-frecuentes' });
 };
 
 exports.getTerminosyCondiciones = (req, res) => {
-  res.render('Footer/TerminosyCondiciones', {
+  res.render('Footer/TerminosyCondiciones', { 
     titulo: 'Terminos y Condiciones',
-    path: '/terminos-y-condiciones'
-  });
+    path: '/terminos-y-condiciones' });
 };
-
 
 
 
