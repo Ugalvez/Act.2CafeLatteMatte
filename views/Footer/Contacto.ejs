@@ -1,0 +1,36 @@
+
+<%- include ('../includes/head.ejs') %>
+<link rel="stylesheet" href="/css/main.css">
+</head>
+<body>
+
+<%- include ('../includes/navigation.ejs') %>
+
+<div class="container contacto-container text-center">
+    <h1 class="titulo-contacto">Contacto</h1>
+    <p class="descripcion-contacto">
+        ¿Tienes alguna pregunta o sugerencia? ¡Nos encantaría saber de ti! Completa el formulario a continuación y nos pondremos en contacto contigo lo antes posible.
+    </p>
+
+    <!-- Formulario de contacto -->
+    <form action="/"  class="form-contacto">
+        <div class="mb-3">
+            <label for="nombre" class="form-label">Nombre</label>
+            <input type="text" class="form-control" id="nombre" name="nombre" placeholder="Tu nombre" required>
+        </div>
+        <div class="mb-3">
+            <label for="email" class="form-label">Correo Electrónico</label>
+            <input type="email" class="form-control" id="email" name="email" placeholder="Tu correo" required>
+        </div>
+        <div class="mb-3">
+            <label for="asunto" class="form-label">Asunto</label>
+            <input type="text" class="form-control" id="asunto" name="asunto" placeholder="Asunto del mensaje" required>
+        </div>
+        <div class="mb-3">
+            <label for="mensaje" class="form-label">Mensaje</label>
+            <textarea class="form-control" id="mensaje" name="mensaje" rows="4" placeholder="Escribe tu mensaje aquí..." required></textarea>
+        </div>
+        <button type="submit" class="btn btn-primary">Enviar</button>
+    </form>
+</div>
+    <%- include ('../includes/end.ejs') %>

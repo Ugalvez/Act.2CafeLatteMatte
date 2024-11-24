@@ -1,0 +1,48 @@
+
+<%- include ('../includes/head.ejs') %>
+<link rel="stylesheet" href="/css/producto.css">
+</head>
+<body>
+
+<%- include ('../includes/navigation.ejs') %>
+
+<div class="container reclamaciones-container text-center">
+    <h1 class="titulo-reclamaciones">Libro de Reclamaciones</h1>
+    <p class="descripcion-reclamaciones">
+        Tu opinión es muy importante para nosotros. Si tienes alguna queja, sugerencia o comentario, por favor completa el siguiente formulario y nos pondremos en contacto contigo lo antes posible.
+    </p>
+
+    <!-- Formulario de Reclamaciones -->
+    <form action="/enviar-reclamacion" method="POST" class="form-reclamaciones">
+        <div class="mb-3">
+            <label for="nombre" class="form-label">Nombre</label>
+            <input type="text" class="form-control" id="nombre" name="nombre" placeholder="Tu nombre" required>
+        </div>
+        <div class="mb-3">
+            <label for="email" class="form-label">Correo Electrónico</label>
+            <input type="email" class="form-control" id="email" name="email" placeholder="Tu correo" required>
+        </div>
+        <div class="mb-3">
+            <label for="tipo" class="form-label">Tipo de Reclamación</label>
+            <select class="form-select" id="tipo" name="tipo" required>
+                <option value="Producto">Producto</option>
+                <option value="Servicio">Servicio</option>
+                <option value="Otro">Otro</option>
+            </select>
+        </div>
+        <div class="mb-3">
+            <label for="descripcion" class="form-label">Descripción</label>
+            <textarea class="form-control" id="descripcion" name="descripcion" rows="4" placeholder="Describe tu queja o sugerencia" required></textarea>
+        </div>
+        <button type="submit" class="btn btn-primary">Enviar Reclamación</button>
+    </form>
+
+    <p class="agradecimiento-reclamaciones">
+        Agradecemos tu tiempo y retroalimentación. Nos comprometemos a revisar tu reclamación y brindarte una respuesta lo más pronto posible.
+    </p>
+</div>
+    </div>
+    </div>
+    </main>
+    
+    <%- include ('../includes/end.ejs') %>

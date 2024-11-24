@@ -259,56 +259,9 @@ section.container{
 
 /*------>footer<---------*/
 
-.footer {
-  background-color: #333;
-  color: #fff;
-  padding: 20px 0;
-  font-family: Arial, sans-serif;
-  font-size: 16px;
-}
-.footer-logo img {
-  max-width: 100px;
-  background-color: #666;
-  padding: 10px;
-}
-.footer-section {
-  flex: 1;
-  min-width: 180px;
-  margin: 10px;
-}
-.footer-section h4 {
-  font-weight: 600;
-  margin-bottom: 10px;
-  font-size: 1.25rem;
-}
-.footer-section ul {
-  list-style: none;
-  padding: 0;
-}
-.footer-section ul li {
-  margin-bottom: 5px;
-}
-.footer-section a {
-  color: #ccc;
-  text-decoration: none;
-}
-.footer-section a:hover {
-  color: #fff;
-}
-.footer-section .redes {
-  display: flex;
-  flex-direction: column;
-  gap: 10px;
-}
-.footer-section .redes ion-icon {
-  font-size: 32px;
-}
-.footer-bottom {
-  text-align: center;
-  padding-top: 20px;
-  font-size: 12px;
-  color: #bbb;
-}
+
+
+
 
 
 .btn-primary{
@@ -359,4 +312,165 @@ section.container{
   border-color: red;
   background: rgb(255, 176, 176);
   color: red;
+}
+
+
+
+
+
+
+
+
+/* Estilos para la paginación */
+.pagination {
+  display: flex;
+  justify-content: center; /* Centra los botones de paginación */
+  align-items: center;
+  margin-top: 20px;
+  list-style: none; /* Elimina los puntos de lista */
+  padding: 0;
+}
+
+.pagination li {
+  margin: 0 5px; /* Espacio entre los botones */
+}
+
+.pagination a,
+.pagination span {
+  display: inline-block;
+  padding: 8px 12px;
+  background-color: #f1f1f1; /* Fondo gris claro */
+  color: #333; /* Color del texto */
+  text-decoration: none;
+  border-radius: 5px;
+  transition: background-color 0.3s ease, color 0.3s ease;
+}
+
+.pagination a:hover,
+.pagination a:focus,
+.pagination span:hover,
+.pagination span:focus {
+  background-color: #A57849; /* Color de fondo cuando se pasa el ratón */
+  color: white; /* Color de texto en hover */
+}
+
+.pagination .active {
+  background-color: #A57849; /* Color de fondo para la página activa */
+  color: white; /* Color de texto para la página activa */
+  pointer-events: none; /* Desactiva el clic en la página activa */
+}
+
+.pagination .disabled {
+  color: #ddd; /* Color para botones deshabilitados */
+  pointer-events: none; /* Desactiva el clic en los botones deshabilitados */
+}
+
+/* Estilos para los botones de paginación (anterior y siguiente) */
+.pagination .prev,
+.pagination .next {
+  background-color: #fff;
+  border: 2px solid #333;
+  border-radius: 50%;
+  padding: 6px 12px;
+  font-weight: bold;
+}
+
+.pagination .prev:hover,
+.pagination .next:hover {
+  background-color: #A57849;
+  color: white;
+}
+
+.titulo-categoria {
+  font-size: 2rem;               /* Tamaño de fuente */
+  font-weight: bold;             /* Peso de la fuente */
+  text-transform: uppercase;     /* Transformar a mayúsculas */
+  color: #000000;                /* Color de texto */
+  text-align: center;            /* Centrado del texto */
+  margin: 20px 0;                /* Espaciado arriba y abajo */
+  letter-spacing: 2px;           /* Espaciado entre letras */
+  border-bottom: 3px solid #000000; /* Línea decorativa debajo */
+  padding-bottom: 10px;          /* Espaciado debajo del texto */
+}
+
+
+
+
+
+
+.checkbox-style {
+  width: 20px;
+  height: 20px;
+  margin-right: 10px;
+  cursor: pointer;
+  appearance: none; /* Quita el estilo predeterminado */
+  border: 2px solid #A57849;
+  border-radius: 3px; /* Bordes redondeados */
+  background-color: #fff; /* Color de fondo cuando no está marcado */
+  transition: background-color 0.3s, border-color 0.3s;
+}
+
+/* Estilo cuando el checkbox está marcado */
+.checkbox-style:checked {
+  background-color: #A57849; /* Color de fondo cuando está marcado */
+  border-color: #A57849; /* Cambiar el borde también */
+}
+
+/* Estilo exclusivo para la etiqueta del checkbox */
+.checkbox-label {
+  font-size: 1.2rem; /* Aumenta el tamaño de la letra */
+  font-weight: 500;
+  color: #333;
+  cursor: pointer;
+  line-height: 20px; /* Alineación vertical con el checkbox */
+}
+
+
+
+
+
+
+
+
+
+
+
+.input-number {
+  -moz-appearance: textfield; /* Elimina las flechas en Firefox */
+  -webkit-appearance: none; /* Elimina las flechas en Chrome, Safari, Edge */
+  appearance: none;
+  width: 80px; /* Ancho del input */
+  height: 40px; /* Altura del input */
+  text-align: center;
+  font-size: 16px;
+  border: 2px solid #A57849; /* Borde marrón */
+  border-radius: 5px;
+  background-color: #f9f9f9;
+  transition: all 0.3s ease;
+}
+
+.input-number-wrapper {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 5px; /* Espacio entre el input y los botones */
+}
+
+.input-number-btn {
+  background-color: #A57849;
+  color: white;
+  border: none;
+  border-radius: 5px;
+  width: 30px;
+  height: 40px;
+  cursor: pointer;
+  font-size: 18px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  transition: all 0.3s ease;
+}
+
+.input-number-btn:hover {
+  background-color: #d0904b;
 }
