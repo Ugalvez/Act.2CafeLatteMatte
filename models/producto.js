@@ -17,7 +17,7 @@ const productoSchema = new Schema({
   },
   precioPromo: {
     type: Number,
-    required: true
+    required: false
   },
   stock: {
     type: Number,

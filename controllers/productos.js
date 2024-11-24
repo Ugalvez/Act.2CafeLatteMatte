@@ -31,9 +31,12 @@ exports.postCrearProducto = (req, res, next) => {
             res.redirect("/");  // Redirige a la página principal después de guardar
         })
         .catch(err => {
-            console.log(err);  // Muestra un error en la consola si algo sale mal
-            res.redirect("/admin/crear-producto");  // Redirige de nuevo a la página de creación del producto
-        });
+                console.log(err); // Muestra un error en la consola si algo sale mal
+                const error = new Error(err);
+                    error.httpStatusCode = 500;
+                    return next(error);
+              });
+            //res.redirect("/admin/crear-producto");  // Redirige de nuevo a la página de creación del producto
 };
 
 

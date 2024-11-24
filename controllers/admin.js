@@ -1,5 +1,8 @@
 const Producto = require('../models/producto');
 
+const { check, body } = require('express-validator');
+const { validationResult } = require('express-validator');
+
 // Mostrar todos los productos en la vista
 exports.getDisplayProductos = (req, res, next) => {
     Producto.find()  // Trae todos los productos de la base de datos
@@ -14,18 +17,29 @@ exports.getDisplayProductos = (req, res, next) => {
         })
         .catch(err => {
             console.log(err);
-            const error = new Error(err);
-                error.httpStatusCode = 500;
-                return next(error);
-          });  // control de errores
+            res.status(500).render('admin/crear-producto', {
+                path: '/admin/crear-producto',
+                titulo: 'Crear Producto',
+                mensajeError: 'Hubo un error al crear el producto.',
+                erroresValidacion: [{ msg: 'Hubo un problema al guardar el producto.' }],
+                datosAnteriores: { nombre, urlImagen, precio, precioPromo, descripcion, disponibilidad, stock, categoria },
+                modoEdicion: false
+                })
+        })
+          ;  // control de errores
 };
 
 
 // Renderiza la página para crear un nuevo producto
 exports.getCrearProducto = (req, res) => {
+    let mensaje = req.flash('error');
+    mensaje = mensaje.length > 0 ? mensaje[0] : null;
     res.render('admin/crear-producto', {
         titulo: 'Crear Producto',
         path: '/admin/crear-producto',
+        mensajeError: mensaje,
+        datosAnteriores: { nombre: '', urlImagen: '', precioPromo: '', descripcion: '', disponibilidad: '', stock: '', categoria: '' },
+        erroresValidacion: [],
         modoEdicion: false  // Indicador de que no es un producto en edición
     });
 };
@@ -34,8 +48,22 @@ exports.getCrearProducto = (req, res) => {
 
 // Maneja la creación de un nuevo producto
 exports.postCrearProducto = (req, res) => {
+
     // Extrae la información del cuerpo de la solicitud (del formulario)
     const { nombre, urlImagen, precio, precioPromo, descripcion, disponibilidad, stock, categoria } = req.body;
+    const errors = validationResult(req);
+
+    if (!errors.isEmpty()) {
+        console.log(errors.array())
+        return res.status(422).render('admin/crearProducto', {
+        path: 'admin/Crear-Producto',
+        titulo: 'Crear Producto',
+        mensajeError: errors.array()[0].msg,
+        erroresValidacion: errors.array(),
+        datosAnteriores: { nombre, urlImagen, precio, precioPromo, descripcion, disponibilidad, stock, categoria }
+    });
+  }
+
     // Crea un nuevo objeto Producto con los datos proporcionados
     const producto = new Producto({
         nombre, precio, descripcion, urlImagen,

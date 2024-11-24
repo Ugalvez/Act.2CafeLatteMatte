@@ -22,11 +22,17 @@ router.get('/crear-producto',
           .isString()
           .isLength({ min: 5 })
           .trim(),
-      //body('urlImagen').isURL(),
+      body('urlImagen').isURL(),
       body('precio').isFloat(),
       body('descripcion')
           .isLength({ min: 10, max: 400 })
-          .trim()
+          .trim(),
+      body('categoria', 'Por favor elija una categoría')
+          .notEmpty(),
+      body('precioPromo', 'Introduzca un precio promocional')
+          .notEmpty(),
+      body('stock', 'Introduzca una disponibilidad')
+          .notEmpty(),
   ],
   isAdmin,
    adminController.getCrearProducto);
