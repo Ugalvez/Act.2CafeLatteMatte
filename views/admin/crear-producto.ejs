@@ -12,7 +12,10 @@
 <div class="container">
     <div class="my-5">
 
-    <form action="/admin/<% if (modoEdicion) { %>editar-producto<% } else { %>crear-producto<% } %>" method="POST">
+    <form enctype="multipart/form-data" action="/admin/<% if (modoEdicion) { %>editar-producto<% } else { %>crear-producto<% } %>" method="POST">
+        <% if (mensajeError) { %>
+            <div class="user-message user-message--error"><%= mensajeError %></div>
+        <% } %>
         <div class="container-productos">
             <h2 class="pb-4 mb-3">
                 <% if (modoEdicion) { %>
@@ -21,9 +24,6 @@
                     <%= 'Agregar nuevos productos' %>
                 <% } %> 
             </h2>
-            <% if (mensajeError) { %>
-                <div class="user-message user-message--error"><%= mensajeError %></div>
-            <% } %>
             <div class="row justify-content-between">
                 <div class="col-lg-6 ">
                     <div class="form-group">
@@ -66,9 +66,22 @@
                 </div>
             
                 <div class="col-lg-5">
+                    
                     <div class="download-image">
-                        <p><label for="imageFile">Selecciona algunas imágenes(Ingresa URL):</label></p>
-                        <p><input type="text" id="imageFile"  name="urlImagen" value="<% if (modoEdicion) { %><%= producto.urlImagen %><% } %>" required></p>
+                        <% if (modoEdicion) { %>
+                            <label for="imagenActual">Imagen Actual:</label>
+                                <img src="<%= producto.urlImagen %>" alt="Imagen del producto" style="max-width: 150px;">
+                            <% } %>
+                        <label for="urlImagen">
+                            <% if (modoEdicion) { %>
+                                <%= 'Cambiar imágen:' %>
+                            <% } else{ %>
+                                <%= 'Imágen' %>
+                            <% } %>     
+                        </label>
+                        <input type="file" name="urlImagen" id="urlImagen">
+
+            
                     </div>
                 </div>
            

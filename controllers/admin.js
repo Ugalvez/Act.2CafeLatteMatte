@@ -22,7 +22,7 @@ exports.getDisplayProductos = (req, res, next) => {
                 titulo: 'Crear Producto',
                 mensajeError: 'Hubo un error al crear el producto.',
                 erroresValidacion: [{ msg: 'Hubo un problema al guardar el producto.' }],
-                datosAnteriores: { nombre, urlImagen, precio, precioPromo, descripcion, disponibilidad, stock, categoria },
+                datosAnteriores: { nombre, imagen, precio, precioPromo, descripcion, disponibilidad, stock, categoria },
                 modoEdicion: false
                 })
         })
@@ -50,19 +50,36 @@ exports.getCrearProducto = (req, res) => {
 exports.postCrearProducto = (req, res) => {
 
     // Extrae la información del cuerpo de la solicitud (del formulario)
-    const { nombre, urlImagen, precio, precioPromo, descripcion, disponibilidad, stock, categoria } = req.body;
+    const { nombre, precio, precioPromo, descripcion, disponibilidad, stock, categoria } = req.body;
+    const imagen = req.file;
+    const urlImagen =`/imagenes/${imagen.filename}`; // Esto usa la ruta pública
+;
     const errors = validationResult(req);
+
+    if (!imagen) {
+        console.log('Archivo no recibido o tipo MIME inválido.');
+        return res.status(422).render('admin/crear-producto', {
+            path: 'admin/Crear-Producto',
+            titulo: 'Crear Producto',
+            mensajeError: 'Archivo inválido o no subido.',
+            erroresValidacion: [],
+            datosAnteriores: { nombre, precio, precioPromo, descripcion, disponibilidad, stock, categoria },
+            modoEdicion: false
+          });
+        }
 
     if (!errors.isEmpty()) {
         console.log(errors.array())
-        return res.status(422).render('admin/crearProducto', {
+        return res.status(422).render('admin/crear-producto', {
         path: 'admin/Crear-Producto',
         titulo: 'Crear Producto',
         mensajeError: errors.array()[0].msg,
         erroresValidacion: errors.array(),
-        datosAnteriores: { nombre, urlImagen, precio, precioPromo, descripcion, disponibilidad, stock, categoria }
+        datosAnteriores: { nombre, precio, precioPromo, descripcion, disponibilidad, stock, categoria },
+        modoEdicion: false
     });
   }
+
 
     // Crea un nuevo objeto Producto con los datos proporcionados
     const producto = new Producto({
@@ -76,7 +93,12 @@ exports.postCrearProducto = (req, res) => {
             // Redirige al administrador a la página principal de administración
             res.redirect('/admin/adminHome');
         })
-        .catch(err => console.log(err));  // Muestra errores
+        .catch(err => {
+            console.log(err);
+            const error = new Error(err);
+            error.httpStatusCode = 500;
+            return next(error);
+          }); // control de errores
 };
 
 // Renderiza la vista de edición de un producto
@@ -87,6 +109,10 @@ exports.getEditarProducto = (req, res) => {
     // Busca el producto en la base de datos por su ID
     Producto.findById(idProducto)
         .then(producto => {
+
+            let mensaje = req.flash('error');
+            mensaje = mensaje.length > 0 ? mensaje[0] : null;
+
             if (!producto) {
                 return res.redirect('admin/adminHome');  // Si no existe, redirige y ya no hace caso
             }
@@ -95,7 +121,8 @@ exports.getEditarProducto = (req, res) => {
                 titulo: 'Editar Producto',
                 path: '/admin/editar-producto',
                 producto: producto,  // Pasa el producto para editar
-                modoEdicion: true  // Indica que es un modo de edición
+                modoEdicion: true,  // Indica que es un modo de edición
+                mensajeError: mensaje
             });
         })
         .catch(err => {
@@ -108,8 +135,9 @@ exports.getEditarProducto = (req, res) => {
 
 // Actualiza los datos de un producto en la base de datos
 exports.postEditarProducto = (req, res, next) => {
-    const { idProducto, nombre, precio, precioPromo, urlImagen, descripcion, disponibilidad, stock, categoria } = req.body;
-
+    const { idProducto, nombre, precio, precioPromo, descripcion, disponibilidad, stock, categoria } = req.body;
+    const imagen = req.file;
+    
     // Busca el producto por su ID y lo actualiza con los nuevos valores
     Producto.findById(idProducto)
         .then(producto => {
@@ -117,10 +145,13 @@ exports.postEditarProducto = (req, res, next) => {
             producto.precio = precio;
             producto.precioPromo = precioPromo;
             producto.descripcion = descripcion;
-            producto.urlImagen = urlImagen;
             producto.disponibilidad = disponibilidad;
             producto.stock = stock;
             producto.categoria = categoria;
+            
+            if (imagen) {
+                producto.urlImagen = `/imagenes/${imagen.filename}`;
+            }
 
             return producto.save();  // Guarda cambios
         })

@@ -6,6 +6,8 @@ const flash = require('connect-flash');
 const mongoose = require('mongoose');
 const session = require('express-session');
 const MongoDBStore = require('connect-mongodb-session')(session);
+const multer = require('multer');
+const fs = require('fs');
 
 
 const MONGODB_URI = 'mongodb+srv://ugalvez987:sfpa4774@cluster0.b1vsq.mongodb.net/?retryWrites=true&w=majority&appName=Cluster0';
@@ -31,20 +33,39 @@ const store = new MongoDBStore({
 
 const csrfProtection = csrf();
 
+app.use(bodyParser.urlencoded({extended: false}));
+
+if (!fs.existsSync('./imagenes')) {
+  fs.mkdirSync('./imagenes');
+}
+
+const fileStorage = multer.diskStorage({
+  destination: (req, file, cb) => {
+    cb(null, './public/imagenes');
+  },
+  filename: (req, file, cb) => {
+    const uniqueSuffix = Date.now() + '-' + Math.round(Math.random() * 1E9);
+    cb(null, uniqueSuffix + '-' + file.originalname.replace(/:/g, '-'));
+  }
+});
 
 
+const fileFilter = (req, file, cb) => {
+  if (
+    file.mimetype === 'image/png' ||
+    file.mimetype === 'image/jpg' ||
+    file.mimetype === 'image/jpeg'
+  ) {
+    cb(null, true);
+  } else {
+    cb(null, false);
+  }
+};
+
+app.use(multer({ storage: fileStorage, fileFilter: fileFilter }).single('urlImagen'));
 
 app.set('view engine', 'ejs');
 app.set('views','views');
-
-
-
-
-app.use(bodyParser.urlencoded({extended: false}));
-
-
-//const ErrorRoutes = require('./routes/error')
-
 
 
 app.use(express.static(path.join(__dirname,'public')));
@@ -88,14 +109,14 @@ app.use(authRoutes);
 app.get('/500', errorController.get500);
 app.use(errorController.get404)
 
-app.use((err, req, res, next) => {
-  console.log(err);
-  res.status(500).render('500', {
-    titulo: 'Error!',
-    path: '/500',
-    autenticado: req.session.autenticado
-  });
-})
+// app.use((err, req, res, next) => {
+//   console.log(err);
+//   res.status(500).render('500', {
+//     titulo: 'Error!',
+//     path: '/500',
+//     autenticado: req.session.autenticado
+//   });
+// })
 
 
 
