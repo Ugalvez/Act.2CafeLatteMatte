@@ -294,31 +294,33 @@ usuario.limpiarCarrito()
 
 
 
+/*
 
 
 
-//corrigiendo el controlador getPedidos
+
+
 exports.getPedido = (req, res, next) => {
   const usuario = req.usuario; // Obtiene el usuario actual
 
   if (!usuario.pedidos || usuario.pedidos.length === 0) {
-      return res.render('tienda/pedido', {
-          path: '/pedido',
-          titulo: 'Mis Pedidos',
-          pedidos: [], // Cambiamos 'productos' por 'pedidos' para adaptarnos a la nueva estructura
-          precioTotal: 0
-      });
+    return res.render('tienda/pedido', {
+      path: '/pedido',
+      titulo: 'Mis Pedidos',
+      pedidos: [], // Si no tiene pedidos, mostramos la lista vacía
+      precioTotal: 0
+    });
   }
 
   // Estructuramos cada pedido con productos individuales
   const pedidosConProductos = usuario.pedidos.map(pedido => {
-      return {
-          ...pedido.toObject(),
-          productos: pedido.productos.map(producto => ({
-              idProducto: producto.idProducto,
-              cantidad: producto.cantidad
-          }))
-      };
+    return {
+      ...pedido.toObject(),
+      productos: pedido.productos.map(producto => ({
+        idProducto: producto.idProducto,
+        cantidad: producto.cantidad
+      }))
+    };
   });
 
   // Obtenemos los IDs de los productos de todos los pedidos
@@ -329,39 +331,168 @@ exports.getPedido = (req, res, next) => {
     .then(productos => {
       const productosPorId = {};
       productos.forEach(producto => {
-          productosPorId[producto._id] = producto;
+        productosPorId[producto._id] = producto;
       });
 
       // Preparamos la lista final de pedidos con sus productos
       const pedidosMostrar = pedidosConProductos.map(pedido => {
-          const productosMostrar = pedido.productos.map(item => {
-              const producto = productosPorId[item.idProducto.toString()];
-              return {
-                  nombre: producto.nombre,
-                  precio: producto.precio,
-                  cantidad: item.cantidad
-              };
-          });
-          const totalPedido = productosMostrar.reduce((total, producto) => total + (producto.precio * producto.cantidad), 0);
-          return {
-              productos: productosMostrar,
-              totalPedido: totalPedido,
-              fecha: pedido.fecha
-          };
+        const productosMostrar = pedido.productos.map(item => {
+          const producto = productosPorId[item.idProducto.toString()];
+          
+          if (producto) {
+            return {
+              nombre: producto.nombre,
+              precio: producto.precio,
+              cantidad: item.cantidad
+            };
+          } else {
+            // Si el producto no existe, mostramos "Producto no encontrado"
+            return {
+              nombre: "Producto no encontrado",
+              precio: 0,
+              cantidad: item.cantidad
+            };
+          }
+        });
+
+        // Calculamos el total del pedido, excluyendo los productos "no encontrados"
+        const totalPedido = productosMostrar.reduce((total, producto) => total + (producto.precio * producto.cantidad), 0);
+
+        return {
+          productos: productosMostrar,
+          totalPedido: totalPedido,
+          fecha: pedido.fecha
+        };
       });
 
       res.render('tienda/pedido', {
-          path: '/pedido',
-          titulo: 'Mis Pedidos',
-          pedidos: pedidosMostrar 
+        path: '/pedido',
+        titulo: 'Mis Pedidos',
+        pedidos: pedidosMostrar 
       });
     })
     .catch(err => {
       console.error(err);
       res.status(500).send('Error al obtener productos del pedido');
     });
+};
 
-}
+*/
+
+
+exports.getPedido = (req, res, next) => {
+  const usuario = req.usuario; // Obtiene el usuario actual
+  const page = parseInt(req.query.page) || 1; // Página actual (por defecto 1)
+  const itemsPerPage = 5; // Número de pedidos por página
+  let totalPedidos;
+
+  if (!usuario.pedidos || usuario.pedidos.length === 0) {
+    return res.render('tienda/pedido', {
+      path: '/pedido',
+      titulo: 'Mis Pedidos',
+      pedidos: [], // Si no tiene pedidos, mostramos la lista vacía
+      precioTotal: 0,
+      currentPage: page,
+      hasNextPage: false,
+      hasPreviousPage: false,
+      nextPage: page + 1,
+      previousPage: page - 1,
+      lastPage: 1
+    });
+  }
+
+  totalPedidos = usuario.pedidos.length;
+
+  // Obtenemos solo los pedidos que corresponden a la página actual
+  const pedidosPaginados = usuario.pedidos.slice((page - 1) * itemsPerPage, page * itemsPerPage);
+
+  // Estructuramos cada pedido con productos individuales
+  const pedidosConProductos = pedidosPaginados.map(pedido => {
+    return {
+      ...pedido.toObject(),
+      productos: pedido.productos.map(producto => ({
+        idProducto: producto.idProducto,
+        cantidad: producto.cantidad
+      }))
+    };
+  });
+
+  // Obtenemos los IDs de los productos de todos los pedidos
+  const productoIds = pedidosConProductos.flatMap(pedido => pedido.productos.map(p => p.idProducto));
+
+  // Encontramos los detalles de los productos
+  Producto.find({ _id: { $in: productoIds } })
+    .then(productos => {
+      const productosPorId = {};
+      productos.forEach(producto => {
+        productosPorId[producto._id] = producto;
+      });
+
+      // Preparamos la lista final de pedidos con sus productos
+      const pedidosMostrar = pedidosConProductos.map((pedido, index) => {
+        const productosMostrar = pedido.productos.map(item => {
+          const producto = productosPorId[item.idProducto.toString()];
+          
+          if (producto) {
+            return {
+              nombre: producto.nombre,
+              precio: producto.precio,
+              cantidad: item.cantidad
+            };
+          } else {
+            // Si el producto no existe, mostramos "Producto no encontrado"
+            return {
+              nombre: "Producto no encontrado",
+              precio: 0,
+              cantidad: item.cantidad
+            };
+          }
+        });
+
+        // Calculamos el total del pedido, excluyendo los productos "no encontrados"
+        const totalPedido = productosMostrar.reduce((total, producto) => total + (producto.precio * producto.cantidad), 0);
+
+        return {
+          productos: productosMostrar,
+          totalPedido: totalPedido,
+          fecha: pedido.fecha
+        };
+      });
+
+      res.render('tienda/pedido', {
+        path: '/pedido',
+        titulo: 'Mis Pedidos',
+        pedidos: pedidosMostrar,
+        currentPage: page,
+        hasNextPage: itemsPerPage * page < totalPedidos,
+        hasPreviousPage: page > 1,
+        nextPage: page + 1,
+        previousPage: page - 1,
+        lastPage: Math.ceil(totalPedidos / itemsPerPage)
+      });
+    })
+    .catch(err => {
+      console.error(err);
+      res.status(500).send('Error al obtener productos del pedido');
+    });
+};
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 

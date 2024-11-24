@@ -27,7 +27,17 @@
                                 <!-- Input para modificar la cantidad -->
                                 <form action="/carrito/modificar-cantidad" method="POST" class="form-carrito">
                                     <input type="hidden" name="idProducto" value="<%= producto._id %>">
-                                    <input type="number" name="nuevaCantidad" value="<%= producto.cantidad %>" min="1" style="text-align: right;">
+                                    <div class="input-number-wrapper">
+                                        <button type="button" class="input-number-btn" onclick="modificarCantidad(this, -1)">-</button>
+                                        <input 
+                                            type="number" 
+                                            name="nuevaCantidad" 
+                                            value="<%= producto.cantidad %>" 
+                                            min="1" 
+                                            class="input-number" 
+                                            onkeydown="return false">
+                                        <button type="button" class="input-number-btn" onclick="modificarCantidad(this, 1)">+</button>
+                                    </div>
                                     <input type="hidden" name="_csrf" value="<%= csrfToken %>">
                                     <button type="submit" class="btn btn-sesion"><ion-icon name="refresh-outline"></ion-icon> Actualizar</button>
                                 </form>
@@ -70,4 +80,18 @@
     </div>
     </main>
     
+    <script>
+        function modificarCantidad(button, delta) {
+            const input = button.parentElement.querySelector('input');
+            const min = parseInt(input.min) || 1;
+            const max = parseInt(input.max) || Infinity;
+            let newValue = parseInt(input.value) + delta;
+            
+            // Asegurarse de que no se excedan los límites
+            newValue = Math.max(min, Math.min(max, newValue));
+            input.value = newValue;
+        }
+    </script>
+
+
 <%- include('../includes/end.ejs') %>

@@ -8,8 +8,9 @@
             <h1>Pedidos</h1>
 
             <% if (pedidos.length > 0) { %>
+                <% let startIndex = (currentPage - 1) * 5 + 1; %> <!-- Calcula el índice del primer pedido de la página -->
                 <% pedidos.forEach((pedido, index) => { %>
-                    <h2>Pedido <%= index + 1 %> <small>(Fecha: <%= pedido.fecha.toLocaleDateString() %>)</small></h2>
+                    <h2>Pedido <%= startIndex + index %> <small>(Fecha: <%= pedido.fecha.toLocaleDateString() %>)</small></h2>
                     <table style="width: 100%; margin-bottom: 20px;">
                         <thead>
                             <tr>
@@ -21,12 +22,18 @@
                         </thead>
                         <tbody>
                             <% pedido.productos.forEach(producto => { %>
-                                <tr>
-                                    <td class="py-3 px-2 border-bottom"><%= producto.nombre %></td>
-                                    <td class="py-3 px-2 border-bottom text-center"><%= producto.cantidad %></td>
-                                    <td class="py-3 px-2 border-bottom">S/ <%= producto.precio %></td>
-                                    <td class="py-3 px-2 border-bottom">S/ <%= (producto.precio * producto.cantidad).toFixed(2) %></td>
-                                </tr>
+                                <% if (producto) { %>
+                                    <tr>
+                                        <td class="py-3 px-2 border-bottom"><%= producto.nombre %></td>
+                                        <td class="py-3 px-2 border-bottom text-center"><%= producto.cantidad %></td>
+                                        <td class="py-3 px-2 border-bottom">S/ <%= producto.precio %></td>
+                                        <td class="py-3 px-2 border-bottom">S/ <%= (producto.precio * producto.cantidad).toFixed(2) %></td>
+                                    </tr>
+                                <% } else { %>
+                                    <tr>
+                                        <td class="py-3 px-2 border-bottom" colspan="4">Producto no encontrado</td>
+                                    </tr>
+                                <% } %>
                             <% }); %>
                         </tbody>
                     </table>
@@ -34,6 +41,17 @@
                         <div class="total">Total Pedido: S/ <%= pedido.totalPedido.toFixed(2) %></div>
                     </div>
                 <% }); %>
+
+                <!-- Paginación -->
+                <div class="pagination">
+                    <% if (hasPreviousPage) { %>
+                        <a href="/pedido?page=<%= previousPage %>">Anterior</a>
+                    <% } %>
+                    <span>Página <%= currentPage %> de <%= lastPage %></span>
+                    <% if (hasNextPage) { %>
+                        <a href="/pedido?page=<%= nextPage %>">Siguiente</a>
+                    <% } %>
+                </div>
             <% } else { %>
                 <h1 style="font-size:28px">No hay Pedidos</h1>
             <% } %>

@@ -398,71 +398,79 @@ section.container{
 
 
 
-
-
-
-
-
-
-
-/* Ocultamos el checkbox original */
-#favorito {
-  display: none;
-}
-
-/* Estilo para el contorno del corazón */
-#favorito + label {
-  position: relative;
-  font-size: 1.5rem; /* Tamaño del texto */
-  margin-left: 15px; /* Espacio a la izquierda */
+.checkbox-style {
+  width: 20px;
+  height: 20px;
+  margin-right: 10px;
   cursor: pointer;
-  padding-left: 45px; /* Espacio para el contorno del corazón */
-  line-height: 25px; /* Ajustar la altura de la línea */
-  user-select: none;
+  appearance: none; /* Quita el estilo predeterminado */
+  border: 2px solid #A57849;
+  border-radius: 3px; /* Bordes redondeados */
+  background-color: #fff; /* Color de fondo cuando no está marcado */
+  transition: background-color 0.3s, border-color 0.3s;
+}
+
+/* Estilo cuando el checkbox está marcado */
+.checkbox-style:checked {
+  background-color: #A57849; /* Color de fondo cuando está marcado */
+  border-color: #A57849; /* Cambiar el borde también */
+}
+
+/* Estilo exclusivo para la etiqueta del checkbox */
+.checkbox-label {
+  font-size: 1.2rem; /* Aumenta el tamaño de la letra */
+  font-weight: 500;
+  color: #333;
+  cursor: pointer;
+  line-height: 20px; /* Alineación vertical con el checkbox */
+}
+
+
+
+
+
+
+
+
+
+
+
+.input-number {
+  -moz-appearance: textfield; /* Elimina las flechas en Firefox */
+  -webkit-appearance: none; /* Elimina las flechas en Chrome, Safari, Edge */
+  appearance: none;
+  width: 80px; /* Ancho del input */
+  height: 40px; /* Altura del input */
+  text-align: center;
+  font-size: 16px;
+  border: 2px solid #A57849; /* Borde marrón */
+  border-radius: 5px;
+  background-color: #f9f9f9;
   transition: all 0.3s ease;
 }
 
-/* Corazón como contorno en el estado no marcado */
-#favorito + label::before {
-  content: "";
-  position: absolute;
-  left: 0;
-  top: 0;
-  width: 30px; /* Tamaño del corazón */
-  height: 30px; /* Tamaño del corazón */
-  background-color: transparent;
-  border: 3px solid #A57849; /* Borde color marrón */
-  border-radius: 50%;
+.input-number-wrapper {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 5px; /* Espacio entre el input y los botones */
+}
+
+.input-number-btn {
+  background-color: #A57849;
+  color: white;
+  border: none;
+  border-radius: 5px;
+  width: 30px;
+  height: 40px;
+  cursor: pointer;
+  font-size: 18px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
   transition: all 0.3s ease;
 }
 
-/* Cuando el checkbox está marcado, cambia el fondo del corazón */
-#favorito:checked + label::before {
-  background-color: #A57849; /* Fondo marrón cuando marcado */
-  border-color: #A57849; /* Borde marrón */
-}
-
-/* Agregar el ícono de corazón dentro del checkbox */
-#favorito + label::after {
-  content: "\2764"; /* Símbolo de corazón */
-  position: absolute;
-  top: 4px; /* Ajusta la posición vertical */
-  left: 6px; /* Ajusta la posición horizontal */
-  font-size: 22px; /* Tamaño del ícono */
-  color: white; /* Color del ícono */
-  transition: all 0.3s ease;
-}
-
-/* Cuando el checkbox está marcado, el ícono de corazón cambia de color */
-#favorito:checked + label::after {
-  color: white; /* Mantener blanco cuando marcado */
-}
-
-/* Efecto hover: al pasar el ratón sobre el checkbox */
-#favorito + label:hover::before {
-  border-color: #B68F62; /* Cambiar el borde cuando el mouse pasa */
-}
-
-#favorito + label:hover::after {
-  color: #B68F62; /* Cambiar el color del ícono cuando el mouse pasa */
+.input-number-btn:hover {
+  background-color: #d0904b;
 }
