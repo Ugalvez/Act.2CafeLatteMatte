@@ -57,7 +57,7 @@ exports.postLogin = (req, res, next) => {
         return res.status(422).render('auth/login', {
           path: '/login',
           titulo: 'Log-in',
-          mensajeError: 'Invalido email o password.',
+          mensajeError: 'Email o password inválidos.',
           datosAnteriores: { email, password },
           erroresValidacion: []
         });
@@ -72,7 +72,7 @@ exports.postLogin = (req, res, next) => {
               res.redirect('/');  // Redirige a la página principal si el login es exitoso
             });
           }
-          req.flash('error', 'Las credenciales son invalidas');
+          req.flash('error', 'Email o password inválidos.');
           res.redirect('/login');  // Si la contraseña no coincide, redirige al login
         })
         .catch(err => {
@@ -105,7 +105,8 @@ exports.postRegistrarse = (req, res, next) => {
   const errors = validationResult(req);  // Valida si hay errores en el formulario
 
   if (!errors.isEmpty()) {
-    return res.status(422).render('registrarse', {
+    console.log(errors.array())
+    return res.status(422).render('auth/registrarse', {
       path: '/registrarse',
       titulo: 'Registrarse',
       mensajeError: errors.array()[0].msg,
@@ -162,29 +163,44 @@ exports.getResetPassword = (req, res, next) => {
 
 // Maneja el proceso de reset de contraseña
 exports.postResetPassword = (req, res, next) => {
+
+  const email = req.body.email;
+  const errors = validationResult(req);
+
+  if (!errors.isEmpty()) {
+    console.log(errors.array())
+    return res.status(422).render('auth/reset', {
+      path: '/resetPassword',
+      titulo: 'Recuperar contraseña',
+      mensajeError: errors.array()[0].msg,
+      erroresValidacion: errors.array(),
+      datosAnteriores: { email }
+    });
+  }
+
   crypto.randomBytes(32, (err, buffer) => {  // Genera un token aleatorio para el restablecimiento
     if (err) {
       console.log(err);
-      return res.redirect('auth/reset');
+      const error = new Error(err);
+          error.httpStatusCode = 500;
+          return next(error);
     }
     const token = buffer.toString('hex');
     Usuario.findOne({ email: req.body.email })  // Busca al usuario por su email
       .then(usuario => {
         if (!usuario) {
           req.flash('error', 'No se encontro usuario con dicho email');
-          return res.redirect('auth/reset');
+          return res.redirect('/resetPassword');
         }
         usuario.tokenReinicio = token;
         usuario.expiracionTokenReinicio = Date.now() + 3600000;  // El token expira en una hora
         return usuario.save();  // Guarda el usuario con el token de restablecimiento
       })
       .then(result => {
+        if(!result) {
+          return;
+        }
         const email = req.body.email;
-        res.render('auth/reset-msg', {
-          titulo: "Restablecer Password",
-          path: "/reset-msg",
-          email: email,
-        });
         transporter.sendMail({
           to: req.body.email,
           from: 'ugalvez9879@gmail.com',
@@ -196,9 +212,17 @@ exports.postResetPassword = (req, res, next) => {
             para restablecer tu password.</p>
           `
         });
+        res.render('auth/reset-msg', {
+          titulo: "Restablecer Password",
+          path: "/reset-msg",
+          email: email,
+        });
       })
       .catch(err => {
         console.log(err);
+        const error = new Error(err);
+          error.httpStatusCode = 500;
+          return next(error);
       });
   });
 };
@@ -220,6 +244,9 @@ exports.getNuevoPassword = (req, res, next) => {
     })
     .catch(err => {
       console.log(err);
+      const error = new Error(err);
+          error.httpStatusCode = 500;
+          return next(error);
     });
 };
 
@@ -248,5 +275,8 @@ exports.postNuevoPassword = (req, res, next) => {
     })
     .catch(err => {
       console.log(err);
+      const error = new Error(err);
+          error.httpStatusCode = 500;
+          return next(error);
     });
 };

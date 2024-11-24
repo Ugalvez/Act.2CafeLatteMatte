@@ -7,11 +7,22 @@
 
 <body>
 <%- include('../includes/navigation.ejs') %>
-
-
-<h1 class="text-center mb-4">Se ha enviado un correo para restablecer su contraseña a <%= email %></h1>
-<a class="text-center mb-4" href="/">Volder a inicio</a>
-                        
+                      
                        
+
+<div class="container-sm">
+    <div class="row justify-content-center py-5">
+        <div class="msg-container">
+            <div class="logueo">
+
+                <h2 class="text-center mb-4">Se ha enviado un correo para restablecer su contraseña a <%= email %></h2>
+                <a class="text-center mb-4" href="/">Volder a inicio</a>
+
+
+            </div>
+        </div>
+    </div>
+</div>
+
 
 <%- include('../includes/end.ejs') %>

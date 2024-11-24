@@ -65,7 +65,15 @@ router.post('/registrarse', [
 router.post('/salir', authController.postSalir);
 
 router.get('/resetPassword', authController.getResetPassword)
-router.post('/resetPassword', authController.postResetPassword)
+
+router.post('/resetPassword',
+    [
+        body('email')
+            .isEmail()
+            .withMessage('Por favor ingrese un email valido')
+            .normalizeEmail()
+    ],
+    authController.postResetPassword)
 router.get('/resetPassword/:token', authController.getNuevoPassword)
 router.post('/newPassword', authController.postNuevoPassword)
 

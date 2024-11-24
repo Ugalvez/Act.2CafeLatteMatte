@@ -15,7 +15,10 @@
 
                 <form action="/resetPassword" method="POST" novalidate>
                     <h1 class="text-center mb-4">Ingrese su correo para recuperar su contraseña</h1>
-                        
+                    <% if (mensajeError) { %>
+                        <div class="user-message user-message--error"><%= mensajeError %></div>
+                    <% } %>
+
                         <div class="form-group">
                             <label for="email">Correo:</label>
                             <input type="email" id="email" name="email" required>
@@ -24,7 +27,7 @@
                             <input type="hidden" name="_csrf" value="<%= csrfToken %>">
                             <button class="btn btn-primary" type="submit">Recuperar contraseña</button>
                         </div>
-                       
+
                 </form>
 
 

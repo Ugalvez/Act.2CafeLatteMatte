@@ -213,6 +213,7 @@ a:hover{
 .main-login .group-1{
   display: flex;
   align-items: center;
+  align-items: center;
   gap: 16px;
 }
 .btn-carrito{
@@ -230,7 +231,9 @@ a:hover{
   transition: all 0.3s;
 }
 /*.btn-sesion:hover{
+/*.btn-sesion:hover{
 
+}*/
 }*/
 
 
