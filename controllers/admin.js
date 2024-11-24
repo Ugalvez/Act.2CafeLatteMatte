@@ -12,7 +12,12 @@ exports.getDisplayProductos = (req, res, next) => {
                 csrfToken: req.csrfToken()
             });
         })
-        .catch(err => console.log(err));  // Muestra errores
+        .catch(err => {
+            console.log(err);
+            const error = new Error(err);
+                error.httpStatusCode = 500;
+                return next(error);
+          });  // control de errores
 };
 
 
@@ -65,7 +70,12 @@ exports.getEditarProducto = (req, res) => {
                 modoEdicion: true  // Indica que es un modo de edición
             });
         })
-        .catch(err => console.log(err));  // Muestra errores
+        .catch(err => {
+            console.log(err);
+            const error = new Error(err);
+                error.httpStatusCode = 500;
+                return next(error);
+          });  // control de errores
 };
 
 // Actualiza los datos de un producto en la base de datos
@@ -90,7 +100,12 @@ exports.postEditarProducto = (req, res, next) => {
             // Una vez actualizado, redirige a la página de administración
             res.redirect('adminHome');
         })
-        .catch(err => console.log(err));  // Muestra errores
+        .catch(err => {
+            console.log(err);
+            const error = new Error(err);
+                error.httpStatusCode = 500;
+                return next(error);
+          });  // control de errores
 };
 
 // Elimina un producto de la base de datos
@@ -102,7 +117,12 @@ exports.postEliminarProducto = (req, res, next) => {
             // Redirige al admin a la página principal de administración
             res.redirect('adminHome');
         })
-        .catch(err => console.log(err));  // Muestra errores
+        .catch(err => {
+            console.log(err);
+            const error = new Error(err);
+                error.httpStatusCode = 500;
+                return next(error);
+          });  // control de errores
 };
 
 // Muestra la vista para crear un nuevo usuario
