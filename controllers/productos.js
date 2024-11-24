@@ -1,30 +1,18 @@
+const Producto = require('../models/producto');  // Importa el modelo Producto
 
 
+// Renderiz la vista de creación de un nuevo producto
+exports.getCrearProducto = (req, res, next) => {
+    res.render('crear-producto', { 
+        titulo: 'Crear Producto',
+        path: '/admin/crear-producto'
+    });
+};
 
-const Producto = require('../models/producto');
+// Método POST para manejar el envío del formulario y crear un nuevo producto
+exports.postCrearProducto = (req, res, next) => {
 
-
-exports.getCrearProducto = (req,res,next)=>{
-
-    res.render('crear-producto',{titulo: 'Crear Producto', path: '/admin/crear-producto'})
- };
-
-
-
-
-
-
-
- 
-
- exports.postCrearProducto = (req, res, next) => {
-    console.log("Cuerpo de la solicitud:", req.body); // Verifica todo el cuerpo de la solicitud
-    console.log("Valor de favorito:", req.body.favorito); // Verifica el valor de favorito
-
-    // Asegúrate de que 'favorito' tenga el valor correcto
-    const favorito = req.body.favorito === 'on'; // Si el checkbox está marcado, 'favorito' será 'on', de lo contrario será 'false'
-
-    // Crear el producto con los datos enviados
+    // Crea un nuevo producto con la data del formulario
     const producto = new Producto({
         nombre: req.body.nombre,
         precio: req.body.precio,
@@ -33,23 +21,20 @@ exports.getCrearProducto = (req,res,next)=>{
         descripcion: req.body.descripcion,
         urlImagen: req.body.urlImagen,
         categoria: req.body.categoria,
-        idUsuario: req.user ? req.user._id : null, // Si manejas autenticación de usuario
-        favorito: true
+        idUsuario: req.user._id,
+        favorito: favorito
     });
 
-    // Guardar el producto en la base de datos
+    // Guarda el nuevo producto en la base de datos
     producto.save()
         .then(result => {
-            res.redirect("/"); // Redirige después de guardar
+            res.redirect("/");  // Redirige a la página principal después de guardar
         })
         .catch(err => {
-            console.log(err); // Verifica si hay algún error en la consola
-            res.redirect("/admin/crear-producto"); // Redirige en caso de error
+            console.log(err);  // Muestra un error en la consola si algo sale mal
+            res.redirect("/admin/crear-producto");  // Redirige de nuevo a la página de creación del producto
         });
 };
-
-
-
 
 
 
