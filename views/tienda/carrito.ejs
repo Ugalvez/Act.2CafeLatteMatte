@@ -49,6 +49,7 @@
                                 <form action="/carrito/eliminar-producto" method="POST">
                                     <input type="hidden" name="idProducto" value="<%= producto._id %>">
                                     <input type="hidden" name="_csrf" value="<%= csrfToken %>">
+                                    <input type="hidden" name="_csrf" value="<%= csrfToken %>">
                                     <button type="submit" class="btn btn-sesion"><ion-icon name="trash-outline"></ion-icon> Eliminar</button>
                                 </form>
                                 
@@ -66,6 +67,7 @@
         <a href="/" class="btn btn-sesion">Volver</a>
         
         <form action="/pedido" method="post" id="postConfPedido">
+            <input type="hidden" name="_csrf" value="<%= csrfToken %>">
             <input type="hidden" name="_csrf" value="<%= csrfToken %>">
             <button class="btn btn-sesion" type="submit"> Confirmar Pedido</button>
         </form>

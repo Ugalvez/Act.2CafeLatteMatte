@@ -76,6 +76,11 @@ exports.getProducto = (req, res) => {
 };
 
 exports.getCarrito = (req, res, next) => {
+  
+  /*if (!req.usuario) {
+    return res.redirect('/login'); // Redirige a login si no está autenticado
+  }*/
+
   req.usuario
     .populate('carrito.items.idProducto')
     .then(usuario => {
