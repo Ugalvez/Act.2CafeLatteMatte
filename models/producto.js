@@ -42,7 +42,7 @@ const productoSchema = new Schema({
   },
   favorito: { 
     type: Boolean,
-    default: false
+    default: false // Este valor solo se asignará si 'favorito' no se envía.
   }
 });
 

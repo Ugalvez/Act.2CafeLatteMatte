@@ -1,27 +1,32 @@
-
-
-
-
 const Producto = require('../models/producto');
 
 
 
-//adaptacion a mongoose
-
 exports.getDisplayProductos = (req, res, next) => {
-
     Producto.find()
         .then(productos => {
             res.render('adminHome', {
                  prods: productos,
                  titulo: "Admin Home",
-                 path: "/admin/adminHome"
+                 path: "/admin/adminHome",
+                 csrfToken: req.csrfToken()  // Asegúrate de pasar el csrfToken
             });
+        })
+        .catch(err => console.log(err));
+};
 
-    })
-    .catch(err => console.log(err));
 
-    }
+
+
+
+
+
+
+
+
+
+
+
 
 exports.getCrearProducto = (req, res) => {
     res.render('admin/crear-producto', {
