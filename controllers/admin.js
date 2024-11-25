@@ -52,7 +52,13 @@ exports.postCrearProducto = (req, res) => {
     // Extrae la información del cuerpo de la solicitud (del formulario)
     const { nombre, precio, precioPromo, descripcion, disponibilidad, stock, categoria } = req.body;
     const imagen = req.file;
-    const urlImagen =`/imagenes/${imagen.filename}`; // Esto usa la ruta pública
+    let urlImagen = '';
+    if (imagen) {
+        urlImagen = `/imagenes/${imagen.filename}`; // Esto usa la ruta pública
+    } else {
+        // Se asigna una imagen por defecto si no se sube ninguna
+        urlImagen = '/imagenes/default-image.jpg'; // Imagen predeterminada en caso de que no se suba ninguna
+    }
 ;
     const errors = validationResult(req);
 
@@ -100,6 +106,19 @@ exports.postCrearProducto = (req, res) => {
             return next(error);
           }); // control de errores
 };
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 // Renderiza la vista de edición de un producto
 exports.getEditarProducto = (req, res) => {

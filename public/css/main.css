@@ -308,11 +308,16 @@ section.container{
 }
 
 .user-message--error {
-  border-color: red;
-  background: rgb(255, 176, 176);
-  color: red;
+  border-color: #A57849; /* Marrón coherente con tu tema */
+  background: #FFF6E5;  /* Fondo claro relacionado con el marrón */
+  color: #A57849;       /* Texto marrón */
+  font-weight: 600;     /* Negrita para dar énfasis */
+  border-radius: 10px;  /* Bordes redondeados para coherencia con botones */
+  padding: 1rem;        /* Aumenta el padding */
+  text-align: center;
+  margin-bottom: 20px;  /* Espaciado inferior */
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1); /* Sombra ligera */
 }
-
 
 
 

@@ -13,7 +13,7 @@ router.post('/login',
     [
     body('email')
         .isEmail()
-        .withMessage('Por favor ingrese un email valido')
+        .withMessage('Por favor ingrese un email válido ejemplo@correo.com')
         .normalizeEmail(),
     body(
         'password',
@@ -44,6 +44,15 @@ router.post('/registrarse', [
                 }
             });
         }),
+    body('nombre', 'Ingrese el nombre')
+        .notEmpty()
+        .isString(),
+    body('apellidoPaterno', 'Ingrese el apellido paterno')
+        .isString()
+        .notEmpty(),
+    body('apellidoMaterno', 'Ingrese el apellido materno')
+        .notEmpty()
+        .isString(),
     body(
         'password',
         'Por favor ingrese un password que tenga solo letras o números y no menos de 5 caracteres.'
@@ -62,6 +71,14 @@ router.post('/registrarse', [
     authController.postRegistrarse);
 
 
+
+
+
+
+
+
+
+
 router.post('/salir', authController.postSalir);
 
 router.get('/resetPassword', authController.getResetPassword)
@@ -70,7 +87,7 @@ router.post('/resetPassword',
     [
         body('email')
             .isEmail()
-            .withMessage('Por favor ingrese un email valido')
+            .withMessage('Por favor ingrese un email válido ejemplo@correo.com')
             .normalizeEmail()
     ],
     authController.postResetPassword)
