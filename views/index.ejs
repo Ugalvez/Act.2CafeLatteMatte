@@ -6,15 +6,15 @@
 <%- include('includes/navigation.ejs') %>
 
 <section class="imagen-destacada">
-   <!-- Aquí puedes agregar una imagen destacada si lo deseas -->
+    <!-- Imagen destacada si es necesario -->
 </section>
 
 <main>
     <div class="container">
         <div class="my-5">
-            <h1 class="mb-4 pb-3 text-center">Los favoritos de la casa</h1>
+            <h1 class="mb-4 pb-3 text-center">Disfruta tu día con Latte&Matte</h1>
 
-            <!-- Mostrar productos por categoría -->
+            <!-- Categoría Café -->
             <div class="categoria">
                 <h2 class="titulo-categoria">Café</h2>
                 <% if (categorias.cafe.length > 0) { %>
@@ -33,7 +33,9 @@
                                         <a href="/productos/<%= producto.id %>">Ver Detalles</a>
                                         <div class="card_actions w-100 d-flex justify-content-between align-items-center pt-4">
                                             <h2 class="product_price">S/ <%= producto.precio %></h2>
-                                            <%- include('includes/agregar-al-carrito.ejs', {producto: producto}) %>
+                                            
+                                            <!-- Agregar al carrito -->
+                                            <%- include('includes/agregar-al-carrito.ejs', {producto: producto, deshabilitarBoton: producto.stock === 0}) %>
                                         </div>
                                     </div>
                                 </article>
@@ -45,8 +47,9 @@
                 <% } %>
             </div>
 
+            <!-- Categoría Sándwich -->
             <div class="categoria">
-                <h2 class="titulo-categoria">Sandwich</h2>
+                <h2 class="titulo-categoria">Sándwich</h2>
                 <% if (categorias.sandwich.length > 0) { %>
                     <div class="row">
                         <% for (let producto of categorias.sandwich) { %>
@@ -63,7 +66,9 @@
                                         <a href="/productos/<%= producto.id %>">Ver Detalles</a>
                                         <div class="card_actions w-100 d-flex justify-content-between align-items-center pt-4">
                                             <h2 class="product_price">S/ <%= producto.precio %></h2>
-                                            <%- include('includes/agregar-al-carrito.ejs', {producto: producto}) %>
+                                            
+                                            <!-- Agregar al carrito -->
+                                            <%- include('includes/agregar-al-carrito.ejs', {producto: producto, deshabilitarBoton: producto.stock === 0}) %>
                                         </div>
                                     </div>
                                 </article>
@@ -71,10 +76,11 @@
                         <% } %>
                     </div>
                 <% } else { %>
-                    <p>No hay productos en la categoría Sandwich.</p>
+                    <p>No hay productos en la categoría Sándwich.</p>
                 <% } %>
             </div>
 
+            <!-- Categoría Postre -->
             <div class="categoria">
                 <h2 class="titulo-categoria">Postre</h2>
                 <% if (categorias.postre.length > 0) { %>
@@ -93,7 +99,9 @@
                                         <a href="/productos/<%= producto.id %>">Ver Detalles</a>
                                         <div class="card_actions w-100 d-flex justify-content-between align-items-center pt-4">
                                             <h2 class="product_price">S/ <%= producto.precio %></h2>
-                                            <%- include('includes/agregar-al-carrito.ejs', {producto: producto}) %>
+                                            
+                                            <!-- Agregar al carrito -->
+                                            <%- include('includes/agregar-al-carrito.ejs', {producto: producto, deshabilitarBoton: producto.stock === 0}) %>
                                         </div>
                                     </div>
                                 </article>

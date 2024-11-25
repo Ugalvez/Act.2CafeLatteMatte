@@ -35,13 +35,11 @@
                         </div>
 
                     </div>
-                        <!--<div class = "card_actions">
-                            <button class="btn">Modificar</button>
-                        </div>-->
+
                         <div class="card__actions">
                             <a href="/admin/editar-producto/<%= producto.id %>?editar=true" class="btn"><ion-icon name="pencil-outline"></ion-icon> Editar</a>
                             <form action="/admin/eliminar-producto" method="POST">
-                                <input type="hidden" name="_csrf" value="<%= csrfToken %>">  <!-- Asegúrate de agregar este campo -->
+                                <input type="hidden" name="_csrf" value="<%= csrfToken %>"> 
                                 <input type="hidden" name="idProducto" value="<%= producto.id %>">
                                 <button class="btn" type="submit"><ion-icon name="trash-outline"></ion-icon> Eliminar</button>
                             </form>

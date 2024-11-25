@@ -22,9 +22,11 @@
                 <tbody>
                     <% productos.forEach(producto => { %>
                         <tr>
-                            <td class="py-3 px-2 border-bottom"><%= producto.nombre %></td> 
                             <td class="py-3 px-2 border-bottom">
-                                <!-- Input para modificar la cantidad -->
+                                <%= producto.nombre %>
+                                <span class="stock-disponible">(Stock disponible: <%= producto.stock %>)</span>
+                            </td>
+                            <td class="py-3 px-2 border-bottom">
                                 <form action="/carrito/modificar-cantidad" method="POST" class="form-carrito">
                                     <input type="hidden" name="idProducto" value="<%= producto._id %>">
                                     <div class="input-number-wrapper">
@@ -34,6 +36,7 @@
                                             name="nuevaCantidad" 
                                             value="<%= producto.cantidad %>" 
                                             min="1" 
+                                            max="<%= producto.stock %>"  
                                             class="input-number" 
                                             onkeydown="return false">
                                         <button type="button" class="input-number-btn" onclick="modificarCantidad(this, 1)">+</button>
@@ -45,20 +48,16 @@
                             <td class="py-3 px-2 border-bottom">S/ <%= producto.precio %></td>
                             <td class="py-3 px-2 border-bottom">S/ <%= producto.precio * producto.cantidad %></td>
                             <td class="py-3 px-2 border-bottom">
-                                <!-- Botón para eliminar producto -->
                                 <form action="/carrito/eliminar-producto" method="POST">
                                     <input type="hidden" name="idProducto" value="<%= producto._id %>">
                                     <input type="hidden" name="_csrf" value="<%= csrfToken %>">
-                                    <input type="hidden" name="_csrf" value="<%= csrfToken %>">
                                     <button type="submit" class="btn btn-sesion"><ion-icon name="trash-outline"></ion-icon> Eliminar</button>
                                 </form>
-                                
                             </td>
                         </tr>
                     <% }); %>
                 </tbody>
             </table>
-           <!-- <h2>Total: S/ <%= precioTotal %></h2> -->
             <div class="d-flex justify-content-end py-4 pe-5">
            <div class="total">Total: S/ <%= precioTotal.toFixed(2) %></div>
         </div>
@@ -82,6 +81,7 @@
     </main>
     
     <script>
+        //Este script es para los botones para aumentar o diminuir las cantidades que hay de un producto en el carrito :)
         function modificarCantidad(button, delta) {
             const input = button.parentElement.querySelector('input');
             const min = parseInt(input.min) || 1;

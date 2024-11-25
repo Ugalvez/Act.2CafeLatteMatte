@@ -1,6 +1,6 @@
 const path = require('path');
 const bodyParser = require("body-parser");
-const express = require ("express");
+const express = require("express");
 const csrf = require('csurf');
 const flash = require('connect-flash');
 const mongoose = require('mongoose');
@@ -10,10 +10,11 @@ const multer = require('multer');
 const fs = require('fs');
 
 
-const MONGODB_URI = 'mongodb+srv://ugalvez987:sfpa4774@cluster0.b1vsq.mongodb.net/?retryWrites=true&w=majority&appName=Cluster0';
+const MONGODB_URI = 'mongodb+srv://ugalvez987:sfpa4774@cluster0.b1vsq.mongodb.net/?retryWrites=true&w=majority&appName=Cluster0'; // URI de la base de datos
 
 
 
+// Rutas
 
 const adminRoutes = require('./routes/admin').routes;
 const tiendaRoutes = require('./routes/tienda');
@@ -26,18 +27,30 @@ const Usuario = require('./models/users');
 
 const app = express();
 
+// Configuración para almacenar sesiones en MongoDB
+
 const store = new MongoDBStore({
   uri: MONGODB_URI,
   collection: 'sessions'
 });
 
+// Protección CSRF
+
 const csrfProtection = csrf();
 
-app.use(bodyParser.urlencoded({extended: false}));
 
+// Middleware para manejar datos del formulario
+
+app.use(bodyParser.urlencoded({ extended: false }));
+
+
+// Crea la carpeta de imágenes si no existe
 if (!fs.existsSync('./imagenes')) {
   fs.mkdirSync('./imagenes');
 }
+
+
+// Configuración de multer para subir imágenes
 
 const fileStorage = multer.diskStorage({
   destination: (req, file, cb) => {
@@ -49,6 +62,7 @@ const fileStorage = multer.diskStorage({
   }
 });
 
+// Filtra solo imágenes permitidas
 
 const fileFilter = (req, file, cb) => {
   if (
@@ -62,13 +76,18 @@ const fileFilter = (req, file, cb) => {
   }
 };
 
+
+// Middleware para la subida de archivos
 app.use(multer({ storage: fileStorage, fileFilter: fileFilter }).single('urlImagen'));
 
+
+// Configuración de EJS como motor de plantillas
 app.set('view engine', 'ejs');
-app.set('views','views');
+app.set('views', 'views');
 
 
-app.use(express.static(path.join(__dirname,'public')));
+app.use(express.static(path.join(__dirname, 'public')));
+// Configuración de sesiones
 app.use(session({ secret: 'algo muy secreto', resave: false, saveUninitialized: false, store: store }));
 
 app.use(csrfProtection);
@@ -77,14 +96,14 @@ app.use(flash());
 
 
 app.use((req, res, next) => {
-  if(!req.session.usuario) {
+  if (!req.session.usuario) {
     return next();
   }
 
   Usuario.findById(req.session.usuario._id)
     .then(usuario => {
-        req.usuario = usuario;
-        next();
+      req.usuario = usuario;
+      next();
     })
     .catch(err => console.log(err));
 
@@ -102,45 +121,39 @@ app.use((req, res, next) => {
 });
 
 
-app.use('/admin',adminRoutes);
+// Rutas de la aplicación
+
+app.use('/admin', adminRoutes);
 app.use(tiendaRoutes);
 app.use(authRoutes);
 
+// Rutas para errores
 app.get('/500', errorController.get500);
 app.use(errorController.get404)
 
-// app.use((err, req, res, next) => {
-//   console.log(err);
-//   res.status(500).render('500', {
-//     titulo: 'Error!',
-//     path: '/500',
-//     autenticado: req.session.autenticado
-//   });
-// })
 
 
 
-
-
+// Conexión a la base de datos y arranque del servidor
 
 mongoose
-   .connect(MONGODB_URI)
+  .connect(MONGODB_URI)
   .then(result => {
-    //console.log(result)
+    // Si no existe un usuario, crea uno por defecto
 
     Usuario.findOne().then(usuario => {
-        if (!usuario) {
-          const usuario = new Usuario({
-            nombre: 'ugalvez',
-            email: 'ugalvez987@gmail.com',
-            password: '12345',
-            carrito: {
-              items: []
-            }
-          });
-          usuario.save();
-        }
-      });
+      if (!usuario) {
+        const usuario = new Usuario({
+          nombre: 'ugalvez',
+          email: 'ugalvez987@gmail.com',
+          password: '12345',
+          carrito: {
+            items: []
+          }
+        });
+        usuario.save();
+      }
+    });
     app.listen(3000);
     console.log('conectado al servidor')
   })
@@ -150,7 +163,3 @@ mongoose
 
 
 
-
- /*app.listen(3000,()=>{
-    console.log("Se ha iniciado el servidor express.js")
- });*/

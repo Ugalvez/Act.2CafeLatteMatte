@@ -28,7 +28,6 @@
                 <div class="col-lg-6 ">
                     <div class="form-group">
                         <label>Nombre del producto</label><br>
-                        <!--<input type="nombreproducto" name="nombre">-->
                         <input type="text" name="nombre" id="nombre" value="<% if (modoEdicion) { %><%= producto.nombre %><% } %>" required>
                     </div>
 
@@ -52,10 +51,10 @@
                                 <label>Precio</label>
                                 <input type="number" name="precio" id="precio" value="<% if (modoEdicion) { %><%= producto.precio %><% } %>" required><br />
                             </div>
-                            <div class="col s-group">
+                           <!-- <div class="col s-group">
                                 <label>Precio promocional</label>
                                 <input type="number" name="precioPromo" id="precioPromo" value="<% if (modoEdicion) { %><%= producto.precioPromo %><% } %>"/><br />
-                            </div>
+                            </div> -->
                             <div class="col s-group">
                                 <label>Disponibilidad</label>
                                 <input type="text" name="stock" id="stock" value="<% if (modoEdicion) { %><%= producto.stock %><% } %>" required/><br />
@@ -88,13 +87,11 @@
             <% if (modoEdicion) { %>
                 <input type="hidden" value="<%= producto._id %>" name="idProducto">
             <% } %>
-
-            <!-- Checkbox arriba del botón -->
-            <div class="form-groupCheckbox">
+            <!--<div class="form-groupCheckbox">
                 <input type="checkbox" id="checkbox" name="favorito" class="checkbox-style" 
                        <% if (modoEdicion && producto.favorito) { %> checked <% } %> >
                 <label for="checkbox" class="checkbox-label">¿Es un Producto Favorito?</label>
-            </div>
+            </div> -->
 
             <div class="group mt-4">
                 <input type="hidden" name="_csrf" value="<%= csrfToken %>">
@@ -107,8 +104,6 @@
 
 </div>
 </div>
-<!--fin container-->
-
 <%- include ('../includes/end.ejs') %>
 
 

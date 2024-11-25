@@ -1,0 +1,10 @@
+Usuario tipo cliente:
+
+ugalvez@framesporsegundo.com
+asdf1234
+
+Usuario tipo ADMIN:
+
+ugalvez987@hotmail.com
+asdf1234
+

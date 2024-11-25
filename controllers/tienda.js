@@ -88,7 +88,6 @@ exports.getCarrito = (req, res, next) => {
           cantidad: item.cantidad
         };
       }).filter(Boolean); // Filtra los elementos nulos
-        
       res.render('tienda/carrito', {
         path: '/carrito',
         titulo: 'Mi Carrito',
@@ -123,6 +122,24 @@ exports.postEliminarProductoCarrito = (req, res, next) => {
       .catch(err => console.log(err));
 };
 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 exports.postPedido = (req, res, next) => {
   const usuario = req.usuario;
 
@@ -133,7 +150,7 @@ exports.postPedido = (req, res, next) => {
   const productosDelCarrito = usuario.carrito.items;
   const nuevoPedido = {
     productos: [],
-    fecha: new Date() // Puedes agregar más campos como fecha, estado, etc.
+    fecha: new Date()
   };
 
   productosDelCarrito.forEach(itemCarrito => {
@@ -152,22 +169,51 @@ exports.postPedido = (req, res, next) => {
         cantidad: itemCarrito.cantidad
       });
     }
+
+    // Restar la cantidad del stock después de confirmar el pedido
+    Producto.findById(producto)
+      .then(producto => {
+        if (producto.stock < itemCarrito.cantidad) {
+          return Promise.reject('No hay suficiente stock para completar el pedido');
+        }
+        producto.stock -= itemCarrito.cantidad; // Actualizamos el stock
+        return producto.save(); // Guardamos el cambio
+      })
+      .catch(err => console.log(err));
   });
 
   if (!usuario.pedidos) {
-    usuario.pedidos = []; // Asegura que el usuario tenga un array de pedidos
+    usuario.pedidos = [];
   }
 
-  usuario.pedidos.push(nuevoPedido); // Agregamos el nuevo pedido
+  usuario.pedidos.push(nuevoPedido);
 
   usuario.limpiarCarrito()
-    .then(() => usuario.save()) // Guardamos el usuario con el nuevo pedido
-    .then(() => res.redirect('/pedido')) // Redirigimos a la página de pedidos
+    .then(() => usuario.save())
+    .then(() => res.redirect('/pedido'))
     .catch(err => {
       console.error(err);
       res.status(500).send('Error al confirmar el pedido');
     });
 };
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 

@@ -39,7 +39,6 @@ a:hover{
 }
 .main-header {
   width: 100%;
-  /*height: 3.5rem;*/
   background-color: #333;
   display: flex;
   flex-direction: column;
@@ -71,6 +70,8 @@ a:hover{
 .main-header__item a.active {
   color: #E6B17B;
 }
+
+/* Para dispositivos mobiles*/
 .mobile-nav {
   width: 30rem;
   height: 100vh;
@@ -144,6 +145,8 @@ a:hover{
   justify-content: space-around;
   align-items: stretch;
 }
+
+/*Para las cartas de los productos que se van creaendo automaticamente*/
 .card {
   box-shadow: 0 2px 8px rgba(0, 0, 0, 0.26);
 }
@@ -196,6 +199,8 @@ a:hover{
     display: none;
   }
 }
+
+/*Elementos de login*/
 .main-login .group-0{
     width: 200px;
   display: flex;
@@ -233,7 +238,7 @@ a:hover{
 
 
 
-/*seccion destacada*/
+/*Para el banner del index*/
 
 .imagen-destacada{
   height: 500px;
@@ -255,13 +260,6 @@ section.container{
 
 
 }
-
-/*------>footer<---------*/
-
-
-
-
-
 
 .btn-primary{
   border-radius: 50px;
@@ -289,9 +287,7 @@ section.container{
 #postConfPedido{
   margin-right: 20px;
 
-
 }
-
 
 .text-center {
   text-align: center;
@@ -306,20 +302,18 @@ section.container{
   background: #b9c9ff;
   text-align: center;
 }
-
+/*Para darle estilos a los mensajes de error*/
 .user-message--error {
-  border-color: #A57849; /* Marrón coherente con tu tema */
-  background: #FFF6E5;  /* Fondo claro relacionado con el marrón */
-  color: #A57849;       /* Texto marrón */
-  font-weight: 600;     /* Negrita para dar énfasis */
-  border-radius: 10px;  /* Bordes redondeados para coherencia con botones */
-  padding: 1rem;        /* Aumenta el padding */
+  border-color: #A57849;
+  background: #FFF6E5; 
+  color: #A57849;       
+  font-weight: 600;    
+  border-radius: 10px;  
+  padding: 1rem;        
   text-align: center;
-  margin-bottom: 20px;  /* Espaciado inferior */
-  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1); /* Sombra ligera */
+  margin-bottom: 20px;  
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1); 
 }
-
-
 
 
 
@@ -328,23 +322,23 @@ section.container{
 /* Estilos para la paginación */
 .pagination {
   display: flex;
-  justify-content: center; /* Centra los botones de paginación */
+  justify-content: center;
   align-items: center;
   margin-top: 20px;
-  list-style: none; /* Elimina los puntos de lista */
+  list-style: none;
   padding: 0;
 }
 
 .pagination li {
-  margin: 0 5px; /* Espacio entre los botones */
+  margin: 0 5px;
 }
 
 .pagination a,
 .pagination span {
   display: inline-block;
   padding: 8px 12px;
-  background-color: #f1f1f1; /* Fondo gris claro */
-  color: #333; /* Color del texto */
+  background-color: #f1f1f1;
+  color: #333;
   text-decoration: none;
   border-radius: 5px;
   transition: background-color 0.3s ease, color 0.3s ease;
@@ -354,19 +348,19 @@ section.container{
 .pagination a:focus,
 .pagination span:hover,
 .pagination span:focus {
-  background-color: #A57849; /* Color de fondo cuando se pasa el ratón */
-  color: white; /* Color de texto en hover */
+  background-color: #A57849;
+  color: white;
 }
 
 .pagination .active {
-  background-color: #A57849; /* Color de fondo para la página activa */
-  color: white; /* Color de texto para la página activa */
-  pointer-events: none; /* Desactiva el clic en la página activa */
+  background-color: #A57849;
+  color: white;
+  pointer-events: none;
 }
 
 .pagination .disabled {
-  color: #ddd; /* Color para botones deshabilitados */
-  pointer-events: none; /* Desactiva el clic en los botones deshabilitados */
+  color: #ddd;
+  pointer-events: none;
 }
 
 /* Estilos para los botones de paginación (anterior y siguiente) */
@@ -386,19 +380,16 @@ section.container{
 }
 
 .titulo-categoria {
-  font-size: 2rem;               /* Tamaño de fuente */
-  font-weight: bold;             /* Peso de la fuente */
-  text-transform: uppercase;     /* Transformar a mayúsculas */
-  color: #000000;                /* Color de texto */
-  text-align: center;            /* Centrado del texto */
-  margin: 20px 0;                /* Espaciado arriba y abajo */
-  letter-spacing: 2px;           /* Espaciado entre letras */
-  border-bottom: 3px solid #000000; /* Línea decorativa debajo */
-  padding-bottom: 10px;          /* Espaciado debajo del texto */
+  font-size: 2rem;
+  font-weight: bold;
+  text-transform: uppercase;
+  color: #000000;
+  text-align: center;
+  margin: 20px 0;
+  letter-spacing: 2px;
+  border-bottom: 3px solid #000000;
+  padding-bottom: 10px;
 }
-
-
-
 
 
 
@@ -407,47 +398,40 @@ section.container{
   height: 20px;
   margin-right: 10px;
   cursor: pointer;
-  appearance: none; /* Quita el estilo predeterminado */
+  appearance: none;
   border: 2px solid #A57849;
-  border-radius: 3px; /* Bordes redondeados */
-  background-color: #fff; /* Color de fondo cuando no está marcado */
+  border-radius: 3px;
+  background-color: #fff;
   transition: background-color 0.3s, border-color 0.3s;
 }
 
 /* Estilo cuando el checkbox está marcado */
 .checkbox-style:checked {
-  background-color: #A57849; /* Color de fondo cuando está marcado */
-  border-color: #A57849; /* Cambiar el borde también */
+  background-color: #A57849;
+  border-color: #A57849;
 }
 
-/* Estilo exclusivo para la etiqueta del checkbox */
+
 .checkbox-label {
-  font-size: 1.2rem; /* Aumenta el tamaño de la letra */
+  font-size: 1.2rem;
   font-weight: 500;
   color: #333;
   cursor: pointer;
-  line-height: 20px; /* Alineación vertical con el checkbox */
+  line-height: 20px;
 }
-
-
-
-
-
-
-
 
 
 
 
 .input-number {
-  -moz-appearance: textfield; /* Elimina las flechas en Firefox */
-  -webkit-appearance: none; /* Elimina las flechas en Chrome, Safari, Edge */
+  -moz-appearance: textfield;
+  -webkit-appearance: none;
   appearance: none;
-  width: 80px; /* Ancho del input */
-  height: 40px; /* Altura del input */
+  width: 80px;
+  height: 40px;
   text-align: center;
   font-size: 16px;
-  border: 2px solid #A57849; /* Borde marrón */
+  border: 2px solid #A57849;
   border-radius: 5px;
   background-color: #f9f9f9;
   transition: all 0.3s ease;
@@ -457,7 +441,7 @@ section.container{
   display: flex;
   align-items: center;
   justify-content: center;
-  gap: 5px; /* Espacio entre el input y los botones */
+  gap: 5px;
 }
 
 .input-number-btn {
@@ -477,4 +461,9 @@ section.container{
 
 .input-number-btn:hover {
   background-color: #d0904b;
+}
+
+.stock-disponible {
+  font-size: 0.7rem;
+  color: #464646;
 }
