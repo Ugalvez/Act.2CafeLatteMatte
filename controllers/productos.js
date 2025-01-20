@@ -39,30 +39,6 @@ exports.postCrearProducto = (req, res, next) => {
             //res.redirect("/admin/crear-producto");  // Redirige de nuevo a la página de creación del producto
 };
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-     
-
 exports.getProductos = (req, res, next) => {
     Producto.find()
     .then(productos => {
@@ -74,9 +50,6 @@ exports.getProductos = (req, res, next) => {
 
     })
     .catch(err => console.log(err));
-
-      
-      
       productosObt =>{
         //console.log (productosObt);
         productos = productosObt;
@@ -87,12 +60,8 @@ exports.getProductos = (req, res, next) => {
             titulo: "Latte&Matte",
             path: "/"
            })
-
-
     };
 
-    
- 
   }
 
 

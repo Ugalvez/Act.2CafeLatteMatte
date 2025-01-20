@@ -1,5 +1,3 @@
-
-
 const mongoose = require('mongoose');
 
 const Schema = mongoose.Schema;
@@ -66,6 +64,8 @@ const usuarioSchema = new Schema({
 
 
 });
+
+//Define funciones del carrito
 
 usuarioSchema.methods.agregarAlCarrito = function(producto) {
   if (!this.carrito) {

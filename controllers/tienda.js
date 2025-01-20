@@ -125,21 +125,6 @@ exports.postEliminarProductoCarrito = (req, res, next) => {
 
 
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 exports.postPedido = (req, res, next) => {
   const usuario = req.usuario;
 
@@ -196,24 +181,6 @@ exports.postPedido = (req, res, next) => {
       res.status(500).send('Error al confirmar el pedido');
     });
 };
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 
 
 
