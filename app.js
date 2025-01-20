@@ -36,7 +36,15 @@ const store = new MongoDBStore({
 
 // Protección CSRF
 
-const csrfProtection = csrf();
+//Revisado por Sergio Morillo
+const csrfProtection = csrf({
+  cookie: {
+    httpOnly: true,
+    secure: process.env.NODE_ENV === 'production',
+    sameSite: 'strict',
+    maxAge: 24 * 60 * 60 * 1000  // Duración de 1 día para el token
+  }
+}); 
 
 
 // Middleware para manejar datos del formulario
@@ -130,6 +138,17 @@ app.use(authRoutes);
 // Rutas para errores
 app.get('/500', errorController.get500);
 app.use(errorController.get404)
+
+
+// Manejo de errores CSRF - Revisado por Sergio Morillo
+app.use((err, req, res, next) => {
+  if (err.code === 'EBADCSRFTOKEN') {
+    return res.status(403).render('error', { message: 'Token CSRF inválido o expirado' });
+  }
+  next(err); // Otros errores
+});
+
+
 
 
 
