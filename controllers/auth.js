@@ -3,12 +3,10 @@ const bcrypt = require('bcryptjs');
 const crypto = require('crypto');
 const { check, body } = require('express-validator');
 const { validationResult } = require('express-validator');
-
 const nodemailer = require('nodemailer');
 const sendgridTransport = require('nodemailer-sendgrid-transport');
 
 const isAdmin = require('../middleware/is-admin');
-
 
 const APIKEY = ''
 
@@ -23,7 +21,7 @@ const transporter = nodemailer.createTransport(
 // Muestra el formulario de login
 exports.getLogin = (req, res, next) => {
   let mensaje = req.flash('error');
-  mensaje = mensaje.length > 0 ? mensaje[0] : null;  // Manda errores si hay
+  mensaje = mensaje.length > 0 ? mensaje[0] : null;
   res.render('auth/login', {
     path: '/login',
     titulo: 'Log-in',
@@ -34,26 +32,25 @@ exports.getLogin = (req, res, next) => {
   });
 };
 
-
 // Maneja el proceso de login
 exports.postLogin = (req, res, next) => {
-  const { email, password } = req.body;  // Obtiene los datos del formulario
+  const { email, password } = req.body;
 
-  const errors = validationResult(req);  // Valida si hay errores
+  const errors = validationResult(req);
 
   if (!errors.isEmpty()) {
     return res.status(422).render('auth/login', {
       path: '/login',
       titulo: 'Log-in',
-      mensajeError: errors.array()[0].msg,  // Muestra el primer error encontrado
+      mensajeError: errors.array()[0].msg,
       datosAnteriores: { email, password },
       erroresValidacion: errors.array()
     });
   }
 
-  Usuario.findOne({ email })  // Busca el usuario por correo electrónico
+  Usuario.findOne({ email })
     .then(usuario => {
-      if (!usuario) {  // Si no encuentra al usuario, muestra un mensaje de error
+      if (!usuario) {
         return res.status(422).render('auth/login', {
           path: '/login',
           titulo: 'Log-in',
@@ -62,23 +59,24 @@ exports.postLogin = (req, res, next) => {
           erroresValidacion: []
         });
       }
-      bcrypt.compare(password, usuario.password)  // Compara la contraseña con la guardada en la base de datos
+      bcrypt.compare(password, usuario.password)
         .then(hayCoincidencia => {
           if (hayCoincidencia) {
             req.session.autenticado = true;
             req.session.usuario = usuario;
             return req.session.save(err => {
               console.log(err);
-              res.redirect('/');  // Redirige a la página principal si el login es exitoso
+              res.redirect('/');
             });
           }
           req.flash('error', 'Email o password inválidos.');
-          res.redirect('/login');  // Si la contraseña no coincide, redirige al login
+          res.redirect('/login');
         })
         .catch(err => {
-          const error = new Error(err);
+          console.error('Error durante la autenticación:', err); // Agregado para depuración
+          const error = new Error('Error interno del servidor');
           error.httpStatusCode = 500;
-          return next(error);  // Manejo de errores si algo falla en la comparación
+          return next(error);
         });
     });
 };
@@ -90,7 +88,7 @@ exports.getRegistrarse = (req, res, next) => {
   res.render('auth/registrarse', {
     titulo: "Registrarse",
     path: "/registrarse",
-    autenticado: req.session.usuario,  // Si el usuario está autenticado, lo indica
+    autenticado: req.session.usuario,
     mensajeError: mensaje,
     datosAnteriores: { nombre: '', fechaNacimiento: '', email: '', password: '' },
     erroresValidacion: []
@@ -100,12 +98,12 @@ exports.getRegistrarse = (req, res, next) => {
 // Maneja el proceso de registro
 exports.postRegistrarse = (req, res, next) => {
   const { nombre, apellidoPaterno, apellidoMaterno, fechaNacimiento, email, password, passwordConfirmado } = req.body;
-  const rol = req.session.usuario && req.session.usuario.rol === 'administrador' ? req.body.rol : 'cliente';  // Verifica si el usuario es admin
+  const rol = req.session.usuario && req.session.usuario.rol === 'administrador' ? req.body.rol : 'cliente';
 
-  const errors = validationResult(req);  // Valida si hay errores en el formulario
+  const errors = validationResult(req);
 
   if (!errors.isEmpty()) {
-    console.log(errors.array())
+    console.log(errors.array());
     return res.status(422).render('auth/registrarse', {
       path: '/registrarse',
       titulo: 'Registrarse',
@@ -115,16 +113,16 @@ exports.postRegistrarse = (req, res, next) => {
     });
   }
 
-  bcrypt.hash(password, 13)  // Encripta la contraseña con bcrypt
+  bcrypt.hash(password, 13)
     .then(passwordCifrado => {
       const user = new Usuario({
         nombre, apellidoPaterno, apellidoMaterno, fechaNacimiento, email, rol, password: passwordCifrado, carrito: { items: [] }
       });
-      return user.save();  // Guarda el nuevo usuario
+      return user.save();
     })
     .then(result => {
-      res.redirect('/login');  // Redirige al login después de un registro exitoso
-      return transporter.sendMail({  // Envía un correo de confirmación al usuario
+      res.redirect('/login');
+      return transporter.sendMail({
         to: email,
         from: 'ugalvez9879@gmail.com',
         subject: '¡Registro exitoso!',
@@ -132,10 +130,10 @@ exports.postRegistrarse = (req, res, next) => {
       });
     })
     .catch(err => {
-      console.log(err);
-      const error = new Error(err);
+      console.error('Error durante el registro de usuario:', err); // Agregado para depuración
+      const error = new Error('Error interno del servidor');
       error.httpStatusCode = 500;
-      return next(error);  // Manejo de errores si algo falla
+      return next(error);
     });
 };
 
@@ -143,7 +141,7 @@ exports.postRegistrarse = (req, res, next) => {
 exports.postSalir = (req, res, next) => {
   req.session.destroy(err => {
     console.log(err);
-    res.redirect('/');  // Redirige a la página principal después del logout
+    res.redirect('/');
   });
 };
 
@@ -163,12 +161,11 @@ exports.getResetPassword = (req, res, next) => {
 
 // Maneja el proceso de reset de contraseña
 exports.postResetPassword = (req, res, next) => {
-
   const email = req.body.email;
   const errors = validationResult(req);
 
   if (!errors.isEmpty()) {
-    console.log(errors.array())
+    console.log(errors.array());
     return res.status(422).render('auth/reset', {
       path: '/resetPassword',
       titulo: 'Recuperar contraseña',
@@ -178,28 +175,26 @@ exports.postResetPassword = (req, res, next) => {
     });
   }
 
-  crypto.randomBytes(32, (err, buffer) => {  // Genera un token aleatorio para el restablecimiento
+  crypto.randomBytes(32, (err, buffer) => {
     if (err) {
-      console.log(err);
-      const error = new Error(err);
-          error.httpStatusCode = 500;
-          return next(error);
+      console.error('Error al generar el token:', err); // Agregado para depuración
+      const error = new Error('Error interno del servidor');
+      error.httpStatusCode = 500;
+      return next(error);
     }
     const token = buffer.toString('hex');
-    Usuario.findOne({ email: req.body.email })  // Busca al usuario por su email
+    Usuario.findOne({ email: req.body.email })
       .then(usuario => {
         if (!usuario) {
-          req.flash('error', 'No se encontro usuario con dicho email');
+          req.flash('error', 'No se encontró usuario con dicho email');
           return res.redirect('/resetPassword');
         }
         usuario.tokenReinicio = token;
-        usuario.expiracionTokenReinicio = Date.now() + 3600000;  // El token expira en una hora
-        return usuario.save();  // Guarda el usuario con el token de restablecimiento
+        usuario.expiracionTokenReinicio = Date.now() + 3600000;
+        return usuario.save();
       })
       .then(result => {
-        if(!result) {
-          return;
-        }
+        if (!result) return;
         const email = req.body.email;
         transporter.sendMail({
           to: req.body.email,
@@ -219,10 +214,10 @@ exports.postResetPassword = (req, res, next) => {
         });
       })
       .catch(err => {
-        console.log(err);
-        const error = new Error(err);
-          error.httpStatusCode = 500;
-          return next(error);
+        console.error('Error durante el proceso de reinicio de password:', err); // Agregado para depuración
+        const error = new Error('Error interno del servidor');
+        error.httpStatusCode = 500;
+        return next(error);
       });
   });
 };
@@ -243,10 +238,10 @@ exports.getNuevoPassword = (req, res, next) => {
       });
     })
     .catch(err => {
-      console.log(err);
-      const error = new Error(err);
-          error.httpStatusCode = 500;
-          return next(error);
+      console.error('Error al mostrar formulario de nuevo password:', err); // Agregado para depuración
+      const error = new Error('Error interno del servidor');
+      error.httpStatusCode = 500;
+      return next(error);
     });
 };
 
@@ -262,21 +257,21 @@ exports.postNuevoPassword = (req, res, next) => {
   })
     .then(usuario => {
       usuarioParaActualizar = usuario;
-      return bcrypt.hash(password, 12);  // Encripta la nueva contraseña
+      return bcrypt.hash(password, 12);
     })
     .then(hashedPassword => {
       usuarioParaActualizar.password = hashedPassword;
       usuarioParaActualizar.tokenReinicio = undefined;
       usuarioParaActualizar.expiracionTokenReinicio = undefined;
-      return usuarioParaActualizar.save();  // Guarda el nuevo password
+      return usuarioParaActualizar.save();
     })
     .then(result => {
-      res.redirect('/login');  // Redirige a login después de actualizar la contraseña
+      res.redirect('/login');
     })
     .catch(err => {
-      console.log(err);
-      const error = new Error(err);
-          error.httpStatusCode = 500;
-          return next(error);
+      console.error('Error durante la actualización de la contraseña:', err); // Agregado para depuración
+      const error = new Error('Error interno del servidor');
+      error.httpStatusCode = 500;
+      return next(error);
     });
 };

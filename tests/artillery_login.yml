@@ -1,0 +1,31 @@
+#Test de rendimiento para la funcion de login - Sergio Morillo
+
+config:
+  target: "http://localhost:3000" # Cambia esto si el servidor corre en otro host o puerto
+  phases:
+    - duration: 60 # Duración de la prueba (en segundos)
+      arrivalRate: 10 # Usuarios simulados por segundo
+
+scenarios:
+  - flow:
+      - post:
+          url: "/login"
+          json:
+            email: "{{ email }}"
+            password: "{{ password }}"
+          expect:
+            - statusCode: 302 # Espera redirección al inicio
+            - headers:
+                Location: "/" # Redirección esperada
+      - think: 2 # Pausa de 2 segundos antes del próximo usuario
+    variables:
+      users:
+        - email: "ugalvez@framesporsegundo.com"
+          password: "asdf1234"
+        - email: "ugalvez987@hotmail.com"
+          password: "asdf1234"
+    processor: |
+      // Rotar entre los usuarios definidos
+      const userCount = vars.users.length;
+      vars.email = vars.users[context.vars.$loopCount % userCount].email;
+      vars.password = vars.users[context.vars.$loopCount % userCount].password;

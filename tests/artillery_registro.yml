@@ -1,0 +1,55 @@
+#Test de rendimiento para la funcion de registro de usuario - Sergio Morillo
+
+config:
+  target: "http://localhost:3000"
+  phases:
+    - duration: 60 # Duración de la prueba (en segundos)
+      arrivalRate: 5 # Usuarios simulados por segundo
+
+scenarios:
+  - flow:
+      - post:
+          url: "/registrarse"
+          json:
+            nombre: "{{ nombre }}"
+            apellidoPaterno: "{{ apellidoPaterno }}"
+            apellidoMaterno: "{{ apellidoMaterno }}"
+            fechaNacimiento: "{{ fechaNacimiento }}"
+            email: "{{ email }}"
+            password: "{{ password }}"
+            passwordConfirmado: "{{ password }}"
+          expect:
+            - statusCode: 302 # Espera redirección al login
+            - headers:
+                Location: "/login" # Redirección esperada
+      - think: 3 # Pausa de 3 segundos antes del próximo usuario
+    variables:
+      users:
+        - nombre: "Juan"
+          apellidoPaterno: "Pérez"
+          apellidoMaterno: "López"
+          fechaNacimiento: "1990-01-01"
+          email: "juan.perez1@example.com"
+          password: "password123"
+        - nombre: "Ana"
+          apellidoPaterno: "Gómez"
+          apellidoMaterno: "Martínez"
+          fechaNacimiento: "1985-05-15"
+          email: "ana.gomez@example.com"
+          password: "password456"
+        - nombre: "Luis"
+          apellidoPaterno: "Morales"
+          apellidoMaterno: "Rodríguez"
+          fechaNacimiento: "2000-10-20"
+          email: "luis.morales@example.com"
+          password: "password789"
+    processor: |
+      // Rotar entre los usuarios definidos
+      const userCount = vars.users.length;
+      const user = vars.users[context.vars.$loopCount % userCount];
+      vars.nombre = user.nombre;
+      vars.apellidoPaterno = user.apellidoPaterno;
+      vars.apellidoMaterno = user.apellidoMaterno;
+      vars.fechaNacimiento = user.fechaNacimiento;
+      vars.email = user.email;
+      vars.password = user.password;
