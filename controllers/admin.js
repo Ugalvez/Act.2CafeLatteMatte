@@ -97,6 +97,7 @@ exports.postCrearProducto = (req, res) => {
     producto.save()  // Guarda el producto en la base de datos
         .then(result => {
             // Redirige al administrador a la página principal de administración
+            res.status(201);
             res.redirect('/admin/adminHome');
         })
         .catch(err => {
@@ -192,6 +193,7 @@ exports.postEliminarProducto = (req, res, next) => {
 
     Producto.findByIdAndDelete(idProducto)  // Busca y elimina el producto
         .then(result => {
+            res.status(302);
             // Redirige al admin a la página principal de administración
             res.redirect('adminHome');
         })

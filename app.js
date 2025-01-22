@@ -129,28 +129,30 @@ app.get('/500', errorController.get500);
 app.use(errorController.get404);
 
 // Conexión a la base de datos y arranque del servidor
-mongoose
-  .connect(MONGODB_URI)
-  .then(result => {
-    // Si no existe un usuario, crea uno por defecto
-    Usuario.findOne().then(usuario => {
-      if (!usuario) {
-        const usuario = new Usuario({
-          nombre: 'ugalvez',
-          email: 'ugalvez987@gmail.com',
-          password: '12345',
-          carrito: {
-            items: []
-          }
-        });
-        usuario.save();
-      }
+if (require.main === module) {
+  mongoose
+    .connect(MONGODB_URI)
+    .then(result => {
+      // Si no existe un usuario, crea uno por defecto
+      Usuario.findOne().then(usuario => {
+        if (!usuario) {
+          const usuario = new Usuario({
+            nombre: 'ugalvez',
+            email: 'ugalvez987@gmail.com',
+            password: '12345',
+            carrito: {
+              items: []
+            }
+          });
+          usuario.save();
+        }
+      });
+      app.listen(3000);
+      console.log('conectado al servidor');
+    })
+    .catch(err => {
+      console.log(err);
     });
-    app.listen(3000);
-    console.log('conectado al servidor');
-  })
-  .catch(err => {
-    console.log(err);
-  });
+}
 
-  module.exports = app;
+module.exports = app;
