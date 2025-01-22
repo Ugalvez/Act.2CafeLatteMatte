@@ -27,6 +27,8 @@ const store = new MongoDBStore({
 });
 
 
+
+// TOKEN CSRF que esta protegiendo los ejs carrito.ejs, navigation.ejs, agregar-al-carrito.ejs, reset.ejs, registarse.ejs, newpassword.ejs, login.ejs, editar-producto.ejs, crear-producto.ejs
 const csrfProtection = csrf();
 
 
@@ -40,7 +42,9 @@ const csrfProtection = csrf({
     sameSite: 'strict',
     maxAge: 2 * 60 * 60 * 1000  // Duración del token CSRF: 2 horas
   }
-});*/
+});
+
+*/
 
 
 
