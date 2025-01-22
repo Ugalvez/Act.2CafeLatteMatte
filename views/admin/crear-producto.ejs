@@ -93,6 +93,7 @@
                 <label for="checkbox" class="checkbox-label">¿Es un Producto Favorito?</label>
             </div> -->
 
+        <!-- EL TOKEN CSRF PROTEGE ESTE SUBMIT PARA LA CREACION DE PRODUCTOS -->
             <div class="group mt-4">
                 <input type="hidden" name="_csrf" value="<%= csrfToken %>">
                 <button type="submit" class="btn btn-primary"><% if (modoEdicion) { %>Actualizar Producto<% } else { %>Crear Producto<% } %></button>

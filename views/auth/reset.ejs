@@ -24,6 +24,7 @@
                             <input type="email" id="email" name="email" required>
                         </div>
                         <div class="d-flex justify-content-center">
+                            <!-- EL TOKEN CSRF PROTEGE ESTE POST PARA RECUPERAR CONTRASEÑA -->
                             <input type="hidden" name="_csrf" value="<%= csrfToken %>">
                             <button class="btn btn-primary" type="submit">Recuperar contraseña</button>
                         </div>

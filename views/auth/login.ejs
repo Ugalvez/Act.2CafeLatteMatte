@@ -29,6 +29,8 @@
                                 <input class="<%= erroresValidacion.find(e => e.path === 'password') ? 'invalid' : '' %>"
                                  type="password" id="password" name="password" value="<%= datosAnteriores.password %>" required>
                             </div>
+
+                            <!-- EL TOKEN CSRF PROTEGE ESTE SUBMIT PARA EL INICIO DE SESION -->
                             <div class="d-flex justify-content-center">
                                 <input type="hidden" name="_csrf" value="<%= csrfToken %>">
                                 <button class="btn btn-primary" type="submit">Iniciar sesión</button>

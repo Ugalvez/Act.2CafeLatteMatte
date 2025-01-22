@@ -30,7 +30,8 @@ const store = new MongoDBStore({
 const csrfProtection = csrf();
 
 
-/*
+/*Revisado por Sergio Morillo
+La configuarción manual hace que deje de funcionar la pagina. No encontré el motivo
 // Protección CSRF con un token que dura 2 horas
 const csrfProtection = csrf({
   cookie: {

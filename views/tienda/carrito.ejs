@@ -42,6 +42,7 @@
                                         <button type="button" class="input-number-btn" onclick="modificarCantidad(this, 1)">+</button>
                                     </div>
                                     <input type="hidden" name="_csrf" value="<%= csrfToken %>">
+                                    <!-- EL TOKEN CSRF PROTEGE PARA EL MODIFICAR ITEMS DEL CARRITO -->
                                     <button type="submit" class="btn btn-sesion"><ion-icon name="refresh-outline"></ion-icon> Actualizar</button>
                                 </form>
                             </td>
@@ -50,6 +51,7 @@
                             <td class="py-3 px-2 border-bottom">
                                 <form action="/carrito/eliminar-producto" method="POST">
                                     <input type="hidden" name="idProducto" value="<%= producto._id %>">
+                                    <!-- EL TOKEN CSRF PROTEGE PARA ELIMINAR ITEMS DEL CARRITO -->
                                     <input type="hidden" name="_csrf" value="<%= csrfToken %>">
                                     <button type="submit" class="btn btn-sesion"><ion-icon name="trash-outline"></ion-icon> Eliminar</button>
                                 </form>
