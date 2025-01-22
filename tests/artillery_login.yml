@@ -3,7 +3,7 @@
 config:
   target: "http://localhost:3000" # Cambia esto si el servidor corre en otro host o puerto
   phases:
-    - duration: 60 # Duración de la prueba (en segundos)
+    - duration: 30 # Duración de la prueba (en segundos)
       arrivalRate: 10 # Usuarios simulados por segundo
 
 scenarios:
