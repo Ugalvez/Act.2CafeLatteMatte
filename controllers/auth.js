@@ -59,6 +59,7 @@ exports.postLogin = (req, res, next) => {
           erroresValidacion: []
         });
       }
+      //Hasheo de login - SEGURIDAD
       bcrypt.compare(password, usuario.password)
         .then(hayCoincidencia => {
           if (hayCoincidencia) {
@@ -112,7 +113,7 @@ exports.postRegistrarse = (req, res, next) => {
       datosAnteriores: { nombre, apellidoPaterno, apellidoMaterno, fechaNacimiento, email, rol, password, passwordConfirmado }
     });
   }
-
+  //Encriptado de CONTRASEÑAS - SEGURIDAD
   bcrypt.hash(password, 13)
     .then(passwordCifrado => {
       const user = new Usuario({
