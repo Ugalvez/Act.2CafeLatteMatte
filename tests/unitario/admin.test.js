@@ -7,7 +7,7 @@ const app = require('../../app');
 
 // Conexión a la base de datos de prueba
 beforeAll(async () => {
-  await mongoose.connect('mongodb+srv://ugalvez987:sfpa4774@cluster0.b1vsq.mongodb.net/?retryWrites=true&w=majority&appName=Cluster0', {
+  await mongoose.connect('mongodb+srv://ugalvez987:sfpa4774@cluster0.b1vsq.mongodb.net/pruebasCafe?retryWrites=true&w=majority&appName=Cluster0', {
     useNewUrlParser: true,
     useUnifiedTopology: true,
   });
