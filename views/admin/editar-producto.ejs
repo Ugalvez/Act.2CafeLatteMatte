@@ -28,7 +28,7 @@
                 <input type="hidden" value="<%= producto._id %>" name="idProducto">
             <% } %>
 
-            <!-- EL TOKEN CSRF PROTEGE ESTE SUBMIT PARA LA EDICION DE PRODUCTOS -->
+            <!-- EL TOKEN CSRF PROTEGE ESTE POST PARA LA EDICION DE PRODUCTOS -->
             <input type="hidden" name="_csrf" value="<%= csrfToken %>">
             <button class="btn" type="submit"><% if (modoEdicion) { %>Actualizar Producto<% } else { %>Crear Producto<% } %></button>
         </form>

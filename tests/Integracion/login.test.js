@@ -1,5 +1,5 @@
 // Pruebas de login
-// Simula un login correcto, un login incorrecto y el mensaje de error
+// Simula un login correcto, un login incorrecto y el mensaje de error debido a que la contraseña es incorrecta
 //Revisadas por Sergio Morillo
 
 const request = require('supertest');
